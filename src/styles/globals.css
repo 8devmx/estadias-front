@@ -2,32 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+.navbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+  position: fixed;
+  top: 32px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.navbar ul {
+  display: flex;
+  gap: 10px;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.navbar a {
+  color: #fff;
+  font-size: 20px;
+  line-height: 1.4;
+  display: block;
+  padding: 27px 38px;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.navbar a:hover {
+  background: #000;
+}
+
+.hero {
+  background-image: url('/hero-travel.jpg');
+  width: 100%;
+  height: 800px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 52px;
+}
+
+.hero h1 {
+  font-size: 75px;
+  color: #fff;
+  line-height: 1.36;
+  font-weight: 800;
+}
+
+.hero p {
+  font-size: 16px;
+  color: #fff;
+  line-height: 1.31;
+  font-weight: 400;
+}
+
+.hero a {
+  padding: 13px 24px;
+  background: #00A651;
+  color: #fff;
+  font-size: 24px;
 }
