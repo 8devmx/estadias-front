@@ -40,6 +40,19 @@
   justify-content: center;
   align-items: center;
   gap: 52px;
+  position: relative;
+
+  &::after {
+    content: ' ';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    z-index: 1;
+    height: 60px;
+    box-shadow: 0 0 65px 30px white;
+  }
 }
 
 .hero h1 {
@@ -61,4 +74,9 @@
   background: #00A651;
   color: #fff;
   font-size: 24px;
+  border-radius: 10px;
+
+  &:hover {
+    background: #005F15;
+  }
 }
