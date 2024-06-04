@@ -1,0 +1,44 @@
+.Formulario {
+    background-color: #38ae7f;
+    padding: 30px;
+    margin: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    width: 320px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.Formulario h1 {
+    margin-bottom: 20px;
+}
+
+.Formulario label {
+    display: block;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.Formulario input,
+.Formulario textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.Formulario button {
+    background-color: #00c462;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.Formulario button:hover {
+    background-color: #000000;
+}
