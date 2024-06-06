@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+.Formulario {
+    background-color: #94c5b1;
+    padding: 30px;
+    margin: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+.Formulario h1 {
+    font-weight: 500;
+    font-size: 35px;
+    line-height: 54.47px;
+    margin-bottom: 20px;
+}
+.cont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.form1{
+    margin-right: 5%;
+    margin-left: 5%;
+    width: 363px;
+}
+.Formulario input, .Formulario select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.Formulario button {
+    background-color: #00A651;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+}
+.Formulario button:hover {
+    background-color: #005F15;
+}
