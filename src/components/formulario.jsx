@@ -3,20 +3,36 @@ import styles from '@/styles/Forms.module.css'
 
 const Formulario = () => {
     return (
-        
         <div className={styles.Formulario}>
             <h1>Formulario de Contacto</h1>
-
-            <label htmlFor="name">Nombre:</label>
-            <input type="text" id="name" name="name" required />
-            <label htmlFor="numero">Numero de contacto:</label>
-            <input type="text" id="numero" name="numero" required />
-            <label htmlFor="edad">Edad</label>
-            <input type="text" id="edad" name="edad" required />
-            <label htmlFor="email">Correo Electrónico:</label>
-            <input type="email" id="email" name="email" required />
-            <label htmlFor="message">Porque deberiamos contactarte:</label>
-            <textarea id="message" name="message" rows="4" required></textarea>
+            <div className={styles.cont}>
+                <div className={styles.form1}>
+                    <label htmlFor="">Nombre: </label>
+                    <input type="text" />
+                    <label htmlFor="">telefono: </label>
+                    <input type="text" /> 
+                    <label htmlFor="">Correo Electronico: </label>
+                    <input type="text" />
+                </div>
+                <div className={styles.form1}>
+                    <label htmlFor="">Cuidad/Estado: </label>
+                    <input type="text" />
+                    <label htmlFor="">De donde nos conoces:</label>
+                    <select id="message" name="message" required>
+                        <option value="#">Seleccione su opcion</option>
+                        <option value="#">Facebook</option>
+                        <option value="#">Instagram</option>
+                        <option value="#">X(twitter)</option>
+                    </select>
+                    <label htmlFor="message">interes: </label>
+                    <select id="message" name="message" required>
+                        <option value="#">Seleccione su opcion</option>
+                        <option value="#">Contratación</option>
+                        <option value="#">informes especificos</option>
+                    </select>
+                </div>
+                
+            </div>
 
             <button type="submit">Enviar</button>
         </div>  
