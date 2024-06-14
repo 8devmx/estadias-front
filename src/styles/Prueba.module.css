@@ -1,16 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
-
-.container{
+.container {
+    font-family: "Open Sans";
     background-image: url('/map.png');
-    background-color: rgba(0, 88, 83, 0.05)
-    ;
-  width: 100%;
-  height: 733px;
-  align-content: center;
-  align-items: center;
-    
+    background-color: rgba(0, 88, 83, 0.05);
+    width: 100%;
+    height: 733px;
+    align-content: center;
+    align-items: center;
 }
-.text h1{
+
+.text h1 {
     font-weight: 700;
     font-size: 40px;
     line-height: 54.47px;
@@ -19,42 +17,50 @@
     width: 500px;
 
 }
-.text p{
+
+.text p {
     width: 495px;
     margin: 2rem auto;
     text-align: center;
 }
-.pack{
+
+.pack {
     margin-left: 8.5%;
     display: flex;
     align-items: center;
 }
-.pack h1{
+
+.pack h1 {
     font-weight: 700;
     font-size: 36px;
     line-height: 49.03px;
 }
-.pack p{
+
+.pack p {
     font-weight: 400;
     font-size: 20px;
     line-height: 27.24px;
 }
-.pack h2{
+
+.pack h2 {
     font-weight: 400;
     font-size: 20px;
     line-height: 27.24px;
     padding-bottom: 25px;
 }
-.pack .txt{
+
+.pack .txt {
     margin: 0 10px 0 10px;
 }
-.pack img{
+
+.pack img {
     display: inline;
     width: 42px;
     height: 42px;
     margin-bottom: 15px;
 }
-.pack div{
+
+.pack div {
     background-color: white;
     margin: 40px;
     padding: 20px 40px 20px 40px;

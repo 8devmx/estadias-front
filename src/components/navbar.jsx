@@ -1,9 +1,10 @@
 import React from 'react';
+import styles from '@/styles/Navbar.module.css'
 
 const Navbar = () => {
   return (
-    <div className="navbar">
-      <div className="logo">
+    <div className={styles.navbar}>
+      <div className={styles.logo}>
         <img src="logo-travel.svg" alt="" />
       </div>
       <nav>
