@@ -45,6 +45,33 @@ const Form = () => {
                 }).catch(error => {
                     alert("Error: Hubo un error al enviar el formulario")
                 });
+
+                const payloadLead = {
+                    name,
+                    thone: phone,
+                    mail: email,
+                    state_id: state,
+                    city,
+                    sources_id: source,
+                    interest_id: interest,
+                    message: message,
+                    status_id: "no_contacted",
+                    company_id: "1"
+                }
+
+                fetch("https://a523-187-190-175-175.ngrok-free.app/leads", {
+                    method: "POST",
+                    body: JSON.stringify(payloadLead),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        alert("Se ha registrado el lead correctamente");
+                    }
+                }).catch(error => {
+                    alert("Error: Hubo un error al registrar el lead" + error)
+                });
             }}>
                 <div>
                     <label htmlFor="">Nombre: </label>
