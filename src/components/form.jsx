@@ -59,10 +59,11 @@ const Form = () => {
                     company_id: "1"
                 }
 
-                fetch("https://a523-187-190-175-175.ngrok-free.app/leads", {
+                fetch("http://localhost:8000/leads", {
                     method: "POST",
                     body: JSON.stringify(payloadLead),
                     headers: {
+                        'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     }
                 }).then(response => {
@@ -143,12 +144,12 @@ const Form = () => {
 
                 </div>
                 <div>
-                    <label htmlFor="message" value={message} onChange={
+                    <label htmlFor="message">Comentarios</label>
+                    <textarea name="message" value={message} onChange={
                         e => {
                             setMessage(e.target.value)
                         }
-                    }>Comentarios</label>
-                    <textarea />
+                    } />
                 </div>
                 <button type="submit">Enviar</button>
             </form >
