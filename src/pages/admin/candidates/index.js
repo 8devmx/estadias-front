@@ -1,39 +1,51 @@
 import React from 'react';
 import LayoutAdmin from '@/components/LayoutAdmin';
+import Candidates from '@/services/candidates';
+import useSWR from 'swr';
 
-const Candidates = () => {
+const fetcher = async () => {
+  const data = await Candidates();
+  // console.log(data);  verificar primero que data tenga los datos que trae Candidates del services
+  return data.data.Candidates;
+}
+
+const CandidateData = () => {
+  const { data, error, isLoading } = useSWR('http://localhost:8000/candidates', fetcher,{
+    refreshInterval:3000
+  });
+  // console.log({data, error, isLoading}) verifivcar que trae data, error e isloading
+  if (error) return <div>Error al cargar</div>;
+  if (isLoading) return <div>Cargando</div>;
+
   return (
     <LayoutAdmin>
-      <h1 class="text-xl font-bold mb-6">Candidatos</h1>
+      <h1 className="text-xl font-bold mb-6">Candidatos</h1>
       <table className="table">
         {/* head */}
         <thead>
           <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Job</th>
-            <th>Favorite Color</th>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Telefóno</th>
+            <th>Correo</th>
+            <th>Dirección</th>
           </tr>
         </thead>
+          {/* Filas dinamicas traidas de la api */}
         <tbody>
-          {/* row 1 */}
-          <tr>
-            <th>1</th>
-            <td>Cy Ganderton</td>
-            <td>Quality Control Specialist</td>
-            <td>Blue</td>
-          </tr>
-          {/* row 2 */}
-          <tr className="hover">
-            <th>2</th>
-            <td>Hart Hagerty</td>
-            <td>Desktop Support Technician</td>
-            <td>Purple</td>
-          </tr>
+          {data.map((candidates, index) => (
+            <tr key={index} className="hover">
+              <th>{candidates.id}</th>
+              <td>{candidates.name}</td>
+              <td>{candidates.phone}</td>
+              <td>{candidates.email}</td>
+              <td>{candidates.address}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </LayoutAdmin>
   );
 }
 
-export default Candidates;
+export default CandidateData;
