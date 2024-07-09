@@ -7,6 +7,7 @@ const Thanks = ({ name }) => {
 
   const handleButtonClick = () => {
     router.push('/resume'); // Ajusta la ruta para redirigir a resume.jsx
+  };
 
   return (
     <>
