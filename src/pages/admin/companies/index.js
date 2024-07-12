@@ -4,7 +4,7 @@ import LayoutAdmin from '@/components/LayoutAdmin';
 const Companies = () => {
   return (
     <LayoutAdmin>
-      <h1 class="text-xl font-bold mb-6">Empresas</h1>
+      <h1 className="text-xl font-bold mb-6">Empresas</h1>
       <table className="table">
         {/* head */}
         <thead>

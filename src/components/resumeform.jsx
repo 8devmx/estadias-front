@@ -1,7 +1,6 @@
 // components/ResumeForm.jsx
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 
 const FormContainer = styled.div`
   display: flex;
@@ -67,7 +66,6 @@ const FormLabel = styled.label`
 
 const ResumeForm = () => {
   const router = useRouter();
-  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -77,41 +75,32 @@ const ResumeForm = () => {
     router.push('/thanks');
   };
 
-  const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
-  };
-
   return (
     <FormContainer>
       <FormWrapper>
-        <Title>Formulario de Currículum</Title>
+        <Title>Resume Form</Title>
         <form onSubmit={handleSubmit}>
           <FormSection>
-            <FormLabel htmlFor="about">Sobre mí</FormLabel>
-            <TextArea id="about" name="about" rows="4" placeholder="Cuéntanos sobre ti..." />
+            <FormLabel htmlFor="about">About</FormLabel>
+            <TextArea id="about" name="about" rows="4" placeholder="Tell us about yourself..." />
           </FormSection>
 
           <FormSection>
-            <FormLabel htmlFor="experience">Experiencia</FormLabel>
-            <TextArea id="experience" name="experience" rows="4" placeholder="Describe tu experiencia..." />
+            <FormLabel htmlFor="experience">Experience</FormLabel>
+            <TextArea id="experience" name="experience" rows="4" placeholder="Describe your experience..." />
           </FormSection>
 
           <FormSection>
-            <FormLabel htmlFor="education">Educación</FormLabel>
-            <TextArea id="education" name="education" rows="4" placeholder="Indica tu formación académica..." />
+            <FormLabel htmlFor="education">Education</FormLabel>
+            <TextArea id="education" name="education" rows="4" placeholder="List your education background..." />
           </FormSection>
 
           <FormSection>
-            <FormLabel htmlFor="skills">Habilidades</FormLabel>
-            <TextArea id="skills" name="skills" rows="4" placeholder="Enumera tus habilidades..." />
+            <FormLabel htmlFor="skills">Skills</FormLabel>
+            <TextArea id="skills" name="skills" rows="4" placeholder="List your skills..." />
           </FormSection>
 
-          <FormSection>
-            <FormLabel htmlFor="photo">Foto</FormLabel>
-            <Input type="file" id="photo" name="photo" accept="image/*" onChange={handleFileChange} />
-          </FormSection>
-
-          <Button type="submit">Enviar</Button>
+          <Button type="submit">Submit</Button>
         </form>
       </FormWrapper>
     </FormContainer>
@@ -119,3 +108,4 @@ const ResumeForm = () => {
 };
 
 export default ResumeForm;
+
