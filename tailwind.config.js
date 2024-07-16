@@ -7,6 +7,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      maxWidth: {
+        'custom': '70%' // Define una clase de anchura personalizada
+      },
+      colors: {
+        customBlak: "#000000",
+      },  
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

@@ -5,7 +5,3 @@
 body {
   font-family: "Open Sans";
 }
-
-.TableTr{
-  @apply flex items-center justify-center;
-}
