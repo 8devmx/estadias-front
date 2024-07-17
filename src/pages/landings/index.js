@@ -6,7 +6,7 @@ import Form from '@/components/form';
 
 export async function getStaticProps() {
 
-  const res = await fetch('http://localhost:8000/landings/1')
+  const res = await fetch('http://localhost:8000/landings/')
   const landing = await res.json()
   return { props: { landing } }
 }
