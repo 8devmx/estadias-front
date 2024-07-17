@@ -1,111 +1,296 @@
-// components/ResumeForm.jsx
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+import axios from 'axios';
 
 const FormContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #f2f2f2;
+  background-color: #FFDAB9; /* Color de fondo similar al de la imagen */
   padding: 20px;
 `;
 
 const FormWrapper = styled.div`
-  background: #fff;
+  background: #ffffff;
   padding: 40px;
-  border-radius: 10px;
+  border-radius: 20px; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 500px;
+  max-width: 600px;
   width: 100%;
+  border: 1px solid #FFDAB9; 
 `;
 
-const Title = styled.h2`
-  font-family: 'Merriweather', serif;
-  color: #333;
+const Title = styled.h1`
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  color: #FF6347; /* Color del texto similar al de la imagen */
   margin-bottom: 20px;
   text-align: center;
+  font-size: 2.5rem;
+`;
+
+const Subtitle = styled.p`
+  font-family: 'Oswald', sans-serif;
+  font-weight: 400;
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.2rem;
 `;
 
 const Input = styled.input`
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-bottom: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  border: 1px solid #FF6347; /* Color del borde similar al de la imagen */
+  border-radius: 10px; 
+  font-size: 16px;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 300;
+  background-color: #fff; 
+  color: #333; 
+  &:focus {
+    border-color: #FF4500; /* Color de enfoque */
+  }
 `;
 
 const TextArea = styled.textarea`
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-bottom: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  border: 1px solid #FF6347; 
+  border-radius: 10px; 
+  font-size: 16px;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 300;
+  background-color: #fff; 
+  color: #333; 
+  &:focus {
+    border-color: #FF4500; /* Color de enfoque */
+  }
+`;
+
+const FileInput = styled.input`
+  margin-bottom: 20px;
 `;
 
 const Button = styled.button`
   width: 100%;
-  padding: 10px;
-  background-color: #e65c00;
+  padding: 12px;
+  background-color: #FF6347; /* Color del botón similar al de la imagen */
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px; 
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: #FF4500; /* Color del botón al pasar el ratón */
+  }
 `;
 
 const FormSection = styled.div`
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 `;
 
 const FormLabel = styled.label`
   display: block;
   margin-bottom: 10px;
   color: #333;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 400;
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
+  font-size: 14px;
+`;
+
+const SuccessMessage = styled.p`
+  color: green;
+  font-size: 16px;
 `;
 
 const ResumeForm = () => {
   const router = useRouter();
+  const [formData, setFormData] = useState({
+    about: '',
+    experience: '',
+    education: '',
+    skills: '',
+    interests: '',
+    awards: '',
+  });
+  const [errors, setErrors] = useState({});
+  const [success, setSuccess] = useState('');
+  const [profileImage, setProfileImage] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleFileChange = (e) => {
+    setProfileImage(e.target.files[0]);
+  };
+
+  const validate = () => {
+    let tempErrors = {};
+    if (!formData.about) tempErrors.about = 'El campo sobre mí es obligatorio.';
+    if (!formData.experience) tempErrors.experience = 'El campo experiencia es obligatorio.';
+    if (!formData.education) tempErrors.education = 'El campo educación es obligatorio.';
+    if (!formData.skills) tempErrors.skills = 'El campo habilidades es obligatorio.';
+    if (!formData.interests) tempErrors.interests = 'El campo intereses es obligatorio.';
+    if (!formData.awards) tempErrors.awards = 'El campo premios es obligatorio.';
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí puedes manejar el envío del formulario, como enviar datos a un servidor
-
-    // Redirigir a la página de agradecimiento
-    router.push('/thanks');
+    if (validate()) {
+      const data = new FormData();
+      data.append('about', formData.about);
+      data.append('experience', formData.experience);
+      data.append('education', formData.education);
+      data.append('skills', formData.skills);
+      data.append('interests', formData.interests);
+      data.append('awards', formData.awards);
+      if (profileImage) {
+        data.append('profileImage', profileImage);
+      }
+      try {
+        const response = await axios.post('http://tu-servidor-laravel/api/update-profile', data, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        if (response.status === 200) {
+          setSuccess('Formulario enviado con éxito.');
+          // Redirigir a la página de agradecimiento después del envío del formulario
+          router.push('/thanks');
+        }
+      } catch (error) {
+        console.error('Error al enviar el formulario:', error);
+      }
+    }
   };
 
   return (
     <FormContainer>
       <FormWrapper>
-        <Title>Resume Form</Title>
+        <Title>Formulario de Curriculum Vitae</Title>
+        <Subtitle>Complete los campos a continuación para actualizar su perfil profesional</Subtitle>
+        {success && <SuccessMessage>{success}</SuccessMessage>}
         <form onSubmit={handleSubmit}>
           <FormSection>
-            <FormLabel htmlFor="about">About</FormLabel>
-            <TextArea id="about" name="about" rows="4" placeholder="Tell us about yourself..." />
+            <FormLabel htmlFor="about">Sobre mí *</FormLabel>
+            <TextArea 
+              id="about" 
+              name="about" 
+              rows="4" 
+              placeholder="Cuéntanos sobre ti..." 
+              value={formData.about} 
+              onChange={handleChange} 
+              required 
+            />
+            {errors.about && <ErrorMessage>{errors.about}</ErrorMessage>}
           </FormSection>
 
           <FormSection>
-            <FormLabel htmlFor="experience">Experience</FormLabel>
-            <TextArea id="experience" name="experience" rows="4" placeholder="Describe your experience..." />
+            <FormLabel htmlFor="experience">Experiencia *</FormLabel>
+            <TextArea 
+              id="experience" 
+              name="experience" 
+              rows="4" 
+              placeholder="Describe tu experiencia..." 
+              value={formData.experience} 
+              onChange={handleChange} 
+              required 
+            />
+            {errors.experience && <ErrorMessage>{errors.experience}</ErrorMessage>}
           </FormSection>
 
           <FormSection>
-            <FormLabel htmlFor="education">Education</FormLabel>
-            <TextArea id="education" name="education" rows="4" placeholder="List your education background..." />
+            <FormLabel htmlFor="education">Educación *</FormLabel>
+            <TextArea 
+              id="education" 
+              name="education" 
+              rows="4" 
+              placeholder="Indica tu formación académica..." 
+              value={formData.education} 
+              onChange={handleChange} 
+              required 
+            />
+            {errors.education && <ErrorMessage>{errors.education}</ErrorMessage>}
           </FormSection>
 
           <FormSection>
-            <FormLabel htmlFor="skills">Skills</FormLabel>
-            <TextArea id="skills" name="skills" rows="4" placeholder="List your skills..." />
+            <FormLabel htmlFor="skills">Habilidades *</FormLabel>
+            <TextArea 
+              id="skills" 
+              name="skills" 
+              rows="4" 
+              placeholder="Enumera tus habilidades..." 
+              value={formData.skills} 
+              onChange={handleChange} 
+              required 
+            />
+            {errors.skills && <ErrorMessage>{errors.skills}</ErrorMessage>}
           </FormSection>
 
-          <Button type="submit">Submit</Button>
+          <FormSection>
+            <FormLabel htmlFor="interests">Intereses *</FormLabel>
+            <TextArea 
+              id="interests" 
+              name="interests" 
+              rows="4" 
+              placeholder="Cuéntanos sobre tus intereses..." 
+              value={formData.interests} 
+              onChange={handleChange} 
+              required 
+            />
+            {errors.interests && <ErrorMessage>{errors.interests}</ErrorMessage>}
+          </FormSection>
+
+          <FormSection>
+            <FormLabel htmlFor="awards">Premios *</FormLabel>
+            <TextArea 
+              id="awards" 
+              name="awards" 
+              rows="4" 
+              placeholder="Indica tus premios y reconocimientos..." 
+              value={formData.awards} 
+              onChange={handleChange} 
+              required 
+            />
+            {errors.awards && <ErrorMessage>{errors.awards}</ErrorMessage>}
+          </FormSection>
+
+          <FormSection>
+            <FormLabel htmlFor="profileImage">Foto de Perfil</FormLabel>
+            <FileInput 
+              id="profileImage" 
+              name="profileImage" 
+              type="file" 
+              onChange={handleFileChange} 
+              accept="image/*"
+            />
+          </FormSection>
+
+          <Button type="submit">ENVIAR</Button>
         </form>
+        <p style={{ color: '#333', marginTop: '20px' }}>* los campos son obligatorios.</p>
       </FormWrapper>
     </FormContainer>
   );
 };
 
 export default ResumeForm;
-
