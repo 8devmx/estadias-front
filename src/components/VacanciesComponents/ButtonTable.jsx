@@ -1,22 +1,30 @@
 import React from 'react';
 import { FaTrashAlt } from "react-icons/fa";
 import { FaPen } from "react-icons/fa";
+import { DeleteVacancies } from "@/services/vacancies";
 
-const ButtonTAble = () => {
+const DeleteVacancie = async (id, mutate) => {
+    if (window.confirm("¿Confirma si quieres borrar esta vacante?")) {
+        try {
+            await DeleteVacancies(id);
+            mutate(); // para actualizar
+        } catch (error) {
+            console.error('Error al eliminar la vacante', error);
+        }
+    }
+}
+
+const ButtonTable = ({ id, mutate }) => {
     return (
         <div className="flex space-x-1 p-1">
-            <div className="w-1/2 flex ">
-                <button className="mt-1  w-full rounded-md bg-green-500 text-white py-2 px-2 flex items-center justify-center ">
-                    <FaPen />
-                </button>
-            </div>
-            <div className="w-1/2 flex ">
-                <button className="mt-1  w-full rounded-md bg-red-500 text-white py-2 px-2 flex items-center justify-center ">
-                    <FaTrashAlt />
-                </button>
-            </div>
+            <button className="flex-1 mt-1 rounded-md bg-green-500 text-white py-2 px-2 flex items-center justify-center">
+                <FaPen />
+            </button>
+            <button className="flex-1 mt-1 rounded-md bg-red-500 text-white py-2 px-2 flex items-center justify-center" onClick={() => DeleteVacancie(id, mutate)}>
+                <FaTrashAlt />
+            </button>
         </div>
     );
 };
 
-export default ButtonTAble;
+export default ButtonTable;

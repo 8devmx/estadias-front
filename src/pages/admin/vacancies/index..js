@@ -1,26 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LayoutAdmin from '@/components/LayoutAdmin';
-import Vacancies from '@/services/vacancies';
+import { Vacancies } from '@/services/vacancies';
 import useSWR from 'swr';
 import ButtonTable from '@/components/VacanciesComponents/ButtonTable';
 import styles from '@/styles/Componenadm.module.css';
+import PopupInsert from '@/components/VacanciesComponents/PopupInsert';
 
-const fetcher = async url => {
-  const data = await Vacancies();
-  return data.data.vacancies;
+const fetcher = async () => {
+  const { data } = await Vacancies();
+  return data.vacancies;
 }
 
 const Vacanciedata = () => {
-  const { data, error, isLoading } = useSWR('http://localhost:8000/vacancies', fetcher);
-  // console.log(data);  verificar primero que data tenga los datos que trae Candidates del services
+  const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/vacancies', fetcher);
+  const [showForm, setShowForm] = useState(false);
+
   if (error) return <div>Error al cargar</div>;
   if (isLoading) return <div>Cargando...</div>;
+
+  const handleAddClick = () => {
+    setShowForm(true);
+  };
+
+  const handleCloseForm = () => {
+    setShowForm(false);
+  };
 
   return (
     <LayoutAdmin>
       <h1 className="text-xl font-bold mb-6">Vacantes</h1>
       <div className="flex justify-between p-4">
-        {/* Primer input */}
         <div className="w-1/2">
           <input
             type="text"
@@ -30,24 +39,26 @@ const Vacanciedata = () => {
             className="mt-1 block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
           />
         </div>
-        {/* Botón */}
         <div className="w-1/6 flex items-end">
-          <button className="mt-1 block w-full rounded-md bg-black text-white py-2 px-4">
+          <button
+            className="mt-1 block w-full rounded-md bg-black text-white py-2 px-4"
+            onClick={handleAddClick}
+          >
             Agregar
           </button>
         </div>
       </div>
       <table className="table">
-        {/* head */}
         <thead>
           <tr>
             <th>ID</th>
             <th>Estado</th>
-            <th>Categoria</th>
-            <th>Titulo</th>
-            <th>Compania</th>
+            <th>Categoría</th>
+            <th>Título</th>
+            <th>Compañía</th>
             <th>Descripción</th>
             <th>Tipo</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -61,14 +72,15 @@ const Vacanciedata = () => {
               <td>{vacancie.description}</td>
               <td>{vacancie.type}</td>
               <td>
-                  <ButtonTable />
+                <ButtonTable id={vacancie.id} mutate={mutate} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      {showForm && <PopupInsert onClose={handleCloseForm} mutate={mutate} />}
     </LayoutAdmin>
   );
 }
 
-export default Vacanciedata;
+export default Vacanciedata;
