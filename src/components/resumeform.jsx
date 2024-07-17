@@ -8,24 +8,24 @@ const FormContainer = styled.div`
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #FFDAB9; /* Color de fondo similar al de la imagen */
+  background-color: #FFDAB9;
   padding: 20px;
 `;
 
 const FormWrapper = styled.div`
   background: #ffffff;
   padding: 40px;
-  border-radius: 20px; 
+  border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 600px;
   width: 100%;
-  border: 1px solid #FFDAB9; 
+  border: 1px solid #FFDAB9;
 `;
 
 const Title = styled.h1`
   font-family: 'Oswald', sans-serif;
   font-weight: 700;
-  color: #FF6347; /* Color del texto similar al de la imagen */
+  color: #FF6347;
   margin-bottom: 20px;
   text-align: center;
   font-size: 2.5rem;
@@ -44,15 +44,15 @@ const Input = styled.input`
   width: 100%;
   padding: 12px;
   margin-bottom: 20px;
-  border: 1px solid #FF6347; /* Color del borde similar al de la imagen */
-  border-radius: 10px; 
+  border: 1px solid #FF6347;
+  border-radius: 10px;
   font-size: 16px;
   font-family: 'Oswald', sans-serif;
   font-weight: 300;
-  background-color: #fff; 
-  color: #333; 
+  background-color: #fff;
+  color: #333;
   &:focus {
-    border-color: #FF4500; /* Color de enfoque */
+    border-color: #FF4500;
   }
 `;
 
@@ -60,15 +60,15 @@ const TextArea = styled.textarea`
   width: 100%;
   padding: 12px;
   margin-bottom: 20px;
-  border: 1px solid #FF6347; 
-  border-radius: 10px; 
+  border: 1px solid #FF6347;
+  border-radius: 10px;
   font-size: 16px;
   font-family: 'Oswald', sans-serif;
   font-weight: 300;
-  background-color: #fff; 
-  color: #333; 
+  background-color: #fff;
+  color: #333;
   &:focus {
-    border-color: #FF4500; /* Color de enfoque */
+    border-color: #FF4500;
   }
 `;
 
@@ -79,17 +79,17 @@ const FileInput = styled.input`
 const Button = styled.button`
   width: 100%;
   padding: 12px;
-  background-color: #FF6347; /* Color del botón similar al de la imagen */
+  background-color: #FF6347;
   color: #fff;
   border: none;
-  border-radius: 10px; 
+  border-radius: 10px;
   cursor: pointer;
   font-size: 18px;
   font-family: 'Oswald', sans-serif;
   font-weight: 500;
   transition: background-color 0.3s ease;
   &:hover {
-    background-color: #FF4500; /* Color del botón al pasar el ratón */
+    background-color: #FF4500;
   }
 `;
 
@@ -128,6 +128,7 @@ const ResumeForm = () => {
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState('');
   const [profileImage, setProfileImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -156,6 +157,7 @@ const ResumeForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
+      setLoading(true);
       const data = new FormData();
       data.append('about', formData.about);
       data.append('experience', formData.experience);
@@ -174,11 +176,13 @@ const ResumeForm = () => {
         });
         if (response.status === 200) {
           setSuccess('Formulario enviado con éxito.');
-          // Redirigir a la página de agradecimiento después del envío del formulario
           router.push('/thanks');
         }
       } catch (error) {
         console.error('Error al enviar el formulario:', error);
+        setErrors({ submit: 'Hubo un problema al enviar el formulario. Inténtalo de nuevo más tarde.' });
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -189,6 +193,7 @@ const ResumeForm = () => {
         <Title>Formulario de Curriculum Vitae</Title>
         <Subtitle>Complete los campos a continuación para actualizar su perfil profesional</Subtitle>
         {success && <SuccessMessage>{success}</SuccessMessage>}
+        {errors.submit && <ErrorMessage>{errors.submit}</ErrorMessage>}
         <form onSubmit={handleSubmit}>
           <FormSection>
             <FormLabel htmlFor="about">Sobre mí *</FormLabel>
@@ -285,7 +290,9 @@ const ResumeForm = () => {
             />
           </FormSection>
 
-          <Button type="submit">ENVIAR</Button>
+          <Button type="submit" disabled={loading}>
+            {loading ? 'Enviando...' : 'ENVIAR'}
+          </Button>
         </form>
         <p style={{ color: '#333', marginTop: '20px' }}>* los campos son obligatorios.</p>
       </FormWrapper>
