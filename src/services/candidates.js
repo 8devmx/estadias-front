@@ -5,5 +5,8 @@ const Candidates = async () => {
     return candidate_data;
 }
 
-export default Candidates;
+const DeleteCandidates = async (id) => {
+    return axios.delete(`http://localhost:8000/candidates/${id}`);
+}
 
+export {Candidates, DeleteCandidates};
