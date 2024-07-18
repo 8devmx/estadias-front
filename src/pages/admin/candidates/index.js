@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LayoutAdmin from '@/components/LayoutAdmin';
-import Candidates from '@/services/candidates';
+import {Candidates} from '@/services/candidates';
 import useSWR from 'swr';
 import ButtonTable from '@/components/CandidatesComponents/ButtonTable';
 import styles from '@/styles/Componenadm.module.css';
+import PopupInsertC from '@/components/CandidatesComponents/PopupInsertC';
 
 const fetcher = async () => {
   const data = await Candidates();
@@ -12,10 +13,20 @@ const fetcher = async () => {
 }
 
 const CandidateData = () => {
-  const { data, error, isLoading } = useSWR('http://localhost:8000/candidates', fetcher)
+  const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/candidates', fetcher)
+  const [showForm, setShowForm] = useState(false);
+
   // console.log({data, error, isLoading}) verifivcar que trae data, error e isloading
   if (error) return <div>Error al cargar</div>;
   if (isLoading) return <div>Cargando</div>;
+
+  const handleAddClick = () => {
+    setShowForm(true);
+  };
+
+  const handleCloseForm = () => {
+    setShowForm(false);
+  };
 
   return (
     <LayoutAdmin>
@@ -33,7 +44,9 @@ const CandidateData = () => {
         </div>
         {/* Botón */}
         <div className="w-1/6 flex items-end">
-          <button className="mt-1 block w-full rounded-md bg-black text-white py-2 px-4">
+        <button
+            className="mt-1 block w-full rounded-md bg-black text-white py-2 px-4" onClick={handleAddClick}
+        >
             Agregar
           </button>
         </div>
@@ -58,11 +71,12 @@ const CandidateData = () => {
               <td>{candidates.email}</td>
               <td>{candidates.address}</td>
               <td>
-                <ButtonTable />
+                <ButtonTable id={candidates.id} mutate={mutate} />
               </td>
             </tr>
           ))}
         </tbody>
+        {showForm && <PopupInsertC onClose={handleCloseForm} mutate={mutate} />}
       </table>
     </LayoutAdmin>
   );
