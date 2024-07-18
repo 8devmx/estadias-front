@@ -1,9 +1,10 @@
+// Sidebar.js
 import styles from '../styles/Sidebar.module.css';
 
-const Sidebar = () => {
+const Sidebar = ({ profilePicture }) => {
   return (
     <div className={styles.sidebar}>
-      <img src="https://th.bing.com/th/id/OIP.28xVcXmTKYVBvd24rCwqNwHaJ0?rs=1&pid=ImgDetMaing" alt="Perfil" />
+      <img src={profilePicture || "https://th.bing.com/th/id/OIP.28xVcXmTKYVBvd24rCwqNwHaJ0?rs=1&pid=ImgDetMaing"} alt="Perfil" />
       <a href="#about">ABOUT</a>
       <a href="#experience">EXPERIENCE</a>
       <a href="#education">EDUCATION</a>
@@ -15,3 +16,4 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+  
