@@ -25,7 +25,6 @@
 }
 
 .pack {
-    margin-left: 8.5%;
     display: flex;
     align-items: center;
 }
@@ -62,8 +61,8 @@
 
 .pack div {
     background-color: white;
-    margin: 40px;
-    padding: 20px 40px 20px 40px;
+    margin: 20px;
+    padding: 20px;
     text-align: center;
     align-content: center;
     border-radius: 15px;

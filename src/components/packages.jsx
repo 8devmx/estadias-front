@@ -16,7 +16,7 @@ const Packages = ({data}) => {
               <div>
                 <img src={component.icon} alt="" />
                 <h1>{component.title}</h1>
-                <p className={styles.txt}>{component.paragraph}</p>
+                <p>{component.paragraph}</p>
               </div>
             )
           })
