@@ -5,6 +5,7 @@ import useSWR from 'swr';
 import ButtonTable from '@/components/CandidatesComponents/ButtonTable';
 import styles from '@/styles/Componenadm.module.css';
 import PopupInsertC from '@/components/CandidatesComponents/PopupInsertC';
+import PopupEdit from '@/components/CandidatesComponents/PopupUpdateC';
 
 const fetcher = async () => {
   const data = await Candidates();
@@ -15,6 +16,8 @@ const fetcher = async () => {
 const CandidateData = () => {
   const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/candidates', fetcher)
   const [showForm, setShowForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [currentCandidates, setCurrentCandidate] = useState(null);
 
   // console.log({data, error, isLoading}) verifivcar que trae data, error e isloading
   if (error) return <div>Error al cargar</div>;
@@ -24,8 +27,14 @@ const CandidateData = () => {
     setShowForm(true);
   };
 
+  const handleEditClick = (candidate) => {
+    setCurrentCandidate(candidate);
+    setShowEditForm(true);
+  };
+
   const handleCloseForm = () => {
     setShowForm(false);
+    setShowEditForm(false);
   };
 
   return (
@@ -71,12 +80,13 @@ const CandidateData = () => {
               <td>{candidates.email}</td>
               <td>{candidates.address}</td>
               <td>
-                <ButtonTable id={candidates.id} mutate={mutate} />
+                <ButtonTable id={candidates.id} mutate={mutate} onEdit={() => handleEditClick(candidates)} />
               </td>
             </tr>
           ))}
         </tbody>
         {showForm && <PopupInsertC onClose={handleCloseForm} mutate={mutate} />}
+        {showEditForm && <PopupEdit onClose={handleCloseForm} mutate={mutate} candidates={currentCandidates} />}
       </table>
     </LayoutAdmin>
   );

@@ -14,11 +14,11 @@ const DeleteCandidate = async (id, mutate) => {
     }
 }
 
-const ButtonTAble = ({ id, mutate }) => {
+const ButtonTAble = ({ id, mutate, onEdit }) => {
     return (
         <div className="flex space-x-1 p-1">
             <div className="w-1/2 flex ">
-                <button className="mt-1 w-full rounded-md bg-green-500 text-white py-2 px-2 flex items-center justify-center ">
+                <button className="mt-1 w-full rounded-md bg-green-500 text-white py-2 px-2 flex items-center justify-center " onClick={onEdit}>
                     <FaPen />
                 </button>
             </div>

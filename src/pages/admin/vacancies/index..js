@@ -5,6 +5,7 @@ import useSWR from 'swr';
 import ButtonTable from '@/components/VacanciesComponents/ButtonTable';
 import styles from '@/styles/Componenadm.module.css';
 import PopupInsert from '@/components/VacanciesComponents/PopupInsert';
+import PopupEdit from '@/components/VacanciesComponents/PopupUpdate';
 
 const fetcher = async () => {
   const { data } = await Vacancies();
@@ -14,6 +15,8 @@ const fetcher = async () => {
 const Vacanciedata = () => {
   const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/vacancies', fetcher);
   const [showForm, setShowForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [currentVacancie, setCurrentVacancie] = useState(null);
 
   if (error) return <div>Error al cargar</div>;
   if (isLoading) return <div>Cargando...</div>;
@@ -22,8 +25,14 @@ const Vacanciedata = () => {
     setShowForm(true);
   };
 
+  const handleEditClick = (vacancie) => {
+    setCurrentVacancie(vacancie);
+    setShowEditForm(true);
+  };
+
   const handleCloseForm = () => {
     setShowForm(false);
+    setShowEditForm(false);
   };
 
   return (
@@ -72,13 +81,14 @@ const Vacanciedata = () => {
               <td>{vacancie.description}</td>
               <td>{vacancie.type}</td>
               <td>
-                <ButtonTable id={vacancie.id} mutate={mutate} />
+                <ButtonTable id={vacancie.id} mutate={mutate} onEdit={() => handleEditClick(vacancie)} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
       {showForm && <PopupInsert onClose={handleCloseForm} mutate={mutate} />}
+      {showEditForm && <PopupEdit onClose={handleCloseForm} mutate={mutate} vacancie={currentVacancie} />}
     </LayoutAdmin>
   );
 }

@@ -14,10 +14,10 @@ const DeleteVacancie = async (id, mutate) => {
     }
 }
 
-const ButtonTable = ({ id, mutate }) => {
+const ButtonTable = ({ id, mutate, onEdit }) => {
     return (
         <div className="flex space-x-1 p-1">
-            <button className="flex-1 mt-1 rounded-md bg-green-500 text-white py-2 px-2 flex items-center justify-center">
+            <button className="flex-1 mt-1 rounded-md bg-green-500 text-white py-2 px-2 flex items-center justify-center" onClick={onEdit}>
                 <FaPen />
             </button>
             <button className="flex-1 mt-1 rounded-md bg-red-500 text-white py-2 px-2 flex items-center justify-center" onClick={() => DeleteVacancie(id, mutate)}>
