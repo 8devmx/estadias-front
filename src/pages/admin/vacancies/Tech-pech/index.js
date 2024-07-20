@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+
 
 const VacanciesView = () => {
   const [vacancies, setVacancies] = useState([]);
@@ -31,7 +33,7 @@ const VacanciesView = () => {
                     <h2 className="font-bold text-lg">{vacancy.title}</h2>
                   </div>
                   <div className="vacancy-details absolute inset-0 bg-white p-4 opacity-0 hover:opacity-100 flex flex-col justify-center transition-opacity duration-300">
-                    <p><strong>Descripción:</strong> {vacancy.description}</p>
+                    <p><strong>Descripción:</strong> {vacancy.state}</p>
                   </div>
                 </div>
               </Link>
