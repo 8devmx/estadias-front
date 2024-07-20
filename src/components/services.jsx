@@ -4,7 +4,7 @@ import styles from '@/styles/Services.module.css'
 const Services = ({data}) => {
   const listServices = data.services
   return (
-    <div className={styles.services}>
+    <div className={styles.services} data-theme="light">
       <h2>Our service</h2>
       <div className={styles.servicesContainer}>
         { 

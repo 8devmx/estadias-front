@@ -4,7 +4,7 @@ import styles from '@/styles/Prueba.module.css'
 const Packages = ({data}) => {
   
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-theme="light">
       <div className={styles.text}>
         <h1>{data.title}</h1>
         <p>{data.paragraph}</p>

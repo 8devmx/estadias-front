@@ -9,7 +9,7 @@ import { MdLeaderboard } from "react-icons/md";
 const LayoutAdmin = ({ children }) => {
   return (
     <>
-      <div className="container mx-auto">
+      <div className="container mx-auto" data-theme="light">
         <div className="drawer min-h-screen">
           <input id="my-drawer" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content">
