@@ -3,13 +3,27 @@ import React, { useState, useEffect } from 'react';
 const RegistrosHistorial = () => {
   const [historial, setHistorial] = useState([]);
 
+  const fetchHistorial = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/leads_historial');
+      const data = await response.json();
+      setHistorial(data.leads || []);
+    } catch (error) {
+      console.error('Error fetching historial:', error);
+    }
+  };
+
   useEffect(() => {
-    fetch('http://localhost:8000/leads_historial')
-      .then(response => response.json())
-      .then(data => {
-        setHistorial(data.leads || []);
-      })
-      .catch(error => console.error('Error fetching historial:', error));
+    // Fetch historial on component mount
+    fetchHistorial();
+
+    // Set up interval to fetch historial every 10 seconds
+    const interval = setInterval(() => {
+      fetchHistorial();
+    }, 10000); // 10000ms = 10s
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -19,22 +33,25 @@ const RegistrosHistorial = () => {
           <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
         </form>
         <div className="overflow-x-auto">
+          <div>
+            <h3 className='text-center flix pb-2 text-customBlak font-bold text-lg'>Registro del Historial</h3>
+          </div>
           <table className="table table-xs">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Cliente</th>
-                <th>Teléfono</th>
-                <th>Mail</th>
-                <th>Situación</th>
-                <th>Estado</th>
-                <th>Ciudad</th>
-                <th>Dirección</th>
-                <th>Interés</th>
-                <th>Mensaje</th>
-                <th>Compañía</th>
-                <th>Contactador</th>
-                <th>Fecha de creación</th>
+                <th className='text-customBlak'>#</th>
+                <th className='text-customBlak'>Cliente</th>
+                <th className='text-customBlak'>Teléfono</th>
+                <th className='text-customBlak'>Mail</th>
+                <th className='text-customBlak'>Situación</th>
+                <th className='text-customBlak'>Estado</th>
+                <th className='text-customBlak'>Ciudad</th>
+                <th className='text-customBlak'>Dirección</th>
+                <th className='text-customBlak'>Interés</th>
+                <th className='text-customBlak'>Mensaje</th>
+                <th className='text-customBlak'>Compañía</th>
+                <th className='text-customBlak'>Contactador</th>
+                <th className='text-customBlak'>Fecha de creación</th>
               </tr>
             </thead>
             <tbody>
@@ -46,7 +63,7 @@ const RegistrosHistorial = () => {
                     <td>{item.phone}</td>
                     <td>{item.mail}</td>
                     <td>{item.state}</td>
-                    <td>{item.status}</td>
+                    <td>{item.status_name}</td>
                     <td>{item.city}</td>
                     <td>{item.source}</td>
                     <td>{item.interest}</td>

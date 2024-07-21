@@ -7,28 +7,40 @@ import styles from '@/styles/leads.module.css';
 const Leads = () => {
   const [leads, setLeads] = useState([]);
 
-  useEffect(() => {
-    fetch('http://localhost:8000/leads/')
-      .then(response => response.json())
-      .then(data => {
-        console.log('Fetched leads:', data);
-        setLeads(data.leads); 
-      })
-      .catch(error => console.error('Error fetching leads:', error));
+  const fetchLeads = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/leads/');
+      const data = await response.json();
+      setLeads(data.leads);
+    } catch (error) {
+      console.error('Error fetching leads:', error);
+    }
+  };
+
+  // para hacer intervalos de actualizacion cada 10 seg
+  useEffect(() => { 
+    fetchLeads();
+
+    const interval = setInterval(() => {
+      fetchLeads();
+    }, 10000); // 10000ms = 10s
+
+    return () => clearInterval(interval);
   }, []);
 
-  const handleDeleteLead = (leadId) => {
-    fetch(`http://localhost:8000/leads/${leadId}`, {
-      method: 'DELETE',
-    })
-      .then(response => {
-        if (response.ok) {
-          setLeads(leads.filter(lead => lead.id !== leadId));
-        } else {
-          console.error('Error deleting lead:', response.statusText);
-        }
-      })
-      .catch(error => console.error('Error deleting lead:', error));
+  const handleDeleteLead = async (leadId) => {
+    try {
+      const response = await fetch(`http://localhost:8000/leads/${leadId}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        setLeads(leads.filter(lead => lead.id !== leadId));
+      } else {
+        console.error('Error deleting lead:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error deleting lead:', error);
+    }
   };
 
   return (
@@ -57,10 +69,10 @@ const Leads = () => {
         </div>
         {/* Botón */}
         <div className="w-1/6 flex justify-end">
-          <button onClick={()=>document.getElementById('my_modal_3').showModal()} className="mt-1 block w-full rounded-md bg-black text-white py-2 px-4">
+          <button onClick={() => document.getElementById('my_modal_3').showModal()} className="mt-1 block w-full rounded-md bg-black text-white py-2 px-4">
             registros del historial
           </button>
-            <RegistrosHistorial />
+          <RegistrosHistorial />
         </div>
       </div>
       <table className="table">
@@ -93,7 +105,7 @@ const Leads = () => {
                 {/* <td>{leadItem.source}</td> */}
                 <td>{leadItem.interest}</td>
                 {/* <td>{leadItem.message}</td> */}
-                <td>{leadItem.status}</td>
+                <td>{leadItem.status_name}</td>
                 <td>{leadItem.company_name}</td>
                 <td>
                   <ButtonTable leadId={leadItem.id} onDelete={handleDeleteLead} />

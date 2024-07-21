@@ -18,10 +18,10 @@ const Historial = ({ leadName }) => {
     return content === null ? <span className="text-red-500">---</span> : content;
   };
 
-  const getStatusClass = (status) => {
-    if (status === 'no contactado') {
+  const getStatusClass = (status_name) => {
+    if (status_name === 'no contactado') {
       return 'text-red-500';
-    } else if (status === 'contactado') {
+    } else if (status_name === 'contactado') {
       return 'text-green-500';
     } else {
       return 'text-blue-500';
@@ -57,8 +57,8 @@ const Historial = ({ leadName }) => {
                 <td>{renderCellContent(item.phone)}</td>
                 <td>{renderCellContent(item.mail)}</td>
                 <td>
-                  <span className={getStatusClass(item.status)}>
-                    {renderCellContent(item.status)}
+                  <span className={getStatusClass(item.status_name)}>
+                    {renderCellContent(item.status_name)}
                   </span>
                 </td>
                 <td>{renderCellContent(item.state)}</td>

@@ -99,15 +99,15 @@ const ModalDetails = ({ leadId, onClose }) => {
           <h3 className='font-bold text-lg'>No lead available!</h3>
         )}
         <div>
-          <center>
+          {/* <center>
             <h3 className="font-bold text-lg">Acciones!</h3>
           </center>
           <Acciones 
             onStateChange={(value) => setState(value)} 
             onNameClientChange={(value) => setNameClient(value)} 
             onSubmit={handleSaveToHistorial}
-          />
-          <hr />
+          /> */}
+          {/* <hr /> */}
           <center>
             <h3 className="font-bold text-lg">Historial!</h3>
           </center>
