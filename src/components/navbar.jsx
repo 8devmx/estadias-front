@@ -1,11 +1,15 @@
 import React from 'react';
-import styles from '@/styles/Navbar.module.css'
+import styles from '@/styles/Navbar.module.css';
 
-const Navbar = () => {
+const Navbar = ({ logo }) => {
+  if (!logo) {
+    return <div>Logo is missing</div>; 
+  }
+
   return (
     <div className={styles.navbar}>
       <div className={styles.logo}>
-        <img src="logo-travel.svg" alt="" />
+        <img src={`/${logo}`} alt="Company Logo" />
       </div>
       <nav>
         <ul>

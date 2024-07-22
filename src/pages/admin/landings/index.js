@@ -60,6 +60,8 @@ const LandingsData = () => {
         <thead>
           <tr>
             <th>ID</th>
+            <th>Slugs</th>
+            <th>Logo</th>
             <th>Hero</th>
             <th>Services</th>
             <th>Packages</th>
@@ -71,6 +73,8 @@ const LandingsData = () => {
           {data.map((landing, index) => (
             <tr key={index} className="hover">
               <th>{landing.id}</th>
+              <td>{landing.slugs}</td>
+              <td>{landing.logo}</td>
               <td>{landing.hero}</td>
               <td>{landing.services}</td>
               <td>{landing.packages}</td>
