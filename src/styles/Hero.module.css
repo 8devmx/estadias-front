@@ -1,6 +1,6 @@
 .hero {
   font-family: "Open Sans";
-  background-image: url('/hero-travel.jpg');
+  /* background-image: url('/hero-travel.jpg'); */
   width: 100%;
   height: 800px;
   background-size: cover;

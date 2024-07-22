@@ -1,6 +1,6 @@
 .container {
     font-family: "Open Sans";
-    background-image: url('/map.png');
+    /* background-image: url('/map.png'); */
     background-color: rgba(0, 88, 83, 0.05);
     width: 100%;
     height: 733px;

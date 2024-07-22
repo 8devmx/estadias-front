@@ -7,11 +7,11 @@ const Services = ({data}) => {
     <div className={styles.services} data-theme="light">
       <h2>Our service</h2>
       <div className={styles.servicesContainer}>
-        { 
+        {
           listServices.map((ser, index) => {
             return (
               <div className={styles.service} key={index}>
-                <img src={ser.image} alt="" />
+                <img src={`/${ser.image}`} alt={ser.image}/>
                 <div className={styles.serviceContent}>
                   <h3>{ser.title}</h3>
                   <p>{ser.paragraph}</p>

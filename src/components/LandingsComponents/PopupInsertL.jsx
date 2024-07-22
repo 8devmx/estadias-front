@@ -3,6 +3,8 @@ import axios from 'axios';
 
 const PopupInsertL = ({ onClose, mutate }) => {
     const [formData, setFormData] = useState({
+        slugs: '',
+        logo: '',
         hero: '',
         services: '',
         packages: '',
@@ -33,6 +35,28 @@ const PopupInsertL = ({ onClose, mutate }) => {
             <div className="bg-white p-6 rounded shadow-lg w-1/3">
                 <h2 className="text-xl mb-4">Agregar landing</h2>
                 <form onSubmit={handleSubmit}>
+                <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700">Slugs</label>
+                        <input
+                            type="text"
+                            name="slugs"
+                            value={formData.slugs}
+                            onChange={handleChange}
+                            className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700">Logo</label>
+                        <input
+                            type="text"
+                            name="logo"
+                            value={formData.logo}
+                            onChange={handleChange}
+                            className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
+                            required
+                        />
+                    </div>
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700">Hero</label>
                         <input
