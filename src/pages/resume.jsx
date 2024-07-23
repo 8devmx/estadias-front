@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import Sidebar from '../components/Sidebar';
 
 const Container = styled.div`
@@ -32,13 +33,13 @@ const SectionTitle = styled.h2`
 const Paragraph = styled.p`
   font-size: 16px;
   margin-bottom: 20px;
-  color: #000000;  // Cambia el color del párrafo a negro
+  color: #000000;
 `;
 
 const Name = styled.p`
   font-size: 70px;
   font-weight: bold;
-  color: #000000;  // Cambia el color del nombre a negro
+  color: #000000;
   margin-bottom: 10px;
 `;
 
@@ -49,26 +50,30 @@ const SkillsList = styled.ul`
 const Skill = styled.li`
   font-size: 18px;
   margin-bottom: 10px;
-  color: #000000;  // Cambia el color de las habilidades a negro
+  color: #000000;
 `;
 
 const Resume = () => {
-  const [formData, setFormData] = useState(null);
+  const [candidateData, setCandidateData] = useState(null);
+  const router = useRouter();
+  const { id } = router.query;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/forms/latest');
-        setFormData(response.data.form);
+        const response = await axios.get(`http://localhost:8000/api/candidates/${id}`);
+        setCandidateData(response.data);
       } catch (error) {
         console.error(error);
       }
     };
 
-    fetchData();
-  }, []);
+    if (id) {
+      fetchData();
+    }
+  }, [id]);
 
-  if (!formData) {
+  if (!candidateData) {
     return <div>Loading...</div>;
   }
 
@@ -77,35 +82,35 @@ const Resume = () => {
       <Sidebar />
       <MainContent>
         <Section id="name">
-          <Name>John Doe</Name>
+          <Name>{candidateData.name}</Name>
         </Section>
         <Section id="about">
-          <SectionTitle>About</SectionTitle>
-          <Paragraph>{formData.about_me}</Paragraph>
+          <SectionTitle>Sobre mí</SectionTitle>
+          <Paragraph>{candidateData.sobre_mi}</Paragraph>
         </Section>
         <Section id="experience">
-          <SectionTitle>Experience</SectionTitle>
-          <Paragraph>{formData.experience}</Paragraph>
+          <SectionTitle>Experiencia</SectionTitle>
+          <Paragraph>{candidateData.experiencia}</Paragraph>
         </Section>
         <Section id="education">
-          <SectionTitle>Education</SectionTitle>
-          <Paragraph>{formData.education}</Paragraph>
+          <SectionTitle>Educación</SectionTitle>
+          <Paragraph>{candidateData.educacion}</Paragraph>
         </Section>
         <Section id="skills">
-          <SectionTitle>Skills</SectionTitle>
+          <SectionTitle>Habilidades</SectionTitle>
           <SkillsList>
-            {formData.skills.split(',').map((skill, index) => (
+            {candidateData.habilidades && candidateData.habilidades.split(',').map((skill, index) => (
               <Skill key={index}>{skill}</Skill>
             ))}
           </SkillsList>
         </Section>
         <Section id="interests">
-          <SectionTitle>Interests</SectionTitle>
-          <Paragraph>{formData.interests}</Paragraph>
+          <SectionTitle>Intereses</SectionTitle>
+          <Paragraph>{candidateData.intereses}</Paragraph>
         </Section>
         <Section id="awards">
-          <SectionTitle>Awards</SectionTitle>
-          <Paragraph>{formData.awards}</Paragraph>
+          <SectionTitle>Premios</SectionTitle>
+          <Paragraph>{candidateData.premios}</Paragraph>
         </Section>
       </MainContent>
     </Container>

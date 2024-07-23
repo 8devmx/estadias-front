@@ -60,34 +60,38 @@ const Input = styled.input`
   }
 `;
 
-const Button = styled.button`
-  background-color: #e65c00;
-  color: white;
-  padding: 15px 30px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
+const SubmitButton = styled.button`
   width: 100%;
+  background-color: #e65c00;
+  color: #fff;
+  border: none;
+  padding: 15px;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #cf5400;
+    background-color: #cc5200;
   }
 `;
 
 const ResumeForm = () => {
-  const router = useRouter();
-
   const [formData, setFormData] = useState({
-    about_me: '',
-    experience: '',
-    education: '',
-    skills: '',
-    interests: '',
-    awards: '',
-    profile_picture: ''
+    name: '',
+    phone: '',
+    email: '',
+    address: '',
+    sobre_mi: '',
+    experiencia: '',
+    educacion: '',
+    habilidades: '',
+    intereses: '',
+    premios: '',
+    foto_perfil: ''
   });
+
+  const router = useRouter();
 
   const handleChange = (e) => {
     setFormData({
@@ -99,57 +103,70 @@ const ResumeForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validación de campos vacíos
-    for (const key in formData) {
-      if (formData[key].trim() === '') {
-        alert(`El campo ${key.replace('_', ' ')} no puede estar vacío.`);
-        return;
-      }
-    }
-
     try {
-      const response = await axios.post('http://localhost:8000/forms', formData);
-      console.log('Form submitted successfully:', response.data);
-      router.push('/thanks'); // Redirigir a la página de agradecimiento
+      const response = await axios.post('http://localhost:8000/api/candidates', formData);
+      if (response.status === 201) {
+        alert('Candidato creado exitosamente');
+        router.push({
+          pathname: '/thanks',
+          query: { name: formData.name, id: response.data.candidate.id } // Redirige con el ID del candidato
+        });
+      }
     } catch (error) {
-      console.error('Error submitting form:', error);
-      alert('Error submitting form.');
+      console.error('Error creando candidato:', error);
+      alert('Hubo un error al crear el candidato');
     }
   };
 
   return (
     <FormContainer>
+      <FormTitle>Formulario de Candidato</FormTitle>
       <form onSubmit={handleSubmit}>
-        <FormTitle>Formulario de Currículum Vitae</FormTitle>
         <FormField>
-          <Label>Sobre mí</Label>
-          <TextArea name="about_me" value={formData.about_me} onChange={handleChange} placeholder="Cuéntanos sobre ti..." />
+          <Label htmlFor="name">Nombre</Label>
+          <Input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
         </FormField>
         <FormField>
-          <Label>Experiencia</Label>
-          <TextArea name="experience" value={formData.experience} onChange={handleChange} placeholder="Describe tu experiencia..." />
+          <Label htmlFor="phone">Teléfono</Label>
+          <Input type="text" id="phone" name="phone" value={formData.phone} onChange={handleChange} />
         </FormField>
         <FormField>
-          <Label>Educación</Label>
-          <TextArea name="education" value={formData.education} onChange={handleChange} placeholder="Indica tu formación académica..." />
+          <Label htmlFor="email">Correo Electrónico</Label>
+          <Input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
         </FormField>
         <FormField>
-          <Label>Habilidades</Label>
-          <TextArea name="skills" value={formData.skills} onChange={handleChange} placeholder="Enumera tus habilidades..." />
+          <Label htmlFor="address">Dirección</Label>
+          <Input type="text" id="address" name="address" value={formData.address} onChange={handleChange} />
         </FormField>
         <FormField>
-          <Label>Intereses</Label>
-          <TextArea name="interests" value={formData.interests} onChange={handleChange} placeholder="Cuéntanos sobre tus intereses..." />
+          <Label htmlFor="sobre_mi">Sobre Mí</Label>
+          <TextArea id="sobre_mi" name="sobre_mi" value={formData.sobre_mi} onChange={handleChange} />
         </FormField>
         <FormField>
-          <Label>Premios</Label>
-          <TextArea name="awards" value={formData.awards} onChange={handleChange} placeholder="Indica tus premios y reconocimientos..." />
+          <Label htmlFor="experiencia">Experiencia</Label>
+          <TextArea id="experiencia" name="experiencia" value={formData.experiencia} onChange={handleChange} />
         </FormField>
         <FormField>
-          <Label>Foto de Perfil (URL)</Label>
-          <Input type="text" name="profile_picture" value={formData.profile_picture} onChange={handleChange} placeholder="URL de la foto de perfil..." />
+          <Label htmlFor="educacion">Educación</Label>
+          <TextArea id="educacion" name="educacion" value={formData.educacion} onChange={handleChange} />
         </FormField>
-        <Button type="submit">Enviar</Button>
+        <FormField>
+          <Label htmlFor="habilidades">Habilidades</Label>
+          <TextArea id="habilidades" name="habilidades" value={formData.habilidades} onChange={handleChange} />
+        </FormField>
+        <FormField>
+          <Label htmlFor="intereses">Intereses</Label>
+          <TextArea id="intereses" name="intereses" value={formData.intereses} onChange={handleChange} />
+        </FormField>
+        <FormField>
+          <Label htmlFor="premios">Premios</Label>
+          <TextArea id="premios" name="premios" value={formData.premios} onChange={handleChange} />
+        </FormField>
+        <FormField>
+          <Label htmlFor="foto_perfil">Foto de Perfil</Label>
+          <Input type="text" id="foto_perfil" name="foto_perfil" value={formData.foto_perfil} onChange={handleChange} />
+        </FormField>
+        <SubmitButton type="submit">Enviar</SubmitButton>
       </form>
     </FormContainer>
   );

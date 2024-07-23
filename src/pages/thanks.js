@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-const Thanks = ({ name }) => {
+const Thanks = ({ name, id }) => {
   const router = useRouter();
 
   const handleButtonClick = (path) => {
@@ -22,7 +22,7 @@ const Thanks = ({ name }) => {
           <p className="message">
             Te agradecemos por tu interés. Puedes revisar mi Curriculum Vitae haciendo clic en el botón de abajo.
           </p>
-          <button className="cta-button" onClick={() => handleButtonClick('/resume')}>
+          <button className="cta-button" onClick={() => handleButtonClick(`/resume?id=${id}`)}>
             Ver Mi Curriculum Vitae
             <span className="cta-text">Redirigir a mi Curriculum Vitae</span>
           </button>
@@ -40,27 +40,6 @@ const Thanks = ({ name }) => {
           width: 100%;
           height: 100vh;
           margin: 0;
-        }
-
-        @media (min-width: 1200px) {
-          .container {
-            max-width: 100%;
-            margin: 0 auto;
-          }
-        }
-
-        @media (min-width: 768px) and (max-width: 1199px) {
-          .container {
-            max-width: 100%;
-            margin: 0 auto;
-          }
-        }
-
-        @media (max-width: 767px) {
-          .container {
-            max-width: 100%;
-            margin: 0 auto;
-          }
         }
 
         .box {
@@ -132,7 +111,7 @@ const Thanks = ({ name }) => {
 
 Thanks.getInitialProps = async (ctx) => {
   const { query } = ctx;
-  return { name: query.name || 'Invitado' };
+  return { name: query.name || 'Invitado', id: query.id };
 };
 
 export default Thanks;
