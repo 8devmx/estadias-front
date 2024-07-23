@@ -3,9 +3,16 @@ import React, { useState, useEffect } from 'react';
 const RegistrosHistorial = () => {
   const [historial, setHistorial] = useState([]);
 
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
+
   const fetchHistorial = async () => {
     try {
-      const response = await fetch('http://localhost:8000/leads_historial');
+      const response = await fetch('http://localhost:8000/leads_historial', {
+        headers: getAuthHeaders(), // Agregar encabezado de autorización aquí
+      });
       const data = await response.json();
       setHistorial(data.leads || []);
     } catch (error) {
@@ -34,7 +41,7 @@ const RegistrosHistorial = () => {
         </form>
         <div className="overflow-x-auto">
           <div>
-            <h3 className='text-center flix pb-2 text-customBlak font-bold text-lg'>Registro del Historial</h3>
+            <h3 className='text-center flex pb-2 text-customBlak font-bold text-lg'>Registro del Historial</h3>
           </div>
           <table className="table table-xs">
             <thead>
