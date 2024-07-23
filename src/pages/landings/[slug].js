@@ -5,27 +5,36 @@ import Packages from '@/components/packages';
 import Form from '@/components/form';
 
 export async function getServerSideProps(context) {
-  const { id } = context.params;
-  const res = await fetch(`http://localhost:8000/landings/${id}`);
-  const landing = await res.json();
+  const { slug } = context.params;
+  const url = `http://localhost:8000/landing/slug/${slug}`;
 
-  if (!landing) {
+  try {
+    const res = await fetch(url);
+
+    if (!res.ok) {
+      return { notFound: true }; 
+    }
+
+    const data = await res.json();
+
+    if (!data) {
+      return { notFound: true }; 
+    }
+
     return {
-      notFound: true,
+      props: { landing: data }, 
     };
+  } catch (error) {
+    return { notFound: true }; 
   }
-
-  return {
-    props: { landing },
-  };
 }
 
 export default function Home({ landing }) {
   const hero = JSON.parse(landing.hero);
   const services = JSON.parse(landing.services);
   const packages = JSON.parse(landing.packages);
-  const logo = landing.logo; 
-  
+  const logo = landing.logo;
+
   return (
     <>
       <Hero data={hero} />
@@ -36,3 +45,4 @@ export default function Home({ landing }) {
     </>
   );
 }
+
