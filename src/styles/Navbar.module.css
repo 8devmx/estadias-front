@@ -3,25 +3,59 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 0 15px;
+  padding-top: 1%;
   position: fixed;
-  top: 32px;
+  top: 0;
+  z-index: 1000;
+  padding-left: 1%;
+  transition: opacity 0.5s ease;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .navbar ul {
   display: flex;
-  gap: 10px;
+  align-items: center;
+  gap: 15px;
+  margin: 0;
+  padding: 0;
 }
 
 .navbar a {
   color: #fff;
-  font-size: 20px;
-  line-height: 1.4;
+  font-size: 22px;
+  line-height: 1.6;
   display: block;
-  padding: 27px 38px;
+  padding: 10px 15px;
+  text-align: center;
 }
 
 .navbar a:hover {
   background: #000;
+}
+
+
+.navbar.scroll {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.9);
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px;
+  }
+
+  .navbar ul {
+    gap: 10px;
+  }
+
+  .navbar a {
+    font-size: 16px;
+    padding: 8px 22px;
+  }
+
+  .hero {
+    padding-top: 60px;
+  }
 }
 

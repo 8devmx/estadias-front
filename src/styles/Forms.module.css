@@ -1,6 +1,10 @@
 .Formulario {
-    background-color: #94c5b1;
+    background-color: #46433a;
     padding: 50px 30px;
+    margin-top: 20px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 .Formulario h1 {
@@ -8,31 +12,31 @@
     font-size: 35px;
     line-height: 54.47px;
     margin-bottom: 20px;
+    text-align: center;
 }
 
-.cont {
+.Formulario .cont {
     display: flex;
     justify-content: space-between;
-    max-width: 1220px;
     gap: 20px;
     align-items: center;
-
 }
 
 .Formulario input,
 .Formulario select,
 .Formulario textarea {
-    width: 100%;
+    width: calc(100% - 22px);
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 7px;
     margin-top: 5px;
+    box-sizing: border-box;
 }
 
 .Formulario textarea {
-    height: 100px;
-    resize: none;
+    height: 150px;
+    resize: vertical;
 }
 
 .Formulario label {
@@ -44,6 +48,9 @@
     color: white;
     padding: 10px 15px;
     border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: block;
 }
 
 .Formulario button:hover {
@@ -91,3 +98,20 @@
     transition: background-color 0.3s ease;
   }
   
+
+@media (max-width: 768px) {
+    .Formulario {
+        padding: 30px 20px;
+    }
+
+    .Formulario input,
+    .Formulario select,
+    .Formulario textarea {
+        width: 100%;
+    }
+
+    .Formulario button {
+        width: 100%;
+    }
+}
+

@@ -1,8 +1,7 @@
 .hero {
   font-family: "Open Sans";
-  background-image: url('/hero-travel.jpg');
   width: 100%;
-  height: 800px;
+  height: 1000px;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -10,44 +9,104 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 52px;
+  padding: 40px;
   position: relative;
 
   &::after {
-    content: ' ';
+    content: '';
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     background: white;
     z-index: 1;
-    height: 60px;
-    box-shadow: 0 0 65px 30px white;
+    height: 40px;
+    box-shadow: 0 0 30px 10px white;
   }
 }
 
 .hero h1 {
-  font-size: 75px;
-  color: #fff;
-  line-height: 1.36;
+  font-size: 48px;
+  color: black;
+  line-height: 1.3;
   font-weight: 800;
+  text-align: center;
+  margin: 0;
 }
 
 .hero p {
-  font-size: 16px;
+  font-size: 18px;
   color: #fff;
-  line-height: 1.31;
+  line-height: 1.5;
   font-weight: 400;
+  text-align: center;
+  margin: 0;
 }
 
 .hero a {
-  padding: 13px 24px;
+  padding: 15px 30px;
   background: #00A651;
   color: #fff;
-  font-size: 24px;
+  font-size: 22px;
   border-radius: 10px;
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.3s ease;
 
   &:hover {
     background: #005F15;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    padding-top: 10%;
+    height: 500px;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+    line-height: 1.2;
+  }
+
+  .hero p {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .hero a {
+    padding: 12px 24px;
+    font-size: 18px;
+  }
+
+  .hero::after {
+    height: 30px;
+    box-shadow: 0 0 20px 5px white;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: auto;
+    padding-top: 25%;
+  }
+
+  .hero h1 {
+    font-size: 32px;
+    line-height: 1.25;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  .hero a {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+
+  .hero::after {
+    height: 20px;
+    box-shadow: 0 0 15px 3px white;
   }
 }
