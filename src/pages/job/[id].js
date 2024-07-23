@@ -36,7 +36,7 @@ const JobOffer = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8000/api/job', {
+      const response = await fetch('http://localhost:8000/candidates', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -45,14 +45,14 @@ const JobOffer = () => {
       });
       if (response.ok) {
         console.log('Formulario enviado:', form);
-        router.push('job/gracias'); // Redirige a la página de agradecimiento
+        router.push('gracias'); // Redirige a la página de agradecimiento
       } else {
         console.error('Error al enviar el formulario');
       }
     } catch (error) {
       console.error('Error al enviar el formulario:', error);
     }
-  };
+  };  
 
   if (error) return <div className="text-red-500">Error al cargar</div>;
   if (!data) return <div className="text-blue-500">Cargando...</div>;
