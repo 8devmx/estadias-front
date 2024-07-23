@@ -7,9 +7,15 @@ import styles from '@/styles/leads.module.css';
 const Leads = () => {
   const [leads, setLeads] = useState([]);
 
+
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
+
   const fetchLeads = async () => {
     try {
-      const response = await fetch('http://localhost:8000/leads/');
+      const response = await fetch('http://localhost:8000/leads/', {headers: getAuthHeaders(),});
       const data = await response.json();
       setLeads(data.leads);
     } catch (error) {
@@ -31,7 +37,7 @@ const Leads = () => {
   const handleDeleteLead = async (leadId) => {
     try {
       const response = await fetch(`http://localhost:8000/leads/${leadId}`, {
-        method: 'DELETE',
+        method: 'DELETE', headers: getAuthHeaders(),
       });
       if (response.ok) {
         setLeads(leads.filter(lead => lead.id !== leadId));

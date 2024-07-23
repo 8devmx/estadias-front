@@ -19,14 +19,18 @@ const ButtonEdit = ({ leadId, onClose }) => {
   const [statuses, setStatuses] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/leads/${leadId}`)
+    fetch(`http://localhost:8000/leads/${leadId}`, {
+      headers: getAuthHeaders(),
+    })
       .then(response => response.json())
       .then(data => {
         setFormData(data);
       })
       .catch(error => console.error('Error fetching lead data:', error));
 
-    fetch('http://localhost:8000/status')
+    fetch('http://localhost:8000/status', {
+      headers: getAuthHeaders(),
+    })
       .then(response => response.json())
       .then(data => {
         if (data.Status) {
@@ -37,6 +41,11 @@ const ButtonEdit = ({ leadId, onClose }) => {
       })
       .catch(error => console.error('Error fetching statuses:', error));
   }, [leadId]);
+
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,17 +60,18 @@ const ButtonEdit = ({ leadId, onClose }) => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        ...getAuthHeaders(),
       },
       body: JSON.stringify(formData),
     })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Lead updated successfully:', data);
-      handleCreateHistorial();
-    })
-    .catch(error => {
-      console.error('Error updating lead:', error);
-    });
+      .then(response => response.json())
+      .then(data => {
+        console.log('Lead updated successfully:', data);
+        handleCreateHistorial();
+      })
+      .catch(error => {
+        console.error('Error updating lead:', error);
+      });
   };
 
   const handleCreateHistorial = () => {
@@ -75,22 +85,23 @@ const ButtonEdit = ({ leadId, onClose }) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...getAuthHeaders(),
       },
       body: JSON.stringify(historialData),
     })
-    .then(response => {
-      if (!response.ok) {
-        return response.text().then(text => { throw new Error(text) });
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Historial created successfully:', data);
-      onClose();
-    })
-    .catch(error => {
-      console.error('Error creating historial:', error.message);
-    });
+      .then(response => {
+        if (!response.ok) {
+          return response.text().then(text => { throw new Error(text) });
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Historial created successfully:', data);
+        onClose();
+      })
+      .catch(error => {
+        console.error('Error creating historial:', error.message);
+      });
   };
 
   const handleSubmit = (e) => {
@@ -163,13 +174,13 @@ const ButtonEdit = ({ leadId, onClose }) => {
             </div>
             <br />
             <div>
-            <textarea
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              placeholder="Mensaje"
-              className="textarea textarea-bordered textarea-md w-full max-w"
-            ></textarea>
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Mensaje"
+                className="textarea textarea-bordered textarea-md w-full max-w"
+              ></textarea>
               <h3 className='pt-2 pb-2 text-center font-bold text-customBlak'>Nombre del contactador</h3>
             </div>
             <label className="text-customBlak input input-bordered flex items-center gap-2">
@@ -188,4 +199,3 @@ const ButtonEdit = ({ leadId, onClose }) => {
 };
 
 export default ButtonEdit;
-

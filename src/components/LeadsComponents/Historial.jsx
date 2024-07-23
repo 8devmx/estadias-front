@@ -4,13 +4,20 @@ const Historial = ({ leadName }) => {
   const [historial, setHistorial] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8000/leads_historial')
+    fetch('http://localhost:8000/leads_historial', {
+      headers: getAuthHeaders(),
+    })
       .then(response => response.json())
       .then(data => {
         setHistorial(data.leads || []);
       })
       .catch(error => console.error('Error fetching historial:', error));
   }, []);
+
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
 
   const filteredHistorial = historial.filter(item => item.name.trim() === leadName.trim());
 
@@ -34,14 +41,14 @@ const Historial = ({ leadName }) => {
         <thead>
           <tr>
             <th>#</th>
-            <th>cliente</th>
-            <th>telefono</th>
-            <th>mail</th>
-            <th>situacion</th>
+            <th>Cliente</th>
+            <th>Teléfono</th>
+            <th>Mail</th>
+            <th>Situación</th>
             <th>Estado</th>
-            <th>city</th>
-            <th>direccion</th>
-            <th>interes</th>
+            <th>Ciudad</th>
+            <th>Dirección</th>
+            <th>Interés</th>
             <th>Mensaje</th>
             <th>Compañía</th>
             <th>Contactador</th>
@@ -73,7 +80,7 @@ const Historial = ({ leadName }) => {
             ))
           ) : (
             <tr>
-              <td colSpan="7">No se ha creado historial</td>
+              <td colSpan="13">No se ha creado historial</td>
             </tr>
           )}
         </tbody>
@@ -83,3 +90,4 @@ const Historial = ({ leadName }) => {
 };
 
 export default Historial;
+
