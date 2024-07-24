@@ -65,10 +65,18 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '@/services/axiosConfig'; // Importa la instancia de axios configurada
 import LayoutAdmin from '@/components/LayoutAdmin';
+import { Company } from '@/services/company';
+import useSWR from 'swr';
+import ButtonTable from '@/components/CompanyComponents/ButtonTable';
+import PopupEditC from '@/components/CompanyComponents/PopupEditC';
+import styles from '@/styles/Componenadm.module.css';
+import PopupInsertC from '@/components/CompanyComponents/PopupInsertC';
 
+const fetcher = async () => {
+  const data = await Company();
+  return data.data.company;
+}
 const Companies = () => {
-    const [companies, setCompanies] = useState([]);
-
     const fetchData = async () => {
         try {
             const response = await axiosInstance.get('/company');
@@ -83,9 +91,8 @@ const Companies = () => {
         }
     };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+  if (error) return <div>Error al cargar</div>;
+  if (isLoading) return <div>Cargando</div>;
 
     return (
         <div>

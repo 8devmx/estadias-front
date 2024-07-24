@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '@/styles/Hero.module.css';
+import styles from '@/styles/Heromain.module.css';
 
 const Hero = ({ data }) => {
 
@@ -11,9 +11,6 @@ const Hero = ({ data }) => {
     >
       <h1>{data.title}</h1>
       <p>{data.paragraph}</p>
-      <a href={data.buttonLink} target="_blank" rel="noopener noreferrer">
-        {data.buttonText}
-      </a>
     </div>
   );
 };

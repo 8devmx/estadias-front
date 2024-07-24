@@ -1,70 +1,113 @@
 .container {
     font-family: "Open Sans";
-    background-image: url('/map.png');
     background-color: rgba(0, 88, 83, 0.05);
-    width: 100%;
-    height: 733px;
-    align-content: center;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    padding: 150px;
 }
 
 .text h1 {
     font-weight: 700;
     font-size: 40px;
-    line-height: 54.47px;
-    margin: 2rem auto;
+    line-height: 1.35;
     text-align: center;
-    width: 500px;
-
+    max-width: 100%;
 }
 
 .text p {
-    width: 495px;
-    margin: 2rem auto;
+    font-size: 18px;
     text-align: center;
+    max-width: 100%;
 }
 
 .pack {
-    margin-left: 8.5%;
     display: flex;
-    align-items: center;
-}
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
 
-.pack h1 {
-    font-weight: 700;
-    font-size: 36px;
-    line-height: 49.03px;
-}
-
-.pack p {
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 27.24px;
-}
-
-.pack h2 {
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 27.24px;
-    padding-bottom: 25px;
-}
-
-.pack .txt {
-    margin: 0 10px 0 10px;
-}
-
-.pack img {
-    display: inline;
-    width: 42px;
-    height: 42px;
-    margin-bottom: 15px;
+    & img {
+        max-height: 45px;
+        align-self: start;
+        margin-bottom: 20px;
+        align-self: center;
+    }
 }
 
 .pack div {
     background-color: white;
-    margin: 40px;
-    padding: 20px 40px 20px 40px;
+    margin: 10px;
+    padding: 20px;
     text-align: center;
-    align-content: center;
     border-radius: 15px;
+    width: calc(50% - 20px);
+    max-width: 300px;
+}
+
+.pack h1 {
+    font-size: 24px;
+    line-height: 1.5;
+}
+
+.pack p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.pack h2 {
+    font-size: 16px;
+    line-height: 1.5;
+    padding-bottom: 10px;
+}
+
+
+@media (max-width: 1024px) {
+    .pack div {
+        width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .text h1 {
+        font-size: 32px;
+        line-height: 1.25;
+    }
+
+    .text p {
+        font-size: 16px;
+    }
+
+    .pack img{
+        align-self: center;
+        margin-bottom: 10px;
+    }
+
+    .pack div {
+        width: 1000px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .text h1 {
+        font-size: 32px;
+        line-height: 1.25;
+    }
+
+    .text p {
+        font-size: 16px;
+    }
+
+    .pack img{
+        align-self: center;
+        margin-bottom: 10px;
+    }
+
+    .pack div {
+        width: 1000px;
+        text-align: center;
+    }
 }
