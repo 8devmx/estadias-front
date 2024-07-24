@@ -86,12 +86,12 @@ const ModalDetails = ({ leadId, onClose }) => {
               </p>
             </div>
             <div className='flex'>
-              <p className="py-4 font-bold w-1/2 flex">Interés:
+              <p className="py-4 font-bold  flex">Interés:
                 <span className='font-normal ml-1'>{lead.interest}</span>
               </p>
-              <p className="py-4 font-bold w-1/2 flex">Situación:
+              {/* <p className="py-4 font-bold w-1/2 flex">Situación:
                 <span className='font-normal ml-1'>{lead.status}</span>
-              </p>
+              </p> */}
             </div>
             <div>
               <p className="py-4 font-bold flex">Comentarios:
