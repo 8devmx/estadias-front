@@ -14,7 +14,7 @@
 
 .hero h1 {
   font-size: 48px;
-  color: black;
+  color: rgb(247, 246, 246);
   line-height: 1.2;
   font-weight: 800;
   text-align: center;
@@ -23,7 +23,7 @@
 
 .hero p {
   font-size: 20px;
-  color: black;
+  color: rgb(255, 255, 255);
   line-height: 1.4;
   font-weight: 400;
   text-align: center;
