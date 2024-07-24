@@ -112,7 +112,7 @@ const Formulario = () => {
                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
                     />
                 </div>
-                <button href="/GraciasCV" type="submit" className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300">Enviar</button>
+                <button href="GraciasCV" type="submit" className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300">Enviar</button>
             </form>
         </div>
     );

@@ -70,13 +70,13 @@ const VacanciesView = () => {
                     <h2 className="font-bold text-lg">{vacancy.title}</h2>
                   </div>
                   <div className="vacancy-details absolute inset-0 bg-white p-4 opacity-0 hover:opacity-100 flex flex-col justify-center transition-opacity duration-300">
-                    <p><strong>Descripción:</strong> {vacancy.state}</p>
+                    <p><strong>Ubicación:</strong> {vacancy.state}</p>
                   </div>
                 </div>
               </Link>
             ))
           ) : (
-            <p className="text-center text-gray-500">No vacancies available</p>
+            <p className="text-center text-gray-500">►Sin vacantes disponibles◄</p>
           )}
         </div>
       </div>
