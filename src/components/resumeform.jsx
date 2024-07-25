@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
@@ -46,20 +46,6 @@ const TextArea = styled.textarea`
   }
 `;
 
-const Input = styled.input`
-  width: 100%;
-  padding: 15px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  transition: border-color 0.3s;
-
-  &:focus {
-    border-color: #e65c00;
-    outline: none;
-  }
-`;
-
 const SubmitButton = styled.button`
   width: 100%;
   background-color: #e65c00;
@@ -76,68 +62,66 @@ const SubmitButton = styled.button`
   }
 `;
 
-const ResumeForm = () => {
+const UpdateCandidateForm = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    address: '',
     sobre_mi: '',
     experiencia: '',
     educacion: '',
     habilidades: '',
     intereses: '',
-    premios: '',
-    foto_perfil: ''
+    premios: ''
   });
 
   const router = useRouter();
+  const { id } = router.query;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (id) {
+        try {
+          const response = await axios.get(`http://localhost:8000/candidates/${id}`);
+          const data = response.data;
+          setFormData({
+            sobre_mi: data.sobre_mi || '',
+            experiencia: data.experiencia || '',
+            educacion: data.educacion || '',
+            habilidades: data.habilidades || '',
+            intereses: data.intereses || '',
+            premios: data.premios || ''
+          });
+        } catch (error) {
+          console.error('Error fetching candidate data:', error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [id]);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8000/api/candidates', formData);
-      if (response.status === 201) {
-        alert('Candidato creado exitosamente');
-        router.push({
-          pathname: '/thanks',
-          query: { name: formData.name, id: response.data.candidate.id } // Redirige con el ID del candidato
-        });
+      const response = await axios.put(`http://localhost:8000/candidates/${id}`, formData);
+      if (response.status === 200) {
+        alert('Candidato actualizado exitosamente');
+        router.push('/thanks');
       }
     } catch (error) {
-      console.error('Error creando candidato:', error);
-      alert('Hubo un error al crear el candidato');
+      console.error('Error actualizando candidato:', error);
+      alert('Hubo un error al actualizar el candidato');
     }
   };
 
   return (
     <FormContainer>
-      <FormTitle>Formulario de Candidato</FormTitle>
+      <FormTitle>Actualizar Candidato</FormTitle>
       <form onSubmit={handleSubmit}>
-        <FormField>
-          <Label htmlFor="name">Nombre</Label>
-          <Input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required />
-        </FormField>
-        <FormField>
-          <Label htmlFor="phone">Teléfono</Label>
-          <Input type="text" id="phone" name="phone" value={formData.phone} onChange={handleChange} />
-        </FormField>
-        <FormField>
-          <Label htmlFor="email">Correo Electrónico</Label>
-          <Input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
-        </FormField>
-        <FormField>
-          <Label htmlFor="address">Dirección</Label>
-          <Input type="text" id="address" name="address" value={formData.address} onChange={handleChange} />
-        </FormField>
         <FormField>
           <Label htmlFor="sobre_mi">Sobre Mí</Label>
           <TextArea id="sobre_mi" name="sobre_mi" value={formData.sobre_mi} onChange={handleChange} />
@@ -162,14 +146,10 @@ const ResumeForm = () => {
           <Label htmlFor="premios">Premios</Label>
           <TextArea id="premios" name="premios" value={formData.premios} onChange={handleChange} />
         </FormField>
-        <FormField>
-          <Label htmlFor="foto_perfil">Foto de Perfil</Label>
-          <Input type="text" id="foto_perfil" name="foto_perfil" value={formData.foto_perfil} onChange={handleChange} />
-        </FormField>
         <SubmitButton type="submit">Enviar</SubmitButton>
       </form>
     </FormContainer>
   );
 };
 
-export default ResumeForm;
+export default UpdateCandidateForm;

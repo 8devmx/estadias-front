@@ -19,41 +19,59 @@ const MainContent = styled.div`
   overflow-y: auto;
 `;
 
+const Header = styled.div`
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e65c00;
+  padding-bottom: 10px;
+`;
+
+const Name = styled.h1`
+  font-size: 50px;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+`;
+
+const ContactInfo = styled.div`
+  margin-top: 5px;
+  text-align: left;
+`;
+
+const ContactItem = styled.p`
+  margin: 2px 0;
+  font-size: 16px;
+  color: #666;
+`;
+
 const Section = styled.section`
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 `;
 
 const SectionTitle = styled.h2`
   font-family: 'Saira Extra Condensed', serif;
   color: #e65c00;
-  margin-bottom: 20px;
-  font-size: 50px;
+  margin-bottom: 10px;
+  font-size: 24px;
 `;
 
 const Paragraph = styled.p`
   font-size: 16px;
-  margin-bottom: 20px;
-  color: #000000;
-`;
-
-const Name = styled.p`
-  font-size: 70px;
-  font-weight: bold;
-  color: #000000;
   margin-bottom: 10px;
+  color: #333;
 `;
 
 const SkillsList = styled.ul`
   list-style-type: none;
+  padding: 0;
 `;
 
 const Skill = styled.li`
-  font-size: 18px;
-  margin-bottom: 10px;
-  color: #000000;
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: #333;
 `;
 
-const Resume = () => {
+const Curriculum = () => {
   const [candidateData, setCandidateData] = useState(null);
   const router = useRouter();
   const { id } = router.query;
@@ -61,7 +79,7 @@ const Resume = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/candidates/${id}`);
+        const response = await axios.get(`http://localhost:8000/candidates/${id}`);
         setCandidateData(response.data);
       } catch (error) {
         console.error(error);
@@ -81,9 +99,13 @@ const Resume = () => {
     <Container>
       <Sidebar />
       <MainContent>
-        <Section id="name">
+        <Header>
           <Name>{candidateData.name}</Name>
-        </Section>
+          <ContactInfo>
+            <ContactItem>{candidateData.email}</ContactItem>
+            <ContactItem>{candidateData.phone}</ContactItem>
+          </ContactInfo>
+        </Header>
         <Section id="about">
           <SectionTitle>Sobre mí</SectionTitle>
           <Paragraph>{candidateData.sobre_mi}</Paragraph>
@@ -117,4 +139,4 @@ const Resume = () => {
   );
 };
 
-export default Resume;
+export default Curriculum;
