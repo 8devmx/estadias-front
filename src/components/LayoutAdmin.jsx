@@ -5,6 +5,7 @@ import { FaUsersCog, FaBuilding } from "react-icons/fa"
 import { RiPagesLine } from "react-icons/ri";
 import { IoIosBriefcase } from "react-icons/io";
 import { MdLeaderboard } from "react-icons/md";
+import { AiFillApi } from "react-icons/ai";
 
 const LayoutAdmin = ({ children }) => {
   return (
@@ -43,6 +44,7 @@ const LayoutAdmin = ({ children }) => {
               <li><Link href="/admin/leads"><MdLeaderboard /> Prospectos</Link></li>
               <li><Link href="/admin/users"><PiUsersFill /> Usuarios</Link></li>
               <li><Link href="/admin/vacancies"><IoIosBriefcase />Vacantes</Link></li>
+              <li><Link href="/admin/job"><AiFillApi />Job</Link></li>
             </ul>
           </div>
         </div>

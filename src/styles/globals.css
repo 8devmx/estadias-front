@@ -6,6 +6,6 @@ body {
   font-family: "Open Sans";
 }
 
-.TableTr{
+.TableTr {
   @apply flex items-center justify-center;
 }
