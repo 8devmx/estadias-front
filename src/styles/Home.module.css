@@ -1,0 +1,89 @@
+/* styles/Home.module.css */
+.container {
+    font-family: 'Arial', sans-serif;
+    background-color: #d7dde4;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+.colMd8,
+.colMd4,
+.colLg12 {
+    padding: 15px;
+}
+
+.colMd8 {
+    flex: 0 0 66.6667%;
+    max-width: 66.6667%;
+}
+
+.colMd4 {
+    flex: 0 0 33.3333%;
+    max-width: 33.3333%;
+}
+
+.colLg12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
+.imgResponsive {
+    width: 100%;
+    height: auto;
+}
+
+.imgRounded {
+    border-radius: 10px;
+}
+
+.marginArriba {
+    margin-top: 50px;
+}
+
+
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 1.125rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: background-color 0.3s ease;
+}
+
+.btnPrimary {
+    display: flex;
+    justify-content: center;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btnPrimary:hover {
+    background-color: #0056b3;
+}
+
+.well {
+    background-color: #e9ecef;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+}
+
+.textCenter {
+    text-align: center;
+}
+
+.hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 40px 0;
+}
