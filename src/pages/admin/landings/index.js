@@ -35,11 +35,8 @@ const LandingsData = () => {
   };
 
   const parseJsonField = (field) => {
-    try {
-      return JSON.stringify(JSON.parse(field), null, 2);
-    } catch (e) {
-      return field;
-    }
+    const obj = JSON.parse(field) || {}
+    return obj?.title || "Sín título"
   };
   
 
@@ -61,12 +58,9 @@ const LandingsData = () => {
         <thead>
           <tr>
             <th>ID</th>
-            <th>Slugs</th>
             <th>Logo</th>
             <th>Hero</th>
-            <th>Services</th>
-            <th>Packages</th>
-            <th>Company_ID</th>
+            <th>Empresa</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -74,12 +68,13 @@ const LandingsData = () => {
           {data.map((landing, index) => (
             <tr key={index} className="hover">
               <th>{landing.id}</th>
-              <td>{landing.slugs}</td>
-              <td>{landing.logo}</td>
-              <td><pre>{parseJsonField(landing.hero)}</pre></td>
-              <td><pre>{parseJsonField(landing.services)}</pre></td>
-              <td><pre>{parseJsonField(landing.packages)}</pre></td>
-              <td>{landing.company_id}</td>
+              <td>
+                <a href={`http://localhost:3000/landings/${landing.slugs}`} target='_BLANK'>
+                  <img src={`/${landing.logo}`} style={{'maxHeight': '25px', 'display': 'block', 'margin': 'auto'}} />
+                </a>
+              </td>
+              <td>{parseJsonField(landing.hero)}</td>
+              <td>{landing.name}</td>
               <td>
                 <ButtonTable id={landing.id} mutate={mutate} onEdit={() => handleEditClick(landing)} />
               </td>

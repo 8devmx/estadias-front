@@ -33,6 +33,11 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const editar = {
+                "hero": `{"background": ${background}, "title": ${titulo}, "paragraph": ${parrafo}, "buttonText": ${botonTexto}, "buttonLink": ${botonEnlace}}`,
+                "services": `{"background": ${background}, "title": ${titulo}, "paragraph": ${parrafo}, "buttonText": ${botonTexto}, "buttonLink": ${botonEnlace}}`,
+                "package": `{"background": ${background}, "title": ${titulo}, "paragraph": ${parrafo}, "buttonText": ${botonTexto}, "buttonLink": ${botonEnlace}}`
+            }
             await axios.put(`http://localhost:8000/landings/${landing.id}`, formData);
             mutate();
             onClose();
