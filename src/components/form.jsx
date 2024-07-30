@@ -32,7 +32,7 @@ const Form = () => {
                     }
                 }).then(response => {
                     if (response.ok) {
-                        alert("Gracias por registrarte en un momento nos pondremos en contacto contigo!");
+                        window.location.href = "/agradecimiento"; 
                     } else {
                         response.json().then(data => {
                             if (Object.hasOwn(data, 'errors')) {
