@@ -3,7 +3,7 @@ import NavbarMain from '@/components/navbarmain';
 
 export async function getServerSideProps(context) {
   
-  const res = await fetch(`http://localhost:8000/landings/3`);
+  const res = await fetch(`http://localhost:8000/landings/1`);
   const landing = await res.json();
 
   if (!landing) {

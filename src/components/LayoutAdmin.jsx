@@ -5,11 +5,12 @@ import { FaUsersCog, FaBuilding } from "react-icons/fa"
 import { RiPagesLine } from "react-icons/ri";
 import { IoIosBriefcase } from "react-icons/io";
 import { MdLeaderboard } from "react-icons/md";
+import { AiFillApi } from "react-icons/ai";
 
 const LayoutAdmin = ({ children }) => {
   return (
-    <>
-      <div className="container mx-auto" data-theme="light">
+    <div data-theme="light">
+      <div className="container mx-auto">
         <div className="drawer min-h-screen">
           <input id="my-drawer" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content">
@@ -43,6 +44,7 @@ const LayoutAdmin = ({ children }) => {
               <li><Link href="/admin/leads"><MdLeaderboard /> Prospectos</Link></li>
               <li><Link href="/admin/users"><PiUsersFill /> Usuarios</Link></li>
               <li><Link href="/admin/vacancies"><IoIosBriefcase />Vacantes</Link></li>
+              <li><Link href="/admin/job"><AiFillApi />Job</Link></li>
             </ul>
           </div>
         </div>
@@ -52,7 +54,7 @@ const LayoutAdmin = ({ children }) => {
           <p>Copyright © 2024 - All right reserved by ACME Industries Ltd</p>
         </aside>
       </footer>
-    </>
+    </div>
   );
 }
 

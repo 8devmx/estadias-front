@@ -4,7 +4,6 @@ import { Landings } from '@/services/landings';
 import useSWR from 'swr';
 import ButtonTable from '@/components/LandingsComponents/ButtonTable';
 import PopupEditL from '@/components/LandingsComponents/PopupEditL';
-import styles from '@/styles/Componenadm.module.css';
 import PopupInsertL from '@/components/LandingsComponents/PopupInsertL';
 
 const fetcher = async () => {
@@ -13,7 +12,7 @@ const fetcher = async () => {
 }
 
 const LandingsData = () => {
-  const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/landings', fetcher)
+  const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/landings', fetcher);
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [currentLanding, setCurrentLanding] = useState(null);
@@ -35,18 +34,17 @@ const LandingsData = () => {
     setShowEditForm(false);
   };
 
+  const parseJsonField = (field) => {
+    const obj = JSON.parse(field) || {}
+    return obj?.title || "Sín título"
+  };
+  
+
   return (
     <LayoutAdmin>
       <h1 className="text-xl font-bold mb-6">Landings</h1>
       <div className="flex justify-between p-4">
         <div className="w-1/2">
-          <input
-            type="text"
-            id={styles.input}
-            name="first-input"
-            placeholder="Buscar"
-            className="mt-1 block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-          />
         </div>
         <div className="w-1/6 flex items-end">
           <button
@@ -60,12 +58,9 @@ const LandingsData = () => {
         <thead>
           <tr>
             <th>ID</th>
-            <th>Slugs</th>
             <th>Logo</th>
             <th>Hero</th>
-            <th>Services</th>
-            <th>Packages</th>
-            <th>Company_ID</th>
+            <th>Empresa</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -73,12 +68,13 @@ const LandingsData = () => {
           {data.map((landing, index) => (
             <tr key={index} className="hover">
               <th>{landing.id}</th>
-              <td>{landing.slugs}</td>
-              <td>{landing.logo}</td>
-              <td>{landing.hero}</td>
-              <td>{landing.services}</td>
-              <td>{landing.packages}</td>
-              <td>{landing.company_id}</td>
+              <td>
+                <a href={`http://localhost:3000/landings/${landing.slugs}`} target='_BLANK'>
+                  <img src={`/${landing.logo}`} style={{'maxHeight': '25px', 'display': 'block', 'margin': 'auto'}} />
+                </a>
+              </td>
+              <td>{parseJsonField(landing.hero)}</td>
+              <td>{landing.name}</td>
               <td>
                 <ButtonTable id={landing.id} mutate={mutate} onEdit={() => handleEditClick(landing)} />
               </td>
