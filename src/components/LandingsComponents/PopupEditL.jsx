@@ -3,44 +3,100 @@ import axios from 'axios';
 
 const PopupEditL = ({ onClose, mutate, landing }) => {
     const [formData, setFormData] = useState({
-        slugs: landing.slugs,
-        logo: landing.logo,
-        hero: landing.hero,
-        services: landing.services,
-        packages: landing.packages,
-        company_id: landing.company_id,
+        logo: '',
+        hero: {
+            background: '',
+            title: '',
+            paragraph: ''
+        },
+        company_id: '',
     });
 
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [company, setCompany] = useState([]);
+
     useEffect(() => {
-        setFormData({
-            slugs: landing.slugs,
-            logo: landing.logo,
-            hero: landing.hero,
-            services: landing.services,
-            packages: landing.packages,
-            company_id: landing.company_id,
-        });
+        if (landing) {
+            const parsedHero = landing.hero ? JSON.parse(landing.hero) : {
+                background: '',
+                title: '',
+                paragraph: ''
+            };
+
+            setFormData({
+                logo: landing.logo || '',
+                hero: parsedHero,
+                company_id: landing.company_id || '',
+            });
+
+            fetchCompany();
+        }
     }, [landing]);
+
+    const fetchCompany = async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/company');
+            setCompany(response.data.company);
+        } catch (error) {
+            console.error('Error al obtener las empresas:', error);
+        }
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+        setFormData(prev => ({
+            ...prev,
+            [name]: value || ''
+        }));
+    };
+
+    const handleFileChange = (e) => {
+        setSelectedFile(e.target.files[0]);
+    };
+
+    const handleJSONChange = (key, value) => {
+        setFormData(prev => ({
+            ...prev,
+            hero: {
+                ...prev.hero,
+                [key]: value || ''
+            },
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!formData.company_id) {
+            console.error('Error: company_id es requerido y no puede ser null o vacío.');
+            return;
+        }
+
+        if (!formData.hero) {
+            console.error('Error: hero no puede ser null.');
+            return;
+        }
+
+        const formDataToSend = new FormData();
+        if (selectedFile) {
+            formDataToSend.append('logo', selectedFile);
+        } else {
+            formDataToSend.append('logo', formData.logo);
+        }
+        formDataToSend.append('hero', JSON.stringify(formData.hero));
+        formDataToSend.append('company_id', formData.company_id);
+
         try {
-            const editar = {
-                "hero": `{"background": ${background}, "title": ${titulo}, "paragraph": ${parrafo}, "buttonText": ${botonTexto}, "buttonLink": ${botonEnlace}}`,
-                "services": `{"background": ${background}, "title": ${titulo}, "paragraph": ${parrafo}, "buttonText": ${botonTexto}, "buttonLink": ${botonEnlace}}`,
-                "package": `{"background": ${background}, "title": ${titulo}, "paragraph": ${parrafo}, "buttonText": ${botonTexto}, "buttonLink": ${botonEnlace}}`
-            }
-            await axios.put(`http://localhost:8000/landings/${landing.id}`, formData);
+            const response = await axios.put(`http://localhost:8000/landings/${landing.id}`, formDataToSend, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            console.log('Respuesta del servidor:', response.data);
             mutate();
             onClose();
+
         } catch (error) {
             console.error('Error al editar el landing:', error);
         }
@@ -52,82 +108,71 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
                 <h2 className="text-xl mb-4">Editar Landing</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700">Slugs</label>
-                        <input
-                            type="text"
-                            name="slugs"
-                            value={formData.slugs}
-                            onChange={handleChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
-                            required
-                        />
-                    </div>
-                    <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700">Logo</label>
                         <input
-                            type="text"
+                            type="file"
                             name="logo"
-                            value={formData.logo}
-                            onChange={handleChange}
+                            onChange={handleFileChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
-                            required
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700">Hero</label>
-                        <input
-                            type="text"
-                            name="hero"
-                            value={formData.hero}
-                            onChange={handleChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
-                            required
-                        />
+                        <h3 className="text-lg font-semibold">Hero</h3>
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-gray-700">Background</label>
+                            <input
+                                type="text"
+                                value={formData.hero.background || ''}
+                                onChange={(e) => handleJSONChange('background', e.target.value)}
+                                className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-gray-700">Title</label>
+                            <input
+                                type="text"
+                                value={formData.hero.title || ''}
+                                onChange={(e) => handleJSONChange('title', e.target.value)}
+                                className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-gray-700">Paragraph</label>
+                            <input
+                                type="text"
+                                value={formData.hero.paragraph || ''}
+                                onChange={(e) => handleJSONChange('paragraph', e.target.value)}
+                                className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
+                            />
+                        </div>
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700">Services</label>
-                        <input
-                            type="text"
-                            name="services"
-                            value={formData.services}
-                            onChange={handleChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
-                            required
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700">Packages</label>
-                        <input
-                            type="text"
-                            name="packages"
-                            value={formData.packages}
-                            onChange={handleChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
-                            required
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700">Company ID</label>
-                        <input
-                            type="text"
+                        <label className="block text-sm font-medium text-gray-700">Company</label>
+                        <select
                             name="company_id"
-                            value={formData.company_id}
+                            value={formData.company_id || ''}
                             onChange={handleChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
-                            required
-                        />
+                        >
+                            <option value="">Select a company</option>
+                            {company.map(company => (
+                                <option key={company.id} value={company.id}>
+                                    {company.name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <div className="flex justify-end">
                         <button
                             type="button"
                             onClick={onClose}
-                            className="mr-2 py-2 px-4 bg-gray-500 text-white rounded-md"
+                            className="mr-2 px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
                         >
                             Cancelar
                         </button>
                         <button
                             type="submit"
-                            className="py-2 px-4 bg-blue-600 text-white rounded-md"
+                            className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
                         >
                             Guardar
                         </button>
