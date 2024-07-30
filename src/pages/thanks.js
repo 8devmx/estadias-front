@@ -1,117 +1,30 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-const Thanks = ({ name, id }) => {
+export default function ThankYou() {
   const router = useRouter();
+  const { id } = router.query;
 
-  const handleButtonClick = (path) => {
-    router.push(path);
+  const handleViewCV = () => {
+    router.push(`/curriculum?id=${id}`);
   };
 
   return (
     <>
       <Head>
-        <title>Agradecimiento</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
-        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" />
+        <title>Thank You</title>
       </Head>
-      <div className="container">
-        <div className="box">
-          <h1 className="heading">¡Muchas gracias por tu solicitud, {name}!</h1>
-          <p className="message">
-            Te agradecemos por tu interés. Puedes revisar mi Curriculum Vitae haciendo clic en el botón de abajo.
+      <div className="flex items-center justify-center min-h-screen bg-cover bg-center" style={{ backgroundImage: "url('https://tinyurl.com/5cc8ykvd')" }}>
+        <div className="text-center p-10 bg-white bg-opacity-90 rounded-lg shadow-lg">
+          <h1 className="text-4xl font-bold text-blue-700 mb-4" style={{ textShadow: "1px 1px yellow" }}>🎉¡Gracias por completar tu CV!🎉</h1>
+          <p className="text-lg text-gray-600 mb-6">
+            Tu información ha sido guardada exitosamente. Puedes revisar tu currículum haciendo clic en el botón de abajo.
           </p>
-          <button className="cta-button" onClick={() => handleButtonClick(`/resume?id=${id}`)}>
-            Ver Mi Curriculum Vitae
-            <span className="cta-text">Redirigir a mi Curriculum Vitae</span>
+          <button onClick={handleViewCV} className="inline-block px-6 py-2 text-white bg-blue-700 hover:bg-blue-800 border border-blue-700 rounded-lg transition duration-300 ease-in-out">
+            Ver mi CV
           </button>
-          <button className="button" onClick={() => handleButtonClick('/form')}>Volver a Inicio</button>
         </div>
       </div>
-      <style jsx>{`
-        .container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          min-height: 100vh;
-          background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-          font-family: 'Arial', sans-serif;
-          width: 100%;
-          height: 100vh;
-          margin: 0;
-        }
-
-        .box {
-          background-color: #fff;
-          padding: 40px;
-          border-radius: 8px;
-          box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-          text-align: center;
-          max-width: 600px;
-          width: 100%;
-        }
-
-        .heading {
-          font-size: 2.5rem;
-          color: #333;
-          margin-bottom: 20px;
-          font-family: 'Playfair Display', serif;
-        }
-
-        .message {
-          font-size: 1.2rem;
-          color: #666;
-          margin-bottom: 30px;
-          line-height: 1.6;
-        }
-
-        .cta-button,
-        .button {
-          display: block;
-          width: 100%;
-          padding: 15px 30px;
-          font-size: 1.2rem;
-          border: none;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: background-color 0.3s ease, transform 0.3s ease;
-          margin-bottom: 10px;
-        }
-
-        .cta-button {
-          background-color: #ff6b6b;
-          color: #fff;
-        }
-
-        .cta-button:hover {
-          background-color: #ff4c4c;
-          transform: scale(1.05);
-        }
-
-        .cta-text {
-          display: block;
-          font-size: 1rem;
-          color: #fff;
-          margin-top: 5px;
-        }
-
-        .button {
-          background-color: #333;
-          color: #fff;
-        }
-
-        .button:hover {
-          background-color: #555;
-        }
-      `}</style>
     </>
   );
-};
-
-Thanks.getInitialProps = async (ctx) => {
-  const { query } = ctx;
-  return { name: query.name || 'Invitado', id: query.id };
-};
-
-export default Thanks;
+}
