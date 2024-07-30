@@ -9,8 +9,8 @@ import { AiFillApi } from "react-icons/ai";
 
 const LayoutAdmin = ({ children }) => {
   return (
-    <div data-theme="light">
-      <div className="container mx-auto">
+    <div data-theme="light" className="flex flex-col min-h-screen">
+      <div className="container mx-auto flex-grow">
         <div className="drawer min-h-screen">
           <input id="my-drawer" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content">
@@ -49,9 +49,9 @@ const LayoutAdmin = ({ children }) => {
           </div>
         </div>
       </div>
-      <footer className="footer footer-center p-4 bg-gray-800 text-white fixed bottom-0">
+      <footer className="footer footer-center p-4 bg-gray-800 text-white">
         <aside>
-          <p>Copyright © 2024 - All right reserved by ACME Industries Ltd</p>
+          <p>Copyright © 2024 - All right reserved by TECH-PECH</p>
         </aside>
       </footer>
     </div>

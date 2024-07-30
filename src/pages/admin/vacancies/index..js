@@ -67,6 +67,8 @@ const Vacanciedata = () => {
             <th>Compañía</th>
             <th>Descripción</th>
             <th>Tipo</th>
+            <th>Requisitos</th>
+            <th>Salario</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -80,6 +82,8 @@ const Vacanciedata = () => {
               <td>{vacancie.company_id}</td>
               <td>{vacancie.description}</td>
               <td>{vacancie.type}</td>
+              <td>{vacancie.requirements}</td>
+              <td>{vacancie.salary}</td>
               <td>
                 <ButtonTable id={vacancie.id} mutate={mutate} onEdit={() => handleEditClick(vacancie)} />
               </td>

@@ -9,6 +9,8 @@ const PopupInsert = ({ onClose, mutate }) => {
         company_id: '',
         description: '',
         type: '',
+        requirements: '',
+        salary: '',
     });
 
     const handleChange = (e) => {
@@ -32,9 +34,9 @@ const PopupInsert = ({ onClose, mutate }) => {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded shadow-lg w-1/3">
+            <div className="bg-white p-6 rounded shadow-lg w-2/3">
                 <h2 className="text-xl mb-4">Agregar Vacante</h2>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700">Estado</label>
                         <input
@@ -79,7 +81,7 @@ const PopupInsert = ({ onClose, mutate }) => {
                             required
                         />
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 col-span-2">
                         <label className="block text-sm font-medium text-gray-700">Descripción</label>
                         <textarea
                             name="description"
@@ -100,7 +102,29 @@ const PopupInsert = ({ onClose, mutate }) => {
                             required
                         />
                     </div>
-                    <div className="flex justify-end">
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700">Salario</label>
+                        <input
+                            type="text"
+                            name="salary"
+                            value={formData.salary}
+                            onChange={handleChange}
+                            className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
+                            required
+                        />
+                    </div>
+                    <div className="mb-4 col-span-2">
+                        <label className="block text-sm font-medium text-gray-700">Requisitos</label>
+                        <input
+                            type="text"
+                            name="requirements"
+                            value={formData.requirements}
+                            onChange={handleChange}
+                            className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
+                            required
+                        />
+                    </div>
+                    <div className="col-span-2 flex justify-center space-x-4 mt-2">
                         <button
                             type="button"
                             onClick={onClose}

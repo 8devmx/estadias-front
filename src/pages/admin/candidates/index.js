@@ -69,6 +69,12 @@ const CandidateData = () => {
             <th>Telefóno</th>
             <th>Correo</th>
             <th>Dirección</th>
+            <th>Sobre mi</th>
+            <th>Experiencia</th>
+            <th>Educación</th>
+            <th>Intereses</th>
+            <th>Premios</th>
+            <th>foto</th>
           </tr>
         </thead>
         <tbody>
@@ -79,6 +85,13 @@ const CandidateData = () => {
               <td>{candidates.phone}</td>
               <td>{candidates.email}</td>
               <td>{candidates.address}</td>
+              <th>{candidates.sobre_mi}</th>
+              <th>{candidates.experiencia}</th>
+              <th>{candidates.educacion}</th>
+              <th>{candidates.habilidades}</th>
+              <th>{candidates.intereses}</th>
+              <th>{candidates.premios}</th>
+              <th>{candidates.foto_perfil}</th>
               <td>
                 <ButtonTable id={candidates.id} mutate={mutate} onEdit={() => handleEditClick(candidates)} />
               </td>
