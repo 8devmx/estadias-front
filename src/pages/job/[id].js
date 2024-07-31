@@ -51,11 +51,9 @@ const JobOffer = () => {
         },
         body: JSON.stringify(form)
       });
-
       if (response.ok) {
-        const responseData = await response.json();
-        const createdId = responseData.id; // Acceder al ID correctamente
-        router.push(`/job/gracias?id=${createdId}`);
+        console.log('Formulario enviado:', form);
+        router.push('gracias');
       } else {
         console.error('Error al enviar el formulario');
       }
@@ -70,14 +68,38 @@ const JobOffer = () => {
   return (
     <div className="bg-white p-8 rounded-lg shadow-xl max-w-6xl mx-auto mt-10 flex">
       <div className="flex-1 pr-8">
-        {vacancies.map(vacancy => (
-          <div key={vacancy.id}>
-            <h2 className="text-2xl font-bold mb-4">{vacancy.title}</h2>
-            <p className="text-gray-700">{vacancy.description}</p>
+        {vacancies.map((vacancy) => (
+          <div key={vacancy.id} className="mb-10">
+            <div className="flex justify-between items-center border-b pb-4 mb-4">
+              <div>
+                <h1 className="text-3xl font-bold text-gray-800">{vacancy.title}</h1>
+                <p className="text-gray-500">{vacancy.state}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-gray-800 font-bold text-xl">{vacancy.salary} (Mensual)</p>
+                <p className="text-gray-500">{vacancy.type}</p>
+              </div>
+            </div>
+            <div className="mb-6">
+              <p className="text-gray-800 font-bold text-xl">Descripción del Puesto:</p>
+              <ul className="text-gray-500">
+                {vacancy.description.split(';').map((item, index) => (
+                  <li key={index}>{item.trim()}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="mb-10">
+              <p className="text-gray-800 font-bold text-xl">Requerimientos:</p>
+              <ul className="text-gray-500">
+                {vacancy.requirements.split(';').map((item, index) => (
+                  <li key={index}>{item.trim()}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         ))}
       </div>
-      <div className="flex-1">
+      <div className="bg-gray-100 p-6 rounded-lg shadow-md w-1/3">
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="block text-gray-700 font-semibold">Nombre:</label>
@@ -100,7 +122,7 @@ const JobOffer = () => {
             />
           </div>
           <div className="mb-3">
-            <label className="block text-gray-700 font-semibold">Email:</label>
+            <label className="block text-gray-700 font-semibold">Correo Electrónico:</label>
             <input
               type="email"
               name="email"
