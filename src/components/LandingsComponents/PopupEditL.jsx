@@ -87,7 +87,7 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
         formDataToSend.append('company_id', formData.company_id);
 
         try {
-            const response = await axios.put(`http://localhost:8000/landings/${landing.id}`, formDataToSend, {
+            const response = await axios.post(`http://localhost:8000/landings/${landing.id}`, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
