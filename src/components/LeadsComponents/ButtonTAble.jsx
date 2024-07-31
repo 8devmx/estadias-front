@@ -25,7 +25,10 @@ const ButtonTable = ({ leadId, onDelete }) => {
   };
 
   const handleDelete = () => {
-    onDelete(leadId);
+    const confirmDelete = window.confirm("¿Confirma si quiere borrar este prospecto?");
+    if (confirmDelete) {
+      onDelete(leadId);
+    }
   };
 
   return (
