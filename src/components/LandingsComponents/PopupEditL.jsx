@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+};
+
 const PopupEditL = ({ onClose, mutate, landing }) => {
     const [formData, setFormData] = useState({
         logo: '',
@@ -15,7 +20,7 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [selectedBackgroundFile, setSelectedBackgroundFile] = useState(null);
-    const [company, setCompany] = useState([]);
+    const [companies, setCompanies] = useState([]); 
 
     useEffect(() => {
         if (landing) {
@@ -38,8 +43,10 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
 
     const fetchCompany = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/company');
-            setCompany(response.data.company);
+            const response = await axios.get('http://localhost:8000/company', {
+                headers: getAuthHeaders(),
+            });
+            setCompanies(response.data.company || []); 
         } catch (error) {
             console.error('Error al obtener las empresas:', error);
         }
@@ -112,10 +119,10 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
         formDataToSend.append('company_id', formData.company_id);
 
         try {
-
             const response = await axios.post(`http://localhost:8000/landings/${landing.id}`, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    ...getAuthHeaders(), 
                 },
             });
 
@@ -196,7 +203,7 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
                         >
                             <option value="">Select a company</option>
-                            {company.map(company => (
+                            {companies.map(company => ( 
                                 <option key={company.id} value={company.id}>
                                     {company.name}
                                 </option>
@@ -225,3 +232,4 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
 };
 
 export default PopupEditL;
+

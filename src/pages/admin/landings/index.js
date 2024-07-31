@@ -5,11 +5,32 @@ import useSWR from 'swr';
 import ButtonTable from '@/components/LandingsComponents/ButtonTable';
 import PopupEditL from '@/components/LandingsComponents/PopupEditL';
 import PopupInsertL from '@/components/LandingsComponents/PopupInsertL';
+import RequireAuth from '@/components/UtilsComponents/RequireAuth';
 
-const fetcher = async () => {
-  const data = await Landings();
-  return data.data.landings;
-}
+
+// manejo del encabezado trae el encabezado y el token
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('token');
+  return token ? { Authorization: `Bearer ${token}` } : {};
+};
+
+// modificacion de la funcion fetcher para que pueda manejar los encabezados 
+const fetcher = async (url) => {
+  const response = await fetch(url, {
+    headers: getAuthHeaders(),
+  });
+  if (!response.ok) {
+    const errorDetails = await response.text();
+    throw new Error(errorDetails || 'Error fetching data');
+  }
+  const data = await response.json();
+  console.log('Fetched data:', data); 
+  return data.landings; //para devolver el array directamente
+};
+// const fetcher = async () => {
+//   const data = await Landings();
+//   return data.data.landings;
+// }
 
 const LandingsData = () => {
   const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/landings', fetcher);
@@ -42,6 +63,7 @@ const LandingsData = () => {
 
   return (
     <LayoutAdmin>
+      <RequireAuth />
       <h1 className="text-xl font-bold mb-6">Landings</h1>
       <div className="flex justify-between p-4">
         <div className="w-1/2">

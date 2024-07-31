@@ -6,6 +6,7 @@ import ButtonTable from '@/components/CompanyComponents/ButtonTable';
 import PopupEditC from '@/components/CompanyComponents/PopupEditC';
 import styles from '@/styles/Componenadm.module.css';
 import PopupInsertC from '@/components/CompanyComponents/PopupInsertC';
+import RequireAuth from '@/components/UtilsComponents/RequireAuth';
 
 
 // manejo del encabezado trae el encabezado y el token
@@ -61,6 +62,7 @@ const CompanyData = () => {
 
   return (
     <LayoutAdmin>
+      <RequireAuth />
       <h1 className="text-xl font-bold mb-6">Companies</h1>
       <div className="flex justify-between p-4">
         <div className="w-1/2">
