@@ -4,7 +4,7 @@ import axios from 'axios';
 const PopupEditL = ({ onClose, mutate, landing }) => {
     const [formData, setFormData] = useState({
         logo: '',
-        logoName: '', // Nuevo campo para el nombre del logo
+        logoName: '',
         hero: {
             background: '',
             title: '',
@@ -14,6 +14,7 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
     });
 
     const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedBackgroundFile, setSelectedBackgroundFile] = useState(null);
     const [company, setCompany] = useState([]);
 
     useEffect(() => {
@@ -26,7 +27,7 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
 
             setFormData({
                 logo: landing.logo || '',
-                logoName: landing.logo || '', // Inicializamos el nombre del logo
+                logoName: landing.logo || '',
                 hero: parsedHero,
                 company_id: landing.company_id || '',
             });
@@ -54,7 +55,6 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
 
     const handleFileChange = (e) => {
         setSelectedFile(e.target.files[0]);
-        // Actualizamos el nombre del logo cuando se selecciona un nuevo archivo
         if (e.target.files[0]) {
             setFormData(prev => ({
                 ...prev,
@@ -63,7 +63,20 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
         }
     };
 
-    const handleJSONChange = (key, value) => {
+    const handleBackgroundFileChange = (e) => {
+        setSelectedBackgroundFile(e.target.files[0]);
+        if (e.target.files[0]) {
+            setFormData(prev => ({
+                ...prev,
+                hero: {
+                    ...prev.hero,
+                    background: e.target.files[0].name
+                }
+            }));
+        }
+    };
+
+    const handleHeroChange = (key, value) => {
         setFormData(prev => ({
             ...prev,
             hero: {
@@ -90,7 +103,10 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
         if (selectedFile) {
             formDataToSend.append('logo', selectedFile);
         } else {
-            formDataToSend.append('logo', formData.logoName); // Enviamos el nombre del logo
+            formDataToSend.append('logo', formData.logoName);
+        }
+        if (selectedBackgroundFile) {
+            formDataToSend.append('background', selectedBackgroundFile);
         }
         formDataToSend.append('hero', JSON.stringify(formData.hero));
         formDataToSend.append('company_id', formData.company_id);
@@ -140,9 +156,14 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
                         <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-700">Background</label>
                             <input
+                                type="file"
+                                onChange={handleBackgroundFileChange}
+                                className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
+                            />
+                            <input
                                 type="text"
                                 value={formData.hero.background || ''}
-                                onChange={(e) => handleJSONChange('background', e.target.value)}
+                                onChange={(e) => handleHeroChange('background', e.target.value)}
                                 className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
                             />
                         </div>
@@ -151,7 +172,7 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
                             <input
                                 type="text"
                                 value={formData.hero.title || ''}
-                                onChange={(e) => handleJSONChange('title', e.target.value)}
+                                onChange={(e) => handleHeroChange('title', e.target.value)}
                                 className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
                             />
                         </div>
@@ -160,7 +181,7 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
                             <input
                                 type="text"
                                 value={formData.hero.paragraph || ''}
-                                onChange={(e) => handleJSONChange('paragraph', e.target.value)}
+                                onChange={(e) => handleHeroChange('paragraph', e.target.value)}
                                 className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
                             />
                         </div>
