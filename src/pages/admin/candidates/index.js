@@ -6,6 +6,7 @@ import ButtonTable from '@/components/CandidatesComponents/ButtonTable';
 import styles from '@/styles/Componenadm.module.css';
 import PopupInsertC from '@/components/CandidatesComponents/PopupInsertC';
 import PopupEdit from '@/components/CandidatesComponents/PopupUpdateC';
+import RequireAuth from '@/components/UtilsComponents/RequireAuth';
 
 
 // manejo del encabezado trae el encabezado y el token
@@ -63,6 +64,7 @@ const CandidateData = () => {
 
   return (
     <LayoutAdmin>
+      <RequireAuth />
       <h1 className="text-xl font-bold mb-6">Candidatos</h1>
       <div className="flex justify-between p-4">
         {/* Primer input */}
