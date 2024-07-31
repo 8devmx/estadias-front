@@ -11,6 +11,11 @@ const PopupEdit = ({ onClose, mutate, vacancie }) => {
         type: vacancie.type,
     });
 
+    const getAuthHeaders = () => { //obtener el token y el header
+        const token = localStorage.getItem('token');
+        return token ? { Authorization: `Bearer ${token}` } : {};
+      };
+
     useEffect(() => {
         setFormData({
             state: vacancie.state,
@@ -33,7 +38,7 @@ const PopupEdit = ({ onClose, mutate, vacancie }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:8000/vacancies/${vacancie.id}`, formData);
+            await axios.put(`http://localhost:8000/vacancies/${vacancie.id}`, formData,  { headers: getAuthHeaders(),});
             mutate();
             onClose();
         } catch (error) {
