@@ -33,6 +33,7 @@
   background: #000;
 }
 
+
 .navbar.scroll {
   opacity: 1;
   background-color: rgba(0, 0, 0, 0.9);
@@ -57,3 +58,4 @@
     padding-top: 60px;
   }
 }
+
