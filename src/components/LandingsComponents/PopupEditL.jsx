@@ -4,6 +4,7 @@ import axios from 'axios';
 const PopupEditL = ({ onClose, mutate, landing }) => {
     const [formData, setFormData] = useState({
         logo: '',
+        logoName: '', // Nuevo campo para el nombre del logo
         hero: {
             background: '',
             title: '',
@@ -25,6 +26,7 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
 
             setFormData({
                 logo: landing.logo || '',
+                logoName: landing.logo || '', // Inicializamos el nombre del logo
                 hero: parsedHero,
                 company_id: landing.company_id || '',
             });
@@ -52,6 +54,13 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
 
     const handleFileChange = (e) => {
         setSelectedFile(e.target.files[0]);
+        // Actualizamos el nombre del logo cuando se selecciona un nuevo archivo
+        if (e.target.files[0]) {
+            setFormData(prev => ({
+                ...prev,
+                logoName: e.target.files[0].name
+            }));
+        }
     };
 
     const handleJSONChange = (key, value) => {
@@ -81,7 +90,7 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
         if (selectedFile) {
             formDataToSend.append('logo', selectedFile);
         } else {
-            formDataToSend.append('logo', formData.logo);
+            formDataToSend.append('logo', formData.logoName); // Enviamos el nombre del logo
         }
         formDataToSend.append('hero', JSON.stringify(formData.hero));
         formDataToSend.append('company_id', formData.company_id);
@@ -113,6 +122,16 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
                             type="file"
                             name="logo"
                             onChange={handleFileChange}
+                            className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700">Nombre del Logo</label>
+                        <input
+                            type="text"
+                            name="logoName"
+                            value={formData.logoName}
+                            onChange={handleChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
                         />
                     </div>
