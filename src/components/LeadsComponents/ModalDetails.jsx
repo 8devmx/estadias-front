@@ -52,7 +52,7 @@ const ModalDetails = ({ leadId, onClose }) => {
 
   return (
     <dialog id="my_modal_3" className="modal modal-open" open={!!leadId}>
-      <div className="modal-box">
+      <div className="modal-box w-full max-w-Modal50 h-3/6">
         <form method="dialog">
           <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={onClose}>✕</button>
         </form>
@@ -62,18 +62,25 @@ const ModalDetails = ({ leadId, onClose }) => {
         {lead ? (
           <div>
             <div className='flex'>
-              <p className="py-4 font-bold w-1/2 flex">Nombre:
+              <p className="py-4 font-bold w-1/3 flex">Nombre:
                 <span className='font-normal ml-1'> {lead.name}</span>
               </p>
-              <p className="py-4 font-bold w-1/2 flex">Teléfono:
+              <p className="py-4 font-bold w-1/3 flex">Teléfono:
                 <span className='font-normal ml-1'>{lead.phone}</span>
               </p>
-            </div>
-            <div className='flex'>
-              <p className="py-4 font-bold w-1/2 flex">Correo:
+              <p className="py-4 font-bold w-1/3 flex">Correo:
                 <span className='font-normal ml-1'>{lead.mail}</span> 
               </p>
-              <p className="py-4 font-bold w-1/2 flex">Estado:
+            </div>
+
+            <div className='flex'>
+              <p className='py-4 font-bold w-1/3 flex'>Compañia:
+                <span className='font-normal ml-1'>{lead.company_name}</span>
+              </p>
+              <p className="py-4 font-bold w-1/3 flex">Situación:
+                <span className='font-normal ml-1'>{lead.status_name}</span>
+              </p>
+              <p className="py-4 font-bold w-1/3 flex">Estado:
                 <span className='font-normal ml-1'>{lead.state}</span>
               </p>
             </div>
@@ -86,14 +93,13 @@ const ModalDetails = ({ leadId, onClose }) => {
               </p>
             </div>
             <div className='flex'>
+            </div>
+            <div>
               <p className="py-4 font-bold  flex">Interés:
                 <span className='font-normal ml-1'>{lead.interest}</span>
               </p>
-              {/* <p className="py-4 font-bold w-1/2 flex">Situación:
-                <span className='font-normal ml-1'>{lead.status}</span>
-              </p> */}
             </div>
-            <div>
+            <div className='flex'>
               <p className="py-4 font-bold flex">Comentarios:
                 <span className='font-normal ml-1'>{lead.message}</span>
               </p>
