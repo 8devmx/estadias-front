@@ -11,7 +11,8 @@ const Index = () => {
     try {
       const user = await login(mail, password);
       console.log('Logged in user:', user);
-      // Redireccionar al usuario o manejar la lógica de inicio de sesión aquí
+      localStorage.setItem('email', mail); // Guarda el correo en localStorage
+      
       window.location.href = '/admin/leads'; // Ejemplo de redirección
     } catch (err) {
       setError('Invalid mail or password');
@@ -65,3 +66,4 @@ const Index = () => {
 };
 
 export default Index;
+
