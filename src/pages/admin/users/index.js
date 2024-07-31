@@ -4,7 +4,7 @@ import LayoutAdmin from '@/components/LayoutAdmin';
 const Users = () => {
   return (
     <LayoutAdmin>
-      <h1 class="text-xl font-bold mb-6">Usuarios</h1>
+      <h1 className="text-xl font-bold mb-6">Usuarios</h1>
       <table className="table">
         {/* head */}
         <thead>
