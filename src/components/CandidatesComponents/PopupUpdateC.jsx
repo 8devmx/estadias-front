@@ -1,26 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const PopupEditC = ({ onClose, mutate, candidates }) => {
+
+const PopupEditC = ({ onClose, mutate, candidate }) => {
     const [formData, setFormData] = useState({
-        name: candidates.name,
-        phone: candidates.phone,
-        email: candidates.email,
-        address: candidates.address,
-        description: candidates.description,
-        type: candidates.type,
+        name: candidate.name,
+        phone: candidate.phone,
+        email: candidate.email,
+        address: candidate.address,
+        description: candidate.description,
+        type: candidate.type,
     });
 
+
+    const getAuthHeaders = () => { //obtener el token y el header
+        const token = localStorage.getItem('token');
+        return token ? { Authorization: `Bearer ${token}` } : {};
+      };
+
+      
     useEffect(() => {
         setFormData({
-            name: candidates.name,
-            phone: candidates.phone,
-            email: candidates.email,
-            address: candidates.address,
-            description: candidates.description,
-            type: candidates.type,
+            name: candidate.name,
+            phone: candidate.phone,
+            email: candidate.email,
+            address: candidate.address,
+            description: candidate.description,
+            type: candidate.type,
         });
-    }, [candidates]);
+    }, [candidate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -33,7 +41,7 @@ const PopupEditC = ({ onClose, mutate, candidates }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:8000/candidates/${candidates.id}`, formData);
+            await axios.put(`http://localhost:8000/candidates/${candidate.id}`, formData, { headers: getAuthHeaders(),});
             mutate();
             onClose();
         } catch (error) {
