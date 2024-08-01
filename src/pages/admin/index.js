@@ -11,7 +11,8 @@ const Index = () => {
     try {
       const user = await login(mail, password);
       console.log('Logged in user:', user);
-      // Redireccionar al usuario o manejar la lógica de inicio de sesión aquí
+      localStorage.setItem('email', mail); // Guarda el correo en localStorage
+      
       window.location.href = '/admin/leads'; // Ejemplo de redirección
     } catch (err) {
       setError('Invalid mail or password');
@@ -23,7 +24,7 @@ const Index = () => {
       <div className="hero-content flex-col lg:flex-row-reverse">
         <div className="text-center lg:text-left">
           <h1 className="text-5xl font-bold text-white">Administración</h1>
-            <a href='../sevices/InicioSesion' className='text-red-50'>Crear Cuenta</a> 
+            {/* <a href='/admin/InicioSecion' className='no-underline text-blue-600 hover:underline '>Crear Cuenta</a>  */}
         </div>
         <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
           <form className="card-body" onSubmit={handleSubmit}>
@@ -52,9 +53,6 @@ const Index = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              {/* <label className="label">
-                <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
-              </label> */}
             </div>
             {error && <p className="text-red-500">{error}</p>}
             <div className="form-control mt-6">
@@ -68,3 +66,4 @@ const Index = () => {
 };
 
 export default Index;
+

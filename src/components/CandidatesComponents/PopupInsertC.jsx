@@ -17,10 +17,15 @@ const PopupInsertC = ({ onClose, mutate }) => {
         });
     };
 
+    const getAuthHeaders = () => { //obtener el token y el header
+        const token = localStorage.getItem('token');
+        return token ? { Authorization: `Bearer ${token}` } : {};
+      };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:8000/candidates', formData);
+            await axios.post('http://localhost:8000/candidates', formData, { headers: getAuthHeaders(),});
             mutate();
             onClose();
         } catch (error) {

@@ -33,9 +33,19 @@ const RegistrosHistorial = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const getStatusClass = (status_name) => {
+    if (status_name === 'no contactado') {
+      return 'text-red-500';
+    } else if (status_name === 'Le intereso') {
+      return 'text-green-500';
+    } else {
+      return 'text-blue-500';
+    }
+  };
+
   return (
     <dialog id="my_modal_3" className="modal modal-midel">
-      <div className="modal-box w-full max-w-custom h-3/6">
+      <div className="modal-box w-full max-w-Modal70 h-3/6">
         <form method="dialog">
           <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
         </form>
@@ -58,6 +68,7 @@ const RegistrosHistorial = () => {
                 <th className='text-customBlak'>Mensaje</th>
                 <th className='text-customBlak'>Compañía</th>
                 <th className='text-customBlak'>Contactador</th>
+                <th className='text-customBlak'>Mensaje contactador</th>
                 <th className='text-customBlak'>Fecha de creación</th>
               </tr>
             </thead>
@@ -70,19 +81,35 @@ const RegistrosHistorial = () => {
                     <td>{item.phone}</td>
                     <td>{item.mail}</td>
                     <td>{item.state}</td>
-                    <td>{item.status_name}</td>
+                    <td className={getStatusClass(item.status_name)}>{item.status_name}</td>
                     <td>{item.city}</td>
                     <td>{item.source}</td>
                     <td>{item.interest}</td>
                     <td>{item.message}</td>
                     <td>{item.company_name}</td>
                     <td>{item.name_client || '---'}</td>
+                    <td>{item.message_client || '---'}</td>
                     <td>{item.created_at}</td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="13">No hay historiales disponibles</td>
+                  <td colSpan="13">
+                    <div role="alert" className="alert alert-warning">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6 shrink-0 stroke-current"
+                        fill="none"
+                        viewBox="0 0 24 24">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
+                      <span>Warning: No hay historial disponible!</span>
+                    </div>
+                  </td>
                 </tr>
               )}
             </tbody>

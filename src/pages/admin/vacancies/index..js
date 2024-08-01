@@ -6,11 +6,34 @@ import ButtonTable from '@/components/VacanciesComponents/ButtonTable';
 import styles from '@/styles/Componenadm.module.css';
 import PopupInsert from '@/components/VacanciesComponents/PopupInsert';
 import PopupEdit from '@/components/VacanciesComponents/PopupUpdate';
+import RequireAuth from '@/components/UtilsComponents/RequireAuth';
 
-const fetcher = async () => {
-  const { data } = await Vacancies();
-  return data.vacancies;
-}
+
+// manejo del encabezado trae el encabezado y el token
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('token');
+  return token ? { Authorization: `Bearer ${token}` } : {};
+};
+
+// modificacion de la funcion fetcher para que pueda manejar los encabezados 
+const fetcher = async (url) => {
+  const response = await fetch(url, {
+    headers: getAuthHeaders(),
+  });
+  if (!response.ok) {
+    const errorDetails = await response.text();
+    throw new Error(errorDetails || 'Error fetching data');
+  }
+  const data = await response.json();
+  console.log('Fetched data:', data); 
+  return data.vacancies; //para devolver el array directamente
+};
+
+
+// const fetcher = async () => {
+//   const { data } = await Vacancies();
+//   return data.vacancies;
+// }
 
 const Vacanciedata = () => {
   const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/vacancies', fetcher);
@@ -37,6 +60,7 @@ const Vacanciedata = () => {
 
   return (
     <LayoutAdmin>
+      <RequireAuth />
       <h1 className="text-xl font-bold mb-6">Vacantes</h1>
       <div className="flex justify-between p-4">
         <div className="w-1/2">

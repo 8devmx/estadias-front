@@ -3,10 +3,23 @@ import { FaTrashAlt } from "react-icons/fa";
 import { FaPen } from "react-icons/fa";
 import { DeleteLanding } from "@/services/landings";
 
+const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
+
 const handleDeleteLanding = async (id, mutate) => {
     if (window.confirm("¿Confirma si quieres borrar este landing?")) {
-        try {
-            await DeleteLanding(id);
+        try { //tengo que poner la api si no no puedo enviar los encabezados 
+            const response = await fetch(`http://localhost:8000/landings/${id}`, {
+                method: 'DELETE',
+                headers: getAuthHeaders(),
+              });
+        
+              if (!response.ok) {
+                const errorDetails = await response.text();
+                throw new Error(errorDetails || 'Error deleting candidate');
+              }
             mutate(); // para actualizar
         } catch (error) {
             console.error('Error al eliminar el landing', error);

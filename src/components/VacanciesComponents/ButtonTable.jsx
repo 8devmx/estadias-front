@@ -3,10 +3,23 @@ import { FaTrashAlt } from "react-icons/fa";
 import { FaPen } from "react-icons/fa";
 import { DeleteVacancies } from "@/services/vacancies";
 
+const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
+
 const DeleteVacancie = async (id, mutate) => {
     if (window.confirm("¿Confirma si quieres borrar esta vacante?")) {
-        try {
-            await DeleteVacancies(id);
+        try { //tengo que poner la api si no no puedo enviar los encabezados 
+            const response = await fetch(`http://localhost:8000/vacancies/${id}`, {
+                method: 'DELETE',
+                headers: getAuthHeaders(),
+              });
+        
+              if (!response.ok) {
+                const errorDetails = await response.text();
+                throw new Error(errorDetails || 'Error deleting candidate');
+              }
             mutate(); // para actualizar
         } catch (error) {
             console.error('Error al eliminar la vacante', error);

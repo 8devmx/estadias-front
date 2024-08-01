@@ -6,7 +6,7 @@ import Form from '@/components/form';
 
 export async function getServerSideProps(context) {
   const { slug } = context.params;
-  const url = `http://localhost:8000/landing/slug/${slug}`;
+  const url = `http://localhost:8000/landingslg/slug/${slug}`;
 
   try {
     const res = await fetch(url);
@@ -45,4 +45,3 @@ export default function Home({ landing }) {
     </>
   );
 }
-
