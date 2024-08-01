@@ -6,99 +6,34 @@ import ButtonTable from '@/components/CompanyComponents/ButtonTable';
 import PopupEditC from '@/components/CompanyComponents/PopupEditC';
 import styles from '@/styles/Componenadm.module.css';
 import PopupInsertC from '@/components/CompanyComponents/PopupInsertC';
+import RequireAuth from '@/components/UtilsComponents/RequireAuth';
 
 
-const Companies = () => {
+// manejo del encabezado trae el encabezado y el token
+const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
+  
+  // modificacion de la funcion fetcher para que pueda manejar los encabezados 
+  const fetcher = async (url) => {
+    const response = await fetch(url, {
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) {
+      const errorDetails = await response.text();
+      throw new Error(errorDetails || 'Error fetching data');
+    }
+    const data = await response.json();
+    console.log('Fetched data:', data); 
+    return data.companies; //para devolver el array directamente
+  };
+  
 
-  return (
-    <LayoutAdmin>
-      <h1 className="text-xl font-bold mb-6">Empresas</h1>
-      <table className="table">
-        {/* head */}
-        <thead>
-          <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Job</th>
-            <th>Favorite Color</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* row 1 */}
-          <tr>
-            <th>1</th>
-            <td>Cy Ganderton</td>
-            <td>Quality Control Specialist</td>
-            <td>Blue</td>
-          </tr>
-          {/* row 2 */}
-          <tr className="hover">
-            <th>2</th>
-            <td>Hart Hagerty</td>
-            <td>Desktop Support Technician</td>
-            <td>Purple</td>
-          </tr>
-        </tbody>
-      </table>
-    </LayoutAdmin>
-  );
-}
-    const [companies, setCompanies] = useState([]);
-
-
-    const fetchData = async () => {
-        try {
-            const response = await axios.get('http://localhost:8000/company');
-            if (response.data && response.data.company && Array.isArray(response.data.company)) {
-                setCompanies(response.data.company);
-            } else {
-                console.error('Data received is not in the expected format:', response.data);
-            }
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    return (
-        <div>
-            <LayoutAdmin>
-                <h1 className="text-xl font-bold mb-6">Companies</h1>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Address</th>
-                            <th>Logo</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {companies.map(company => (
-                            <tr key={company.id}>
-                                <td>{company.id}</td>
-                                <td>{company.name}</td>
-                                <td>{company.mail}</td>
-                                <td>{company.phone}</td>
-                                <td>{company.contact}</td>
-                                <td>
-                                    <img src={company.logo} alt={`Logo de ${company.name}`} style={{ width: '50px', height: 'auto' }} />
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </LayoutAdmin>
-
-const fetcher = async () => {
-  const data = await Company();
-  return data.data.company;
-}
+// const fetcher = async () => {
+//   const data = await Company();
+//   return data.data.company;
+// }
 
 const CompanyData = () => {
   const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/company', fetcher)
@@ -108,6 +43,8 @@ const CompanyData = () => {
 
   if (error) return <div>Error al cargar</div>;
   if (isLoading) return <div>Cargando</div>;
+
+  const companies  = data || [];
 
   const handleAddClick = () => {
     setShowForm(true);
@@ -125,6 +62,7 @@ const CompanyData = () => {
 
   return (
     <LayoutAdmin>
+      <RequireAuth />
       <h1 className="text-xl font-bold mb-6">Companies</h1>
       <div className="flex justify-between p-4">
         <div className="w-1/2">
@@ -160,7 +98,7 @@ const CompanyData = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((company, index) => (
+          {companies .map((company, index) => (
             <tr key={index} className="hover">
               <th>{company.id}</th>
               <td>{company.name}</td>

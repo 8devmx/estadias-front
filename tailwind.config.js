@@ -8,10 +8,11 @@ module.exports = {
   theme: {
     extend: {
       maxWidth: {
-        'custom': '70%' // Define una clase de anchura personalizada
+        'Modal70': '70%', // Define una clase de anchura personalizada
+        'Modal50': '50%',
       },
       colors: {
-        customBlak: "#000000",
+        customBlak: "#000000", // Define una clase de color personalizado
       },  
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

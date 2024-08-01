@@ -3,10 +3,24 @@ import { FaTrashAlt } from "react-icons/fa";
 import { FaPen } from "react-icons/fa";
 import { DeleteCandidates } from "@/services/candidates";
 
+
+const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
+
 const DeleteCandidate = async (id, mutate) => {
     if (window.confirm("¿Confirma si quieres borrar este candidato?")) {
-        try {
-            await DeleteCandidates(id);
+        try { //tengo que poner la api si no no puedo enviar los encabezados 
+            const response = await fetch(`http://localhost:8000/candidates/${id}`, {
+                method: 'DELETE',
+                headers: getAuthHeaders(),
+              });
+        
+              if (!response.ok) {
+                const errorDetails = await response.text();
+                throw new Error(errorDetails || 'Error deleting candidate');
+              }
             mutate(); // para actualizar
         } catch (error) {
             console.error('Error al eliminar al candidato', error);

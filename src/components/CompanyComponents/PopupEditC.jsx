@@ -10,6 +10,12 @@ const PopupEditC = ({ onClose, mutate, company }) => {
         logo: company.logo,
     });
 
+    const getAuthHeaders = () => { //obtener el token y el header
+        const token = localStorage.getItem('token');
+        return token ? { Authorization: `Bearer ${token}` } : {};
+      };
+
+
     useEffect(() => {
         setFormData({
             name: company.name,
@@ -31,7 +37,7 @@ const PopupEditC = ({ onClose, mutate, company }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:8000/company/${company.id}`, formData);
+            await axios.put(`http://localhost:8000/company/${company.id}`, formData,  { headers: getAuthHeaders(),});
             mutate();
             onClose();
         } catch (error) {

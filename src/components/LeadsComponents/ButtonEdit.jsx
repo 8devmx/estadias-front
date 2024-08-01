@@ -12,10 +12,10 @@ const ButtonEdit = ({ leadId, onClose }) => {
     interest: '',
     company_id: '',
     status_id: '',
-    message: '',
-    name_client: '' // Asegúrate de tener este campo en el estado inicial
+    name_client: '' 
   });
 
+  const [messageClient, setMessageClient] = useState('');
   const [statuses, setStatuses] = useState([]);
 
   useEffect(() => {
@@ -55,6 +55,10 @@ const ButtonEdit = ({ leadId, onClose }) => {
     }));
   };
 
+  const handleMessageChange = (e) => {
+    setMessageClient(e.target.value);
+  };
+
   const handleUpdateLead = () => {
     fetch(`http://localhost:8000/leads/${leadId}`, {
       method: 'PUT',
@@ -78,6 +82,7 @@ const ButtonEdit = ({ leadId, onClose }) => {
     const historialData = {
       ...formData,
       leadId,
+      message_client: messageClient,
       name_client: formData.name_client // Asegúrate de que este campo se incluya en los datos enviados
     };
 
@@ -120,11 +125,11 @@ const ButtonEdit = ({ leadId, onClose }) => {
           <br />
           <div>
             <div className='flex gap-1'>
-              <label className="w-1/2 text-customBlak input input-bordered flex items-center gap-2">
-                <input type="text" name="name" className="grow" value={formData.name} onChange={handleChange} placeholder="Jose" />
+              <label className="w-1/2 text-gray-400 input input-bordered flex items-center gap-2">
+                <input type="text" name="name" className="grow" value={formData.name} onChange={handleChange} placeholder="Jose" readOnly />
               </label>
-              <label className="w-1/2 text-customBlak input input-bordered flex items-center gap-2">
-                <input type="text" name="phone" className="grow" value={formData.phone} onChange={handleChange} placeholder="99800000" />
+              <label className="w-1/2 text-gray-400 input input-bordered flex items-center gap-2">
+                <input type="text" name="state" className="grow" value={formData.state} onChange={handleChange} placeholder="Quintana Roo" readOnly />
               </label>
             </div>
             <br />
@@ -134,18 +139,18 @@ const ButtonEdit = ({ leadId, onClose }) => {
                   <input type="text" name="mail" className="grow" value={formData.mail} onChange={handleChange} placeholder="mail@gmal.com" />
                 </label>
                 <label className="w-1/2 text-customBlak input input-bordered flex items-center gap-2">
-                  <input type="text" name="state" className="grow" value={formData.state} onChange={handleChange} placeholder="Quintana Roo" />
+                  <input type="text" name="phone" className="grow" value={formData.phone} onChange={handleChange} placeholder="99800000" />
                 </label>
               </div>
             </div>
             <br />
             <div>
               <div className='flex gap-1'>
-                <label className="w-1/2 text-customBlak input input-bordered flex items-center gap-2">
-                  <input type="text" name="city" className="grow" value={formData.city} onChange={handleChange} placeholder="Ciudad" />
+                <label className="w-1/2 text-gray-400 input input-bordered flex items-center gap-2">
+                  <input type="text" name="city" className="grow" value={formData.city} onChange={handleChange} placeholder="Ciudad" readOnly />
                 </label>
-                <label className="w-1/2 text-customBlak input input-bordered flex items-center gap-2">
-                  <input type="text" name="source" className="grow" value={formData.source} onChange={handleChange} placeholder="direccion" />
+                <label className="w-1/2 text-gray-400 input input-bordered flex items-center gap-2">
+                  <input type="text" name="source" className="grow" value={formData.source} onChange={handleChange} placeholder="direccion" readOnly />
                 </label>
               </div>
             </div>
@@ -174,18 +179,19 @@ const ButtonEdit = ({ leadId, onClose }) => {
             </div>
             <br />
             <div>
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                placeholder="Mensaje"
-                className="textarea textarea-bordered textarea-md w-full max-w"
-              ></textarea>
-              <h3 className='pt-2 pb-2 text-center font-bold text-customBlak'>Nombre del contactador</h3>
+              <h3 className='pt-2 pb-2 text-center font-bold text-customBlak'>Acciones del contactador</h3>
             </div>
             <label className="text-customBlak input input-bordered flex items-center gap-2">
               <input type="text" name="name_client" className="grow" value={formData.name_client} onChange={handleChange} placeholder="Nombre del contactador" />
             </label>
+            <br />
+              <textarea
+                name="message"
+                value={messageClient}
+                onChange={handleMessageChange}
+                placeholder="Mensaje del contactador"
+                className="textarea textarea-bordered textarea-md w-full max-w"
+              ></textarea>
             <br />
             <br />
             <center>

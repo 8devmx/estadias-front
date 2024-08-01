@@ -6,22 +6,47 @@ import ButtonTable from '@/components/CandidatesComponents/ButtonTable';
 import styles from '@/styles/Componenadm.module.css';
 import PopupInsertC from '@/components/CandidatesComponents/PopupInsertC';
 import PopupEdit from '@/components/CandidatesComponents/PopupUpdateC';
+import RequireAuth from '@/components/UtilsComponents/RequireAuth';
 
-const fetcher = async () => {
-  const data = await Candidates();
-  // console.log(data);  verificar primero que data tenga los datos que trae Candidates del services
-  return data.data.Candidates;
-}
+
+// manejo del encabezado trae el encabezado y el token
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('token');
+  return token ? { Authorization: `Bearer ${token}` } : {};
+};
+
+// modificacion de la funcion fetcher para que pueda manejar los encabezados 
+const fetcher = async (url) => {
+  const response = await fetch(url, {
+    headers: getAuthHeaders(),
+  });
+  if (!response.ok) {
+    const errorDetails = await response.text();
+    throw new Error(errorDetails || 'Error fetching data');
+  }
+  const data = await response.json();
+  console.log('Fetched data:', data); 
+  return data.candidates; //para devolver el array directamente
+};
+
+
+// const fetcher = async () => {
+//   const data = await Candidates();
+//   // console.log(data);  verificar primero que data tenga los datos que trae Candidates del services
+//   return data.data.Candidates;
+// }
 
 const CandidateData = () => {
-  const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/candidates', fetcher)
+  const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/candidates', fetcher);
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
-  const [currentCandidates, setCurrentCandidate] = useState(null);
+  const [currentCandidate, setCurrentCandidate] = useState(null);
 
   // console.log({data, error, isLoading}) verifivcar que trae data, error e isloading
   if (error) return <div>Error al cargar</div>;
-  if (isLoading) return <div>Cargando</div>;
+  if (isLoading) return <div>Cargando...</div>;
+
+  const candidates = data || []; // para que sia simpre un array evitando valores undefined
 
   const handleAddClick = () => {
     setShowForm(true);
@@ -39,6 +64,7 @@ const CandidateData = () => {
 
   return (
     <LayoutAdmin>
+      <RequireAuth />
       <h1 className="text-xl font-bold mb-6">Candidatos</h1>
       <div className="flex justify-between p-4">
         {/* Primer input */}
@@ -72,22 +98,22 @@ const CandidateData = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((candidates, index) => (
+          {candidates.map((candidate, index) => ( //se cambio data por candidates
             <tr key={index} className="hover">
-              <th>{candidates.id}</th>
-              <td>{candidates.name}</td>
-              <td>{candidates.phone}</td>
-              <td>{candidates.email}</td>
-              <td>{candidates.address}</td>
+              <th>{candidate.id}</th> 
+              <td>{candidate.name}</td>
+              <td>{candidate.phone}</td>
+              <td>{candidate.email}</td>
+              <td>{candidate.address}</td>
               <td>
-                <ButtonTable id={candidates.id} mutate={mutate} onEdit={() => handleEditClick(candidates)} />
+                <ButtonTable id={candidate.id} mutate={mutate} onEdit={() => handleEditClick(candidate)} />
               </td>
             </tr>
           ))}
         </tbody>
-        {showForm && <PopupInsertC onClose={handleCloseForm} mutate={mutate} />}
-        {showEditForm && <PopupEdit onClose={handleCloseForm} mutate={mutate} candidates={currentCandidates} />}
       </table>
+        {showForm && <PopupInsertC onClose={handleCloseForm} mutate={mutate} />}
+        {showEditForm && <PopupEdit onClose={handleCloseForm} mutate={mutate} candidate={currentCandidate} />}
     </LayoutAdmin>
   );
 }

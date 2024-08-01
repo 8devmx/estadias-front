@@ -3,6 +3,7 @@ import LayoutAdmin from '@/components/LayoutAdmin';
 import ButtonTable from '@/components/LeadsComponents/ButtonTAble';
 import RegistrosHistorial from '@/components/LeadsComponents/RegistrosHistorial';
 import styles from '@/styles/leads.module.css';
+import RequireAuth from '@/components/UtilsComponents/RequireAuth';
 
 const Leads = () => {
   const [leads, setLeads] = useState([]);
@@ -49,8 +50,19 @@ const Leads = () => {
     }
   };
 
+  const getStatusClass = (status_name) => {
+    if (status_name === 'no contactado') {
+      return 'text-red-500';
+    } else if (status_name === 'Le intereso') {
+      return 'text-green-500';
+    } else {
+      return 'text-blue-500';
+    }
+  };
+
   return (
     <LayoutAdmin>
+      <RequireAuth />
       <h1 className="text-xl font-bold mb-6">Prospectos</h1>
       <div className="flex space-x-4 p-4">
         {/* Primer input */}
@@ -88,11 +100,7 @@ const Leads = () => {
             <th>Nombre</th>
             <th>Teléfono</th>
             <th>Correo Electrónico</th>
-            {/* <th className="text-center">Estado</th> */}
-            {/* <th className="text-center">Ciudad</th> */}
-            {/* <th className="text-center">Fuente</th> */}
             <th>Interés</th>
-            {/* <th className="text-center">Mensaje</th> */}
             <th>Status</th>
             <th>Compañía</th>
             <th className='text-center'>Acción</th>
@@ -106,12 +114,8 @@ const Leads = () => {
                 <td>{leadItem.name}</td>
                 <td>{leadItem.phone}</td>
                 <td>{leadItem.mail}</td>
-                {/* <td>{leadItem.state}</td> */}
-                {/* <td>{leadItem.city}</td> */}
-                {/* <td>{leadItem.source}</td> */}
                 <td>{leadItem.interest}</td>
-                {/* <td>{leadItem.message}</td> */}
-                <td>{leadItem.status_name}</td>
+                <td className={getStatusClass(leadItem.status_name)}>{leadItem.status_name}</td>
                 <td>{leadItem.company_name}</td>
                 <td>
                   <ButtonTable leadId={leadItem.id} onDelete={handleDeleteLead} />
