@@ -8,8 +8,6 @@ import styles from '@/styles/Componenadm.module.css';
 import PopupInsertC from '@/components/CompanyComponents/PopupInsertC';
 import RequireAuth from '@/components/UtilsComponents/RequireAuth';
 
-
-// manejo del encabezado trae el encabezado y el token
 const getAuthHeaders = () => {
     const token = localStorage.getItem('token');
     return token ? { Authorization: `Bearer ${token}` } : {};
@@ -29,12 +27,6 @@ const getAuthHeaders = () => {
     return data.companies; //para devolver el array directamente
   };
   
-
-// const fetcher = async () => {
-//   const data = await Company();
-//   return data.data.company;
-// }
-
 const CompanyData = () => {
   const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/company', fetcher)
   const [showForm, setShowForm] = useState(false);
