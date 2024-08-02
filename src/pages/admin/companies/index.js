@@ -33,7 +33,7 @@ const CompanyData = () => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [currentCompany, setCurrentCompany] = useState(null);
 
-  if (error) return <div>Error al cargar</div>;
+  if (error) return <div><RequireAuth /></div>;
   if (isLoading) return <div>Cargando</div>;
 
   const companies  = data || [];
@@ -54,7 +54,6 @@ const CompanyData = () => {
 
   return (
     <LayoutAdmin>
-      <RequireAuth />
       <h1 className="text-xl font-bold mb-6">Companies</h1>
       <div className="flex justify-between p-4">
         <div className="w-1/2">
