@@ -43,7 +43,7 @@ const CandidateData = () => {
   const [currentCandidate, setCurrentCandidate] = useState(null);
 
   // console.log({data, error, isLoading}) verifivcar que trae data, error e isloading
-  if (error) return <div>Error al cargar</div>;
+  if (error) return <div><RequireAuth /></div>;
   if (isLoading) return <div>Cargando...</div>;
 
   const candidates = data || []; // para que sia simpre un array evitando valores undefined
@@ -64,7 +64,6 @@ const CandidateData = () => {
 
   return (
     <LayoutAdmin>
-      <RequireAuth />
       <h1 className="text-xl font-bold mb-6">Candidatos</h1>
       <div className="flex justify-between p-4">
         {/* Primer input */}

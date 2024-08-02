@@ -41,7 +41,7 @@ const Vacanciedata = () => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [currentVacancie, setCurrentVacancie] = useState(null);
 
-  if (error) return <div>Error al cargar</div>;
+  if (error) return <div><RequireAuth /></div>;
   if (isLoading) return <div>Cargando...</div>;
 
   const handleAddClick = () => {
@@ -60,7 +60,6 @@ const Vacanciedata = () => {
 
   return (
     <LayoutAdmin>
-      <RequireAuth />
       <h1 className="text-xl font-bold mb-6">Vacantes</h1>
       <div className="flex justify-between p-4">
         <div className="w-1/2">
