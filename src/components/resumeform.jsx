@@ -76,7 +76,7 @@ const UpdateCandidateForm = () => {
     const fetchData = async () => {
       if (id) {
         try {
-          const response = await axios.get(`http://localhost:8000/candidatesfront/${id}`);
+          const response = await axios.get(`http://localhost:8000/candidatesfrontfront/${id}`);
           const data = response.data;
           setFormData({
             sobre_mi: data.sobre_mi || '',

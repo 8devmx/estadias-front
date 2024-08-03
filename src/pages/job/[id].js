@@ -83,11 +83,11 @@ const JobOffer = () => {
             <div className="flex justify-between items-center border-b pb-4 mb-4">
               <div>
                 <h1 className="text-3xl font-bold text-gray-800">{vacancy.title}</h1>
-                <p className="text-gray-500">{vacancy.state}</p>
+                <p className="text-gray-500">Ubicación: {vacancy.state}</p>
               </div>
               <div className="text-right">
                 <p className="text-gray-800 font-bold text-xl">{vacancy.salary} (Mensual)</p>
-                <p className="text-gray-500">{vacancy.type}</p>
+                <p className="text-gray-500">Horario: {vacancy.type}</p>
               </div>
             </div>
             <div className="mb-6">
@@ -106,7 +106,7 @@ const JobOffer = () => {
                     <li key={index}>{item.trim()}</li>
                   ))
                 ) : (
-                  <p>No hay requisitos disponibles.</p>
+                  <p>No hay requisitos disponibles</p>
                 )}
               </ul>
             </div>
