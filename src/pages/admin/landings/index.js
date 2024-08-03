@@ -38,7 +38,7 @@ const LandingsData = () => {
   const [showEditForm, setShowEditForm] = useState(false);
   const [currentLanding, setCurrentLanding] = useState(null);
 
-  if (error) return <div>Error al cargar</div>;
+  if (error) return <div><RequireAuth /></div>;
   if (isLoading) return <div>Cargando</div>;
 
   const handleAddClick = () => {
@@ -63,7 +63,6 @@ const LandingsData = () => {
 
   return (
     <LayoutAdmin>
-      <RequireAuth />
       <h1 className="text-xl font-bold mb-6">Landings</h1>
       <div className="flex justify-between p-4">
         <div className="w-1/2">

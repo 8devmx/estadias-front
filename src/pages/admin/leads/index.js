@@ -42,7 +42,7 @@ const Leads = () => {
       });
       if (response.ok) {
         setLeads(leads.filter(lead => lead.id !== leadId));
-      } else {
+      } else {   
         console.error('Error deleting lead:', response.statusText);
       }
     } catch (error) {
