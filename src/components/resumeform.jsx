@@ -76,7 +76,7 @@ const UpdateCandidateForm = () => {
     const fetchData = async () => {
       if (id) {
         try {
-          const response = await axios.get(`http://localhost:8000/candidates/${id}`);
+          const response = await axios.get(`http://localhost:8000/candidatesfrontfront/${id}`);
           const data = response.data;
           setFormData({
             sobre_mi: data.sobre_mi || '',
@@ -104,7 +104,7 @@ const UpdateCandidateForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.put(`http://localhost:8000/candidates/${id}`, formData);
+      const response = await axios.put(`http://localhost:8000/candidatesfront/${id}`, formData);
       if (response.status === 200) {
         alert('Candidato actualizado exitosamente');
         router.push(`/thanks?id=${id}`); // Redirigir a thanks.js con el ID en la URL

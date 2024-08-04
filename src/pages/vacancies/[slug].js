@@ -11,7 +11,7 @@ const VacanciesView = () => {
   useEffect(() => {
     if (!slug) return;
 
-    fetch('http://localhost:8000/vacancies')
+    fetch('http://localhost:8000/vacanciesfront')
       .then(response => response.json())
       .then(data => {
         console.log('Fetched vacancies:', data);
@@ -22,9 +22,9 @@ const VacanciesView = () => {
         } else if (slug === 'Unid') {
           companyId = 1;
         }
-
         if (companyId) {
           const filteredVacancies = data.vacancies.filter(vacancy => vacancy.company_id === companyId);
+          console.log(data.vacancies)
           setVacancies(filteredVacancies);
         } else {
           setVacancies([]);
@@ -54,7 +54,7 @@ const VacanciesView = () => {
 
   const getLogo = () => {
     if (slug === 'Tech-pech') {
-      return 'https://tinyurl.com/32k3xhy8';
+      return '/logoTechPech.jpg';
     } else {
       return 'https://educompara.com/file/2020/06/Logo-UNID-Edu-02.jpg';
     }
@@ -86,7 +86,7 @@ const VacanciesView = () => {
         <h1 className="text-2xl font-bold text-black">Vacantes</h1>
         <input
           type="text"
-          placeholder="Buscar vacante..."
+          placeholder="Buscar vacante ..."
           value={searchTerm}
           onChange={handleSearchChange}
           className="p-2 border rounded-md"
@@ -94,7 +94,7 @@ const VacanciesView = () => {
         />
       </div>
       <div className="max-w-7xl mx-auto bg-white shadow-2xl rounded-lg p-6 bg-opacity-90 mt-16">
-        <h2 className="text-2xl font-semibold mb-6 text-center text-gray-700">VACANTES DISPONIBLES</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-center text-gray-700">Estas son las vacantes disponibles</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {Array.isArray(filteredVacancies) && filteredVacancies.length > 0 ? (
             filteredVacancies.map(vacancy => (
@@ -109,10 +109,12 @@ const VacanciesView = () => {
                     <p><strong>Categoría:</strong> {vacancy.category}</p>
                   </div>
                 </div>
+                
               </Link>
             ))
           ) : (
-            <p className="text-center text-gray-500">Sin vacantes disponibles</p>
+            <p className="text-center text-gray-500">►Sin vacantes disponibles◄</p>
+            
           )}
         </div>
       </div>
