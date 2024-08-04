@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import LayoutAdmin from '@/components/LayoutAdmin';
 import ButtonTable from '@/components/LeadsComponents/ButtonTAble';
 import RegistrosHistorial from '@/components/LeadsComponents/RegistrosHistorial';
-import styles from '@/styles/leads.module.css';
+//import styles from '@/styles/leads.module.css';
 import RequireAuth from '@/components/UtilsComponents/RequireAuth';
 
 const Leads = () => {
