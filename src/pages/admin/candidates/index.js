@@ -66,21 +66,12 @@ const CandidateData = () => {
     <LayoutAdmin>
       <h1 className="text-xl font-bold mb-6">Candidatos</h1>
       <div className="flex justify-between p-4">
-        {/* Primer input */}
-        <div className="w-1/2">
-          <input
-            type="text"
-            id={styles.input}
-            name="first-input"
-            placeholder="Buscar"
-            className="mt-1 block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-          />
-        </div>
-        {/* Botón */}
-        <div className="w-1/6 flex items-end">
-        <button
-            className="mt-1 block w-full rounded-md bg-black text-white py-2 px-4" onClick={handleAddClick}
-        >
+        <div className="flex-grow"></div>
+        <div className="w-1/6 flex items-end justify-end">
+          <button
+            className="mt-1 block w-full rounded-md bg-black text-white py-2 px-4"
+            onClick={handleAddClick}
+          >
             Agregar
           </button>
         </div>
@@ -94,31 +85,56 @@ const CandidateData = () => {
             <th>Telefóno</th>
             <th>Correo</th>
             <th>Dirección</th>
-            <th>Sobre mi</th>
-            <th>Experiencia</th>
-            <th>Educación</th>
-            <th>Intereses</th>
-            <th>Premios</th>
             <th>foto</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {candidates.map((candidate, index) => ( //se cambio data por candidates
-            <tr key={index} className="hover">
-              <th>{candidate.id}</th> 
-              <td>{candidate.name}</td>
-              <td>{candidate.phone}</td>
-              <td>{candidate.email}</td>
-              <td>{candidate.address}</td>
-              <td>
-                <ButtonTable id={candidate.id} mutate={mutate} onEdit={() => handleEditClick(candidate)} />
-              </td>
-            </tr>
-          ))}
+          {candidates.map(
+            (
+              candidate,
+              index //se cambio data po r candidates
+            ) => (
+              <tr key={index} className="hover">
+                <th>{candidate.id}</th>
+                <td>{candidate.name}</td>
+                <td>{candidate.phone}</td>
+                <td>
+                  <a href={`mailto:${candidate.email}`} target="_BLANK">
+                    {candidate.email}
+                  </a>
+                </td>
+                <td>{candidate.address}</td>
+                <td>
+                  <img
+                    src={`/${candidate.foto_perfil}`}
+                    style={{
+                      maxHeight: "25px",
+                      display: "block",
+                      margin: "auto",
+                    }}
+                  />{" "}
+                </td>
+                <td>
+                  <ButtonTable
+                    id={candidate.id}
+                    mutate={mutate}
+                    onEdit={() => handleEditClick(candidate)}
+                  />
+                </td>
+              </tr>
+            )
+          )}
         </tbody>
       </table>
-        {showForm && <PopupInsertC onClose={handleCloseForm} mutate={mutate} />}
-        {showEditForm && <PopupEdit onClose={handleCloseForm} mutate={mutate} candidate={currentCandidate} />}
+      {showForm && <PopupInsertC onClose={handleCloseForm} mutate={mutate} />}
+      {showEditForm && (
+        <PopupEdit
+          onClose={handleCloseForm}
+          mutate={mutate}
+          candidate={currentCandidate}
+        />
+      )}
     </LayoutAdmin>
   );
 }

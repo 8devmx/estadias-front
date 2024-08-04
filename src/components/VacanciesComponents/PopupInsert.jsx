@@ -24,7 +24,7 @@ const PopupInsert = ({ onClose, mutate }) => {
     const getAuthHeaders = () => { //obtener el token y el header
         const token = localStorage.getItem('token');
         return token ? { Authorization: `Bearer ${token}` } : {};
-      };
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
