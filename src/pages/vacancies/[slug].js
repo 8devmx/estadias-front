@@ -54,7 +54,7 @@ const VacanciesView = () => {
 
   const getLogo = () => {
     if (slug === 'Tech-pech') {
-      return 'https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/51f508bf3eaff7bc89b8f967d3a8fcc7~c5_100x100.jpeg?lk3s=a5d48078&nonce=57264&refresh_token=663a997640b87eaa057c9155294c2769&x-expires=1722034800&x-signature=YL%2BcBDbbXERIPCuf2IVMxiqq2Zs%3D&shp=a5d48078&shcp=81f88b70';
+      return '/logoTechPech.jpg';
     } else {
       return 'https://educompara.com/file/2020/06/Logo-UNID-Edu-02.jpg';
     }
