@@ -10,7 +10,7 @@ const RegistrosHistorial = () => {
 
   const fetchHistorial = async () => {
     try {
-      const response = await fetch('http://localhost:8000/leads_historial', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/leads_historial`, {
         headers: getAuthHeaders(), // Agregar encabezado de autorización aquí
       });
       const data = await response.json();
