@@ -45,18 +45,42 @@ const VacanciesView = () => {
   };
 
   const getBackgroundImage = () => {
+<<<<<<< Updated upstream
     if (slug === 'Tech-pech') {
       return 'url(https://www.itl.cat/pngfile/big/292-2921393_website-design-stock.jpg)';
     } else {
       return 'url(https://lh3.googleusercontent.com/p/AF1QipOOG0E9Ud6yM93zbG5JuFuSBs3fxNyGeHEwFXUR=s1360-w1360-h1020)';
+=======
+    switch (slug) {
+      case 'Tech-pech':
+        return 'url(/tech.jpg)';
+      case 'Unid':
+        return 'url(/unid-cancun.jpg)';
+      case 'Walmart':
+        return 'url(/walma.jpg)';
+      default:
+        return '';
+>>>>>>> Stashed changes
     }
   };
 
   const getLogo = () => {
+<<<<<<< Updated upstream
     if (slug === 'Tech-pech') {
       return '/logoTechPech.jpg';
     } else {
       return 'https://educompara.com/file/2020/06/Logo-UNID-Edu-02.jpg';
+=======
+    switch (slug) {
+      case 'Tech-pech':
+        return '/logoTechPech.jpg';
+      case 'Unid':
+        return '/UNID.png';
+      case 'Walmart':
+        return '/walm.png';
+      default:
+        return '';
+>>>>>>> Stashed changes
     }
   };
 
