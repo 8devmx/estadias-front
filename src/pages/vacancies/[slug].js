@@ -5,11 +5,21 @@ import { useRouter } from 'next/router';
 const VacanciesView = () => {
   const [vacancies, setVacancies] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isValidSlug, setIsValidSlug] = useState(false);
   const router = useRouter();
   const { slug } = router.query;
 
   useEffect(() => {
     if (!slug) return;
+
+    const normalizedSlug = slug.toLowerCase();
+    const validSlugs = ['tech-pech', 'unid', 'walmart'];
+    if (!validSlugs.includes(normalizedSlug)) {
+      setIsValidSlug(false);
+      return;
+    } else {
+      setIsValidSlug(true);
+    }
 
     fetch('http://localhost:8000/vacanciesfront')
       .then(response => response.json())
@@ -17,14 +27,17 @@ const VacanciesView = () => {
         console.log('Fetched vacancies:', data);
 
         let companyId;
-        if (slug === 'Tech-pech') {
+        if (normalizedSlug === 'tech-pech') {
           companyId = 2;
-        } else if (slug === 'Unid') {
+        } else if (normalizedSlug === 'unid') {
           companyId = 1;
+        } else if (normalizedSlug === 'walmart') {
+          companyId = 3; 
         }
+
         if (companyId) {
           const filteredVacancies = data.vacancies.filter(vacancy => vacancy.company_id === companyId);
-          console.log(data.vacancies)
+          console.log(data.vacancies);
           setVacancies(filteredVacancies);
         } else {
           setVacancies([]);
@@ -33,24 +46,30 @@ const VacanciesView = () => {
       .catch(error => console.error('Error fetching vacancies:', error));
   }, [slug]);
 
+  if (!isValidSlug) {
+    return null; 
+  }
+
   const getTitle = () => {
-    switch (slug) {
-      case 'Tech-pech':
+    switch (slug.toLowerCase()) {
+      case 'tech-pech':
         return 'TECH-PECH';
-      case 'Unid':
+      case 'unid':
         return 'UNID';
+      case 'walmart':
+        return 'WALMART';
       default:
         return 'Vacantes';
     }
   };
 
   const getBackgroundImage = () => {
-    switch (slug) {
-      case 'Tech-pech':
+    switch (slug.toLowerCase()) {
+      case 'tech-pech':
         return 'url(/tech.jpg)';
-      case 'Unid':
+      case 'unid':
         return 'url(/unid-cancun.jpg)';
-      case 'Walmart':
+      case 'walmart':
         return 'url(/walma.jpg)';
       default:
         return '';
@@ -58,12 +77,12 @@ const VacanciesView = () => {
   };
 
   const getLogo = () => {
-    switch (slug) {
-      case 'Tech-pech':
+    switch (slug.toLowerCase()) {
+      case 'tech-pech':
         return '/logoTechPech.jpg';
-      case 'Unid':
+      case 'unid':
         return '/UNID.png';
-      case 'Walmart':
+      case 'walmart':
         return '/walm.png';
       default:
         return '';
@@ -119,12 +138,10 @@ const VacanciesView = () => {
                     <p><strong>Categoría:</strong> {vacancy.category}</p>
                   </div>
                 </div>
-                
               </Link>
             ))
           ) : (
             <p className="text-center text-gray-500">►Sin vacantes disponibles◄</p>
-            
           )}
         </div>
       </div>
