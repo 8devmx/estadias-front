@@ -8,8 +8,10 @@ const VacanciesView = () => {
   const router = useRouter();
   const { slug } = router.query;
 
+  const validSlugs = ['Tech-pech', 'Unid', 'Walmart'];
+
   useEffect(() => {
-    if (!slug) return;
+    if (!slug || !validSlugs.includes(slug)) return;
 
     fetch('http://localhost:8000/vacanciesfront')
       .then(response => response.json())
@@ -21,10 +23,13 @@ const VacanciesView = () => {
           companyId = 2;
         } else if (slug === 'Unid') {
           companyId = 1;
+        } else if (slug === 'Walmart') {
+          companyId = 3; // Asume que 3 es el ID de la empresa Walmart en tu base de datos
         }
+
         if (companyId) {
           const filteredVacancies = data.vacancies.filter(vacancy => vacancy.company_id === companyId);
-          console.log(data.vacancies)
+          console.log(data.vacancies);
           setVacancies(filteredVacancies);
         } else {
           setVacancies([]);
@@ -39,24 +44,36 @@ const VacanciesView = () => {
         return 'TECH-PECH';
       case 'Unid':
         return 'UNID';
+      case 'Walmart':
+        return 'WALMART';
       default:
         return 'Vacantes';
     }
   };
 
   const getBackgroundImage = () => {
-    if (slug === 'Tech-pech') {
-      return 'url(https://www.itl.cat/pngfile/big/292-2921393_website-design-stock.jpg)';
-    } else {
-      return 'url(https://lh3.googleusercontent.com/p/AF1QipOOG0E9Ud6yM93zbG5JuFuSBs3fxNyGeHEwFXUR=s1360-w1360-h1020)';
+    switch (slug) {
+      case 'Tech-pech':
+        return 'url(https://lh3.googleusercontent.com/p/AF1QipOOG0E9Ud6yM93zbG5JuFuSBs3fxNyGeHEwFXUR=s1360-w1360-h1020)';
+      case 'Unid':
+        return 'url(https://lh3.googleusercontent.com/p/AF1QipOOG0E9Ud6yM93zbG5JuFuSBs3fxNyGeHEwFXUR=s1360-w1360-h1020)';
+      case 'Walmart':
+        return 'url(https://mercadoeconsumo.com.br/wp-content/uploads/2023/04/shutterstock_1968443986.jpg)';
+      default:
+        return '';
     }
   };
 
   const getLogo = () => {
-    if (slug === 'Tech-pech') {
-      return '/logoTechPech.jpg';
-    } else {
-      return 'https://educompara.com/file/2020/06/Logo-UNID-Edu-02.jpg';
+    switch (slug) {
+      case 'Tech-pech':
+        return 'https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/51f508bf3eaff7bc89b8f967d3a8fcc7~c5_720x720.jpeg?lk3s=a5d48078&nonce=27495&refresh_token=e3e1ff3d02dc9f73cff2243f365fb5d2&x-expires=1722902400&x-signature=VAnRf5k7GuG0NQjU7Zn7ao7xFRE%3D&shp=a5d48078&shcp=81f88b70';
+      case 'Unid':
+        return 'https://educompara.com/file/2020/06/Logo-UNID-Edu-02.jpg';
+      case 'Walmart':
+        return 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrQSuRMuezu1LYzji9c5CXoWp8cCav_fgwVAFu4MzMEKKdLlVMPUqzQVKPmktB1XuUXCM&usqp=CAU';
+      default:
+        return '';
     }
   };
 
@@ -67,6 +84,10 @@ const VacanciesView = () => {
   const filteredVacancies = vacancies.filter(vacancy =>
     vacancy.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  if (!validSlugs.includes(slug)) {
+    return <p className="text-center text-gray-500">►URL inválida◄</p>;
+  }
 
   return (
     <div
@@ -109,12 +130,10 @@ const VacanciesView = () => {
                     <p><strong>Categoría:</strong> {vacancy.category}</p>
                   </div>
                 </div>
-                
               </Link>
             ))
           ) : (
             <p className="text-center text-gray-500">►Sin vacantes disponibles◄</p>
-            
           )}
         </div>
       </div>
