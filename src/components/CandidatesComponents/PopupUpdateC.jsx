@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const PopupCandidateForm = ({ candidate, onClose, mutate }) => {
+const PopupEditC = ({ onClose, mutate, candidate }) => {
     const [formData, setFormData] = useState({
         name: '',
         phone: '',
@@ -13,10 +13,8 @@ const PopupCandidateForm = ({ candidate, onClose, mutate }) => {
         habilidades: '',
         intereses: '',
         premios: '',
-        foto_perfil: null,
+        foto_perfil: '',
     });
-
-    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         if (candidate) {
@@ -31,10 +29,15 @@ const PopupCandidateForm = ({ candidate, onClose, mutate }) => {
                 habilidades: candidate.habilidades || '',
                 intereses: candidate.intereses || '',
                 premios: candidate.premios || '',
-                foto_perfil: null, // Resetear foto_perfil al editar
+                foto_perfil: candidate.foto_perfil || '',
             });
         }
     }, [candidate]);
+
+    const getAuthHeaders = () => {
+        const token = localStorage.getItem('token');
+        return token ? { Authorization: `Bearer ${token}` } : {};
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -44,54 +47,24 @@ const PopupCandidateForm = ({ candidate, onClose, mutate }) => {
         });
     };
 
-    const handleFileChange = (e) => {
-        setFormData({
-            ...formData,
-            foto_perfil: e.target.files[0],
-        });
-    };
-
-    const getAuthHeaders = () => {
-        const token = localStorage.getItem('token');
-        return token ? { Authorization: `Bearer ${token}` } : {};
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formDataToSend = new FormData();
-        Object.keys(formData).forEach(key => {
-            formDataToSend.append(key, formData[key]);
-        });
-
+        console.log('Datos enviados:', formData); // Verifica los datos enviados
         try {
-            if (candidate) {
-                // Actualizar candidato existente
-                await axios.put(`http://localhost:8000/candidates/${candidate.id}`, formDataToSend, {
-                    headers: {
-                        ...getAuthHeaders(),
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-            } else {
-                // Insertar nuevo candidato
-                await axios.post('http://localhost:8000/candidates', formDataToSend, {
-                    headers: {
-                        ...getAuthHeaders(),
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-            }
+            await axios.put(`http://localhost:8000/candidates/${candidate.id}`, formData, {
+                headers: getAuthHeaders(),
+            });
             mutate();
             onClose();
         } catch (error) {
-            console.error('Error al guardar candidato:', error.response ? error.response.data : error.message);
+            console.error('Error al editar la vacante:', error.response ? error.response.data : error.message);
         }
     };
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded shadow-lg w-1/2 max-h-screen overflow-auto">
-                <h2 className="text-xl mb-4">{candidate ? 'Editar Candidato' : 'Agregar Candidato'}</h2>
+            <div className="bg-white p-6 rounded shadow-lg w-1/3">
+                <h2 className="text-xl mb-4">Editar Candidato</h2>
                 <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4" encType="multipart/form-data">
                     <div className="col-span-2 mb-4">
                         <label className="block text-sm font-medium text-gray-700">Nombre</label>
@@ -195,6 +168,16 @@ const PopupCandidateForm = ({ candidate, onClose, mutate }) => {
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
                         />
                     </div>
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700">Foto de perfil</label>
+                        <input
+                            type="text"
+                            name="foto_perfil"
+                            value={formData.foto_perfil}
+                            onChange={handleChange}
+                            className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
+                        />
+                    </div>
                     <div className="col-span-2 flex justify-center space-x-4 mt-2">
                         <button
                             type="button"
@@ -216,4 +199,8 @@ const PopupCandidateForm = ({ candidate, onClose, mutate }) => {
     );
 };
 
-export default PopupCandidateForm; 
+export default PopupEditC;
+
+
+
+

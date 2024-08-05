@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import LayoutAdmin from '@/components/LayoutAdmin';
-import {Candidates} from '@/services/candidates';
+// import {Candidates} from '@/services/candidates';
 import useSWR from 'swr';
 import ButtonTable from '@/components/CandidatesComponents/ButtonTable';
-import styles from '@/styles/Componenadm.module.css';
+// import styles from '@/styles/Componenadm.module.css';
 import PopupInsertC from '@/components/CandidatesComponents/PopupInsertC';
 import PopupEdit from '@/components/CandidatesComponents/PopupUpdateC';
 import RequireAuth from '@/components/UtilsComponents/RequireAuth';
@@ -85,7 +85,7 @@ const CandidateData = () => {
             <th>Telefóno</th>
             <th>Correo</th>
             <th>Dirección</th>
-            <th>foto</th>
+            <th className='text-center'>foto</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -107,9 +107,9 @@ const CandidateData = () => {
                 <td>{candidate.address}</td>
                 <td>
                   <img
-                    src={`/${candidate.foto_perfil}`}
+                    src={`/candidatos/${candidate.foto_perfil}`}
                     style={{
-                      maxHeight: "25px",
+                      maxHeight: "45px",
                       display: "block",
                       margin: "auto",
                     }}
