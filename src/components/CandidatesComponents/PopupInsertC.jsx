@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Company } from '@/services/company';
 
@@ -31,16 +31,27 @@ const PopupInsertC = ({ onClose, mutate }) => {
     };
 
     const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-        console.log('Enviando datos:', formData); // Para ver los datos antes de enviarlos
-        await axios.post('http://localhost:8000/candidates', formData, { headers: getAuthHeaders() });
-        mutate();
-        onClose();
-    } catch (error) {
-        console.error('Error al agregar candidato:', error.response ? error.response.data : error.message);
-    }
-};
+        e.preventDefault();
+        try {
+            // Obtener el id de la compañía autenticada si no está presente
+            if (!formData.Company_id) {
+                const authenticatedCompany = localStorage.getItem('company_id');
+                if (authenticatedCompany) {
+                    setFormData({
+                        ...formData,
+                        Company_id: authenticatedCompany,
+                    });
+                }
+            }
+
+            console.log('Enviando datos:', formData); // Para ver los datos antes de enviarlos
+            await axios.post('http://localhost:8000/candidates', formData, { headers: getAuthHeaders() });
+            mutate();
+            onClose();
+        } catch (error) {
+            console.error('Error al agregar candidato:', error.response ? error.response.data : error.message);
+        }
+    };
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -98,7 +109,6 @@ const PopupInsertC = ({ onClose, mutate }) => {
                             value={formData.sobre_mi}
                             onChange={handleChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
-                            
                         />
                     </div>
                     <div className="col-span-2 mb-4">
@@ -108,7 +118,6 @@ const PopupInsertC = ({ onClose, mutate }) => {
                             value={formData.experiencia}
                             onChange={handleChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
-                            
                         />
                     </div>
                     <div className="mb-4">
@@ -119,7 +128,6 @@ const PopupInsertC = ({ onClose, mutate }) => {
                             value={formData.educacion}
                             onChange={handleChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
-                            
                         />
                     </div>
                     <div className="mb-4">
@@ -130,7 +138,6 @@ const PopupInsertC = ({ onClose, mutate }) => {
                             value={formData.intereses}
                             onChange={handleChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
-                            
                         />
                     </div>
                     <div className="mb-4">
@@ -141,7 +148,6 @@ const PopupInsertC = ({ onClose, mutate }) => {
                             value={formData.habilidades}
                             onChange={handleChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
-                            
                         />
                     </div>
                     <div className="mb-4">
@@ -152,7 +158,6 @@ const PopupInsertC = ({ onClose, mutate }) => {
                             value={formData.premios}
                             onChange={handleChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
-                            
                         />
                     </div>
                     <div className="col-span-2 flex justify-center space-x-4 mt-2">

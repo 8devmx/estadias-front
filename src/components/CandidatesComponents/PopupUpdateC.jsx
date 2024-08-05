@@ -13,9 +13,29 @@ const PopupCandidateForm = ({ candidate, onClose, mutate }) => {
         habilidades: '',
         intereses: '',
         premios: '',
-        Company_id: '',
         foto_perfil: null,
     });
+
+    const [errorMessage, setErrorMessage] = useState('');
+
+    useEffect(() => {
+        if (candidate) {
+            setFormData({
+                name: candidate.name || '',
+                phone: candidate.phone || '',
+                email: candidate.email || '',
+                address: candidate.address || '',
+                sobre_mi: candidate.sobre_mi || '',
+                experiencia: candidate.experiencia || '',
+                educacion: candidate.educacion || '',
+                habilidades: candidate.habilidades || '',
+                intereses: candidate.intereses || '',
+                premios: candidate.premios || '',
+                foto_perfil: null, // Resetear foto_perfil al editar
+            });
+        }
+    }, [candidate]);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -23,31 +43,6 @@ const PopupCandidateForm = ({ candidate, onClose, mutate }) => {
             [name]: value,
         });
     };
-    
-    
-    const getAuthHeaders = () => {
-        const token = localStorage.getItem('token');
-        return token ? { Authorization: `Bearer ${token}` } : {};
-    };
-
-    useEffect(() => {
-        if (candidate) {
-            setFormData({
-                name: candidate.name,
-                phone: candidate.phone,
-                email: candidate.email,
-                address: candidate.address,
-                sobre_mi: candidate.sobre_mi,
-                experiencia: candidate.experiencia,
-                educacion: candidate.educacion,
-                habilidades: candidate.habilidades,
-                intereses: candidate.intereses,
-                premios: candidate.premios,
-                type: candidate.type,
-            });
-        }
-    }, [candidate]);
-
 
     const handleFileChange = (e) => {
         setFormData({
@@ -56,6 +51,10 @@ const PopupCandidateForm = ({ candidate, onClose, mutate }) => {
         });
     };
 
+    const getAuthHeaders = () => {
+        const token = localStorage.getItem('token');
+        return token ? { Authorization: `Bearer ${token}` } : {};
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
