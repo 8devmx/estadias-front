@@ -15,7 +15,7 @@ const JobOffer = () => {
     phone: '',
     email: '',
     address: '',
-    company_id: '1'
+    company_id: '2'
   });
 
   useEffect(() => {

@@ -22,7 +22,7 @@ const fetcher = async (url) => {
     throw new Error(errorDetails || 'Error fetching data');
   }
   const data = await response.json();
-  console.log('Fetched data:', data); 
+  console.log('Fetched data:', data);
   return data.candidates; //para devolver el array directamente
 };
 
@@ -35,7 +35,7 @@ const CandidateData = () => {
   if (error) return <div><RequireAuth /></div>;
   if (isLoading) return <div>Cargando...</div>;
 
-  const candidates = data || []; // para que sia simpre un array evitando valores undefined
+  const candidates = data || []; 
 
   const handleAddClick = () => {
     setShowForm(true);
@@ -79,42 +79,64 @@ const CandidateData = () => {
           </tr>
         </thead>
         <tbody>
-          {candidates.map(
-            (
-              candidate,
-              index //se cambio data por candidates
-            ) => (
-              <tr key={index} className="hover">
-                <th>{candidate.id}</th>
-                <td>{candidate.name}</td>
-                <td>{candidate.phone}</td>
-                <td>
-                  <a href={`mailto:${candidate.email}`} target="_BLANK">
-                    {candidate.email}
-                  </a>
-                </td>
-                <td>{candidate.address}</td>
-                <td className="text-center">
+          {candidates.map((candidate, index) => (
+            <tr key={index} className="hover">
+              <th>{candidate.id}</th>
+              <td>{candidate.name}</td>
+              <td>{candidate.phone}</td>
+              <td>
+                <a href={`mailto:${candidate.email}`} target="_BLANK">
+                  {candidate.email}
+                </a>
+              </td>
+              <td>{candidate.address}</td>
+              <td className="text-center">
+                {candidate.foto_perfil ? (
+                  candidate.foto_perfil.startsWith('data:image') ? (
+                    // Es una imagen en base64
+                    <img
+                      src={candidate.foto_perfil}
+                      alt="Foto de perfil"
+                      style={{
+                        maxHeight: "45px",
+                        display: "block",
+                        margin: "auto",
+                      }}
+                    />
+                  ) : (
+                    // Es un nombre de archivo (EN EL FRONT)
+                    <img
+                      src={`../../${candidate.foto_perfil}`}
+                      alt="Foto de perfil"
+                      style={{
+                        maxHeight: "45px",
+                        display: "block",
+                        margin: "auto",
+                      }}
+                    />
+                  )
+                ) : (
+                  // Es nulo o indefinido, mostrar imagen por defecto
                   <img
-                    src={candidate.foto_perfil || '/candidatos/PerfilUsuarioNull.avif'}
-                    alt="Foto de perfil"
+                    src="/candidatos/PerfilUsuarioNull.avif"
+                    alt="Foto de perfil por defecto"
                     style={{
                       maxHeight: "45px",
                       display: "block",
                       margin: "auto",
                     }}
                   />
-                </td>
-                <td>
-                  <ButtonTable
-                    id={candidate.id}
-                    mutate={mutate}
-                    onEdit={() => handleEditClick(candidate)}
-                  />
-                </td>
-              </tr>
-            )
-          )}
+                )}
+              </td>
+              <td>
+                <ButtonTable
+                  id={candidate.id}
+                  mutate={mutate}
+                  onEdit={() => handleEditClick(candidate)}
+                />
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
       {showForm && <PopupInsertC onClose={handleCloseForm} mutate={mutate} />}
