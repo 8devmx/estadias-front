@@ -78,7 +78,7 @@ const FileName = styled.p`
   color: #4b5563;
 `;
 
-const UpdateCandidateForm = () => {
+const ResumeForm = () => {
   const [formData, setFormData] = useState({
     sobre_mi: '',
     experiencia: '',
@@ -256,4 +256,4 @@ const UpdateCandidateForm = () => {
   );
 };
 
-export default UpdateCandidateForm;
+export default ResumeForm;
