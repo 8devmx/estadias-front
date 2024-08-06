@@ -68,6 +68,8 @@ const UpdateCandidateForm = () => {
     intereses: '',
     premios: ''
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const router = useRouter();
   const { id } = router.query;
@@ -75,8 +77,9 @@ const UpdateCandidateForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
+        setLoading(true);
         try {
-          const response = await axios.get(`http://localhost:8000/candidatesfrontfront/${id}`);
+          const response = await axios.get(`http://localhost:8000/candidatesfront/${id}`);
           const data = response.data;
           setFormData({
             sobre_mi: data.sobre_mi || '',
@@ -88,6 +91,9 @@ const UpdateCandidateForm = () => {
           });
         } catch (error) {
           console.error('Error fetching candidate data:', error);
+          setError('Error al cargar los datos del candidato.');
+        } finally {
+          setLoading(false);
         }
       }
     };
@@ -102,49 +108,88 @@ const UpdateCandidateForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const response = await axios.put(`http://localhost:8000/candidatesfront/${id}`, formData);
       if (response.status === 200) {
         alert('Candidato actualizado exitosamente');
-        router.push(`/thanks?id=${id}`); // Redirigir a thanks.js con el ID en la URL
+        router.push(`/thanks?id=${id}`);
+      } else {
+        setError('Error al actualizar los datos del candidato.');
       }
     } catch (error) {
       console.error('Error actualizando candidato:', error);
-      alert('Hubo un error al actualizar el candidato');
+      setError('Hubo un error al actualizar el candidato.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <FormContainer>
       <FormTitle>Completa tu Curriculum</FormTitle>
-      <form onSubmit={handleSubmit}>
-        <FormField>
-          <Label htmlFor="sobre_mi">Sobre Mí:</Label>
-          <TextArea id="sobre_mi" name="sobre_mi" value={formData.sobre_mi} onChange={handleChange} />
-        </FormField>
-        <FormField>
-          <Label htmlFor="experiencia">Experiencia:</Label>
-          <TextArea id="experiencia" name="experiencia" value={formData.experiencia} onChange={handleChange} />
-        </FormField>
-        <FormField>
-          <Label htmlFor="educacion">Educación:</Label>
-          <TextArea id="educacion" name="educacion" value={formData.educacion} onChange={handleChange} />
-        </FormField>
-        <FormField>
-          <Label htmlFor="habilidades">Habilidades:</Label>
-          <TextArea id="habilidades" name="habilidades" value={formData.habilidades} onChange={handleChange} />
-        </FormField>
-        <FormField>
-          <Label htmlFor="intereses">Intereses:</Label>
-          <TextArea id="intereses" name="intereses" value={formData.intereses} onChange={handleChange} />
-        </FormField>
-        <FormField>
-          <Label htmlFor="premios">Premios:</Label>
-          <TextArea id="premios" name="premios" value={formData.premios} onChange={handleChange} />
-        </FormField>
-        <SubmitButton type="submit">Enviar</SubmitButton>
-      </form>
+      {loading ? (
+        <p>Cargando...</p>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <FormField>
+            <Label htmlFor="sobre_mi">Sobre Mí:</Label>
+            <TextArea
+              id="sobre_mi"
+              name="sobre_mi"
+              value={formData.sobre_mi}
+              onChange={handleChange}
+            />
+          </FormField>
+          <FormField>
+            <Label htmlFor="experiencia">Experiencia:</Label>
+            <TextArea
+              id="experiencia"
+              name="experiencia"
+              value={formData.experiencia}
+              onChange={handleChange}
+            />
+          </FormField>
+          <FormField>
+            <Label htmlFor="educacion">Educación:</Label>
+            <TextArea
+              id="educacion"
+              name="educacion"
+              value={formData.educacion}
+              onChange={handleChange}
+            />
+          </FormField>
+          <FormField>
+            <Label htmlFor="habilidades">Habilidades:</Label>
+            <TextArea
+              id="habilidades"
+              name="habilidades"
+              value={formData.habilidades}
+              onChange={handleChange}
+            />
+          </FormField>
+          <FormField>
+            <Label htmlFor="intereses">Intereses:</Label>
+            <TextArea
+              id="intereses"
+              name="intereses"
+              value={formData.intereses}
+              onChange={handleChange}
+            />
+          </FormField>
+          <FormField>
+            <Label htmlFor="premios">Premios:</Label>
+            <TextArea
+              id="premios"
+              name="premios"
+              value={formData.premios}
+              onChange={handleChange}
+            />
+          </FormField>
+          {error && <p className="text-red-500">{error}</p>}
+          <SubmitButton type="submit" disabled={loading}>Enviar</SubmitButton>
+        </form>
+      )}
     </FormContainer>
   );
 };
