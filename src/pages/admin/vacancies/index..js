@@ -62,15 +62,7 @@ const Vacanciedata = () => {
     <LayoutAdmin>
       <h1 className="text-xl font-bold mb-6">Vacantes</h1>
       <div className="flex justify-between p-4">
-        <div className="w-1/2">
-          <input
-            type="text"
-            id={styles.input}
-            name="first-input"
-            placeholder="Buscar"
-            className="mt-1 block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-          />
-        </div>
+        <div className="w-1/2"></div>
         <div className="w-1/6 flex items-end">
           <button
             className="mt-1 block w-full rounded-md bg-black text-white py-2 px-4"
@@ -90,6 +82,8 @@ const Vacanciedata = () => {
             <th>Compañía</th>
             <th>Descripción</th>
             <th>Tipo</th>
+            <th>Requisitos</th>
+            <th>Salario</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -103,6 +97,8 @@ const Vacanciedata = () => {
               <td>{vacancie.company_id}</td>
               <td>{vacancie.description}</td>
               <td>{vacancie.type}</td>
+              <td>{vacancie.requirements}</td>
+              <td>{vacancie.salary}</td>
               <td>
                 <ButtonTable id={vacancie.id} mutate={mutate} onEdit={() => handleEditClick(vacancie)} />
               </td>
