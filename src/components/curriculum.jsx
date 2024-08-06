@@ -110,7 +110,7 @@ const Skill = styled.li`
   }
 `;
 
-const Curriculum = () => {
+const curriculum = () => {
   const [candidateData, setCandidateData] = useState(null);
   const router = useRouter();
   const { id } = router.query;
@@ -190,4 +190,4 @@ const Curriculum = () => {
   );
 };
 
-export default Curriculum;
+export default curriculum;
