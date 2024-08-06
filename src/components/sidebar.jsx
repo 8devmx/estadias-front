@@ -64,7 +64,7 @@ const SidebarToggle = styled.button`
   }
 `;
 
-const Sidebar = () => {
+const sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [candidateData, setCandidateData] = useState(null);
   const router = useRouter();
@@ -119,4 +119,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default sidebar;
