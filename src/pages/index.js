@@ -1,39 +1,30 @@
-import Hero from '@/components/heromain';
-import Navbar from '@/components/navbarmain';
+import Head from 'next/head';
+import Link from 'next/link';
 
-export async function getServerSideProps(context) {
-
-const url = `http://localhost:8000/landingslg/slug/tech-pech`;
-
-  try {
-    const res = await fetch(url);
-
-    if (!res.ok) {
-      return { notFound: true }; 
-    }
-
-    const data = await res.json();
-
-    if (!data) {
-      return { notFound: true }; 
-    }
-
-    return {
-      props: { landing: data }, 
-    };
-  } catch (error) {
-    return { notFound: true }; 
-  }
-}
-
-export default function Home({ landing }) {
-  const hero = JSON.parse(landing.hero);
-  const logo = landing.logo;
-
+export default function Home() {
   return (
-    <>
-        <Hero data={hero} />
-        <Navbar logo={logo} />
-    </>
-    );
+    <div>
+      <Head>
+        <title>Welcome to Next.js!</title>
+        <meta name="description" content="A Next.js application" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <main>
+        <h1>Welcome to Next.js!</h1>
+        <p>
+          Get started by editing <code>pages/index.js</code>
+        </p>
+        <div>
+          <Link href="/about">
+            <a>Go to About Page</a>
+          </Link>
+        </div>
+      </main>
+
+      <footer>
+        <p>Powered by Next.js</p>
+      </footer>
+    </div>
+  );
 }
