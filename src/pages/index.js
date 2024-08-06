@@ -28,13 +28,13 @@ import Navbar from '@/components/navbarmain';
 
 export default function Home({ landing }) {
   // const hero = JSON.parse(landing.hero);
-  // const logo = landing.logo;
+  const hero = JSON.parse('{"background": "back-technology.jpg", "title": "Tech-Pech a la velocidad de la tecnología", "paragraph": "Soluciones Técnicas de Confianza para tu Equipo de Cómputo", "buttonText": "Solicita tu Servicio", "buttonLink": "https://www.google.com"}');
+  const logo = landing.logo;
 
   return (
     <>
-    <h1>Cargando</h1>
-        {/* <Hero data={hero} />
-        <Navbar logo={logo} /> */}
+        <Hero data={hero} />
+        <Navbar logo={logo} />
     </>
     );
 }
