@@ -52,8 +52,10 @@ const JobOffer = () => {
         body: JSON.stringify(form)
       });
       if (response.ok) {
+        const responseData = await response.json(); // Obtiene los datos de la respuesta
+        const newId = responseData.id; // Obtiene el id del candidato recién creado
         console.log('Formulario enviado:', form);
-        router.push('gracias');
+        router.push(`/job/gracias?id=${newId}`); // Redirige a la página de gracias con el id
       } else {
         console.error('Error al enviar el formulario');
         Swal.fire({
