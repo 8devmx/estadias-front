@@ -67,13 +67,6 @@ const LandingsData = () => {
       <div className="flex justify-between p-4">
         <div className="w-1/2">
         </div>
-        <div className="w-1/6 flex items-end">
-          <button
-            className="mt-1 block w-full rounded-md bg-black text-white py-2 px-4" onClick={handleAddClick}
-          >
-            Agregar
-          </button>
-        </div>
       </div>
       <table className="table">
         <thead>
