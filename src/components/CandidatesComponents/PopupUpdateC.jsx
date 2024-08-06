@@ -13,7 +13,7 @@ const PopupEditC = ({ onClose, mutate, candidate }) => {
         habilidades: '',
         intereses: '',
         premios: '',
-        foto_perfil: '',
+        foto_perfil: '', // Imagen en base64
     });
 
     useEffect(() => {
@@ -29,7 +29,7 @@ const PopupEditC = ({ onClose, mutate, candidate }) => {
                 habilidades: candidate.habilidades || '',
                 intereses: candidate.intereses || '',
                 premios: candidate.premios || '',
-                foto_perfil: candidate.foto_perfil || '',
+                foto_perfil: candidate.foto_perfil || '', // Imagen en base64
             });
         }
     }, [candidate]);
@@ -45,6 +45,21 @@ const PopupEditC = ({ onClose, mutate, candidate }) => {
             ...formData,
             [name]: value,
         });
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setFormData({
+                    ...formData,
+                    foto_perfil: reader.result // Base64
+                });
+                // console.log('Imagen en base64:', reader.result); // Verificar base64 en consola
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -65,7 +80,7 @@ const PopupEditC = ({ onClose, mutate, candidate }) => {
         <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded shadow-lg w-1/3">
                 <h2 className="text-xl mb-4">Editar Candidato</h2>
-                <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4" encType="multipart/form-data">
+                <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
                     <div className="col-span-2 mb-4">
                         <label className="block text-sm font-medium text-gray-700">Nombre</label>
                         <input
@@ -171,12 +186,19 @@ const PopupEditC = ({ onClose, mutate, candidate }) => {
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700">Foto de perfil</label>
                         <input
-                            type="text"
-                            name="foto_perfil"
-                            value={formData.foto_perfil}
-                            onChange={handleChange}
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
                         />
+                        {formData.foto_perfil && (
+                            <img
+                                src={formData.foto_perfil}
+                                alt="Vista previa"
+                                className="mt-4"
+                                style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                            />
+                        )}
                     </div>
                     <div className="col-span-2 flex justify-center space-x-4 mt-2">
                         <button
@@ -200,7 +222,3 @@ const PopupEditC = ({ onClose, mutate, candidate }) => {
 };
 
 export default PopupEditC;
-
-
-
-

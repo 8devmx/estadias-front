@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import LayoutAdmin from '@/components/LayoutAdmin';
-// import {Candidates} from '@/services/candidates';
 import useSWR from 'swr';
 import ButtonTable from '@/components/CandidatesComponents/ButtonTable';
-// import styles from '@/styles/Componenadm.module.css';
 import PopupInsertC from '@/components/CandidatesComponents/PopupInsertC';
 import PopupEdit from '@/components/CandidatesComponents/PopupUpdateC';
 import RequireAuth from '@/components/UtilsComponents/RequireAuth';
-
 
 // manejo del encabezado trae el encabezado y el token
 const getAuthHeaders = () => {
@@ -29,20 +26,12 @@ const fetcher = async (url) => {
   return data.candidates; //para devolver el array directamente
 };
 
-
-// const fetcher = async () => {
-//   const data = await Candidates();
-//   // console.log(data);  verificar primero que data tenga los datos que trae Candidates del services
-//   return data.data.Candidates;
-// }
-
 const CandidateData = () => {
   const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/candidates', fetcher);
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [currentCandidate, setCurrentCandidate] = useState(null);
 
-  // console.log({data, error, isLoading}) verifivcar que trae data, error e isloading
   if (error) return <div><RequireAuth /></div>;
   if (isLoading) return <div>Cargando...</div>;
 
@@ -82,10 +71,10 @@ const CandidateData = () => {
           <tr>
             <th>ID</th>
             <th>Nombre</th>
-            <th>Telefóno</th>
+            <th>Teléfono</th>
             <th>Correo</th>
             <th>Dirección</th>
-            <th className='text-center'>foto</th>
+            <th className='text-center'>Foto</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -93,7 +82,7 @@ const CandidateData = () => {
           {candidates.map(
             (
               candidate,
-              index //se cambio data po r candidates
+              index //se cambio data por candidates
             ) => (
               <tr key={index} className="hover">
                 <th>{candidate.id}</th>
@@ -105,15 +94,16 @@ const CandidateData = () => {
                   </a>
                 </td>
                 <td>{candidate.address}</td>
-                <td>
+                <td className="text-center">
                   <img
-                    src={`/candidatos/${candidate.foto_perfil}`}
+                    src={candidate.foto_perfil || '/candidatos/PerfilUsuarioNull.avif'}
+                    alt="Foto de perfil"
                     style={{
                       maxHeight: "45px",
                       display: "block",
                       margin: "auto",
                     }}
-                  />{" "}
+                  />
                 </td>
                 <td>
                   <ButtonTable
