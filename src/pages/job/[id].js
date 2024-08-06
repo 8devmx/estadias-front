@@ -14,7 +14,8 @@ const JobOffer = () => {
     name: '',
     phone: '',
     email: '',
-    address: ''
+    address: '',
+    company_id: '1'
   });
 
   useEffect(() => {
@@ -44,6 +45,7 @@ const JobOffer = () => {
       return;
     }
     try {
+      console.log('Enviando datos del formulario:', form); // Debugging
       const response = await fetch('http://localhost:8000/candidatesfront', {
         method: 'POST',
         headers: {
