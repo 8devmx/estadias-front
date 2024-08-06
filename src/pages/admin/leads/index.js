@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import LayoutAdmin from '@/components/LayoutAdmin';
 import ButtonTable from '@/components/LeadsComponents/ButtonTAble';
 import RegistrosHistorial from '@/components/LeadsComponents/RegistrosHistorial';
-//import styles from '@/styles/leads.module.css';
 import RequireAuth from '@/components/UtilsComponents/RequireAuth';
 
 const Leads = () => {
@@ -16,7 +15,7 @@ const Leads = () => {
 
   const fetchLeads = async () => {
     try {
-      const response = await fetch('http://localhost:8000/leads/', {headers: getAuthHeaders(),});
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/leads/`, {headers: getAuthHeaders(),});
       const data = await response.json();
       setLeads(data.leads);
     } catch (error) {
@@ -37,7 +36,7 @@ const Leads = () => {
 
   const handleDeleteLead = async (leadId) => {
     try {
-      const response = await fetch(`http://localhost:8000/leads/${leadId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/leads/${leadId}`, {
         method: 'DELETE', headers: getAuthHeaders(),
       });
       if (response.ok) {

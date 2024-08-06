@@ -4,7 +4,7 @@ const Historial = ({ leadName }) => {
   const [historial, setHistorial] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8000/leads_historial', {
+    fetch(`${process.env.NEXT_PUBLIC_API_KEY}/leads_historial`, {
       headers: getAuthHeaders(),
     })
       .then(response => response.json())
