@@ -16,13 +16,11 @@ export default function Home() {
     <div>
       <Head>
         <title>Redirect Example</title>
-        <meta name="description" content="Redirect example with Next.js" />
       </Head>
 
       <main>
         <h1>cargando</h1>
       </main>
-
       <footer>
       </footer>
     </div>
