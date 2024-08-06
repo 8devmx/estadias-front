@@ -64,19 +64,18 @@ const SidebarToggle = styled.button`
   }
 `;
 
-const sidebar = () => {
+const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [candidateData, setCandidateData] = useState(null);
   const router = useRouter();
   const { id } = router.query;
- 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:8000/candidatesfront/${id}`);
         setCandidateData(response.data);
       } catch (error) {
-        console.log (responde.data)
         console.error('Error fetching candidate data:', error);
       }
     };
@@ -98,10 +97,7 @@ const sidebar = () => {
     <>
       <SidebarContainer isOpen={isOpen}>
         <SidebarHeader>
-          <img src={`../../${candidateData.foto_perfil}`}
-            alt="Perfil" 
-            style={{ borderRadius: '50%', width: '150px', margin: '20px auto' }} 
-          />
+          <img src={`../../${candidateData.foto_perfil}`} alt="Perfil" style={{ borderRadius: '50%', width: '150px', margin: '20px auto' }} />
         </SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem><a href="#about" onClick={toggleSidebar}>ABOUT</a></SidebarMenuItem>
@@ -119,4 +115,4 @@ const sidebar = () => {
   );
 };
 
-export default sidebar;
+export default Sidebar;
