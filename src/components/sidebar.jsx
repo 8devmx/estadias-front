@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const SidebarContainer = styled.div`
   position: fixed;
@@ -62,8 +64,31 @@ const SidebarToggle = styled.button`
   }
 `;
 
-const Sidebar = ({ profilePicture }) => {
+const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [candidateData, setCandidateData] = useState(null);
+  const router = useRouter();
+  const { id } = router.query;
+ 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/candidatesfront/${id}`);
+        setCandidateData(response.data);
+      } catch (error) {
+        console.log (responde.data)
+        console.error('Error fetching candidate data:', error);
+      }
+    };
+
+    if (id) {
+      fetchData();
+    }
+  }, [id]);
+
+  if (!candidateData) {
+    return <div>Loading...</div>;
+  }
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -73,8 +98,7 @@ const Sidebar = ({ profilePicture }) => {
     <>
       <SidebarContainer isOpen={isOpen}>
         <SidebarHeader>
-          <img 
-            src={profilePicture || "https://th.bing.com/th/id/OIP.28xVcXmTKYVBvd24rCwqNwHaJ0?rs=1&pid=ImgDetMaing"} 
+          <img src={`../../${candidateData.foto_perfil}`}
             alt="Perfil" 
             style={{ borderRadius: '50%', width: '150px', margin: '20px auto' }} 
           />

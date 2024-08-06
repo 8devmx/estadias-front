@@ -59,6 +59,25 @@ const SubmitButton = styled.button`
   }
 `;
 
+const FileInput = styled.input`
+  width: 100%;
+  padding: 10px 8px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 16px;
+  transition: border-color 0.3s;
+  &:focus {
+    border-color: #3b82f6;
+    outline: none;
+  }
+`;
+
+const FileName = styled.p`
+  margin-top: 8px;
+  font-size: 14px;
+  color: #4b5563;
+`;
+
 const UpdateCandidateForm = () => {
   const [formData, setFormData] = useState({
     sobre_mi: '',
@@ -66,11 +85,14 @@ const UpdateCandidateForm = () => {
     educacion: '',
     habilidades: '',
     intereses: '',
-    premios: ''
+    premios: '',
+    foto_perfil: ''
   });
+
+  const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  
   const router = useRouter();
   const { id } = router.query;
 
@@ -87,7 +109,8 @@ const UpdateCandidateForm = () => {
             educacion: data.educacion || '',
             habilidades: data.habilidades || '',
             intereses: data.intereses || '',
-            premios: data.premios || ''
+            premios: data.premios || '',
+            foto_perfil: data.foto_perfil || ''
           });
         } catch (error) {
           console.error('Error fetching candidate data:', error);
@@ -106,11 +129,40 @@ const UpdateCandidateForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setSelectedFile(file);
+    if (file) {
+      setFormData(prev => ({
+        ...prev,
+        foto_perfil: file.name
+      }));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const formDataToSend = new FormData();
+    
+    // Append text fields
+    Object.keys(formData).forEach(key => {
+      if (key !== 'foto_perfil') {
+        formDataToSend.append(key, formData[key]);
+      }
+    });
+    
+    // Append file if selected
+    if (selectedFile) {
+      formDataToSend.append('foto_perfil', selectedFile);
+    }
+
     try {
-      const response = await axios.put(`http://localhost:8000/candidatesfront/${id}`, formData);
+      const response = await axios.post(`http://localhost:8000/candidatesfront/${id}`, formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       if (response.status === 200) {
         alert('Candidato actualizado exitosamente');
         router.push(`/thanks?id=${id}`);
@@ -186,7 +238,17 @@ const UpdateCandidateForm = () => {
               onChange={handleChange}
             />
           </FormField>
-          {error && <p className="text-red-500">{error}</p>}
+          <FormField>
+            <Label htmlFor="foto_perfil">Foto de perfil:</Label>
+            <FileInput
+              type="file"
+              id="foto_perfil"
+              name="foto_perfil"
+              onChange={handleFileChange}
+            />
+            {formData.foto_perfil && <FileName>Archivo seleccionado: {formData.foto_perfil}</FileName>}
+          </FormField>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
           <SubmitButton type="submit" disabled={loading}>Enviar</SubmitButton>
         </form>
       )}
