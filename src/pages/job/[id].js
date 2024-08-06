@@ -8,7 +8,7 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 const JobOffer = () => {
   const router = useRouter();
   const id = router.query.id;
-  const { data, error } = useSWR(`http://localhost:8000/vacancies1/${id}`, fetcher);
+  const { data, error } = useSWR(`${process.env.NEXT_PUBLIC_API_KEY}/vacancies1/${id}`, fetcher);
   const [vacancies, setVacancies] = useState([]);
   const [form, setForm] = useState({
     name: '',
@@ -46,7 +46,7 @@ const JobOffer = () => {
     }
     try {
       console.log('Enviando datos del formulario:', form); // Debugging
-      const response = await fetch('http://localhost:8000/candidatesfront', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/candidatesfront`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

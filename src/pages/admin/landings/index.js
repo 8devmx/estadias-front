@@ -33,7 +33,7 @@ const fetcher = async (url) => {
 // }
 
 const LandingsData = () => {
-  const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/landings', fetcher);
+  const { data, error, isLoading, mutate } = useSWR(`${process.env.NEXT_PUBLIC_API_KEY}/landings`, fetcher);
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [currentLanding, setCurrentLanding] = useState(null);

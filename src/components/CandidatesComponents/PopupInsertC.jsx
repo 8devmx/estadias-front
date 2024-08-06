@@ -25,7 +25,23 @@ const PopupInsertC = ({ onClose, mutate }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+<<<<<<< Updated upstream
             await axios.post('http://localhost:8000/candidates', formData, { headers: getAuthHeaders(),});
+=======
+            // Obtener el id de la compañía autenticada si no está presente
+            if (!formData.Company_id) {
+                const authenticatedCompany = localStorage.getItem('company_id');
+                if (authenticatedCompany) {
+                    setFormData({
+                        ...formData,
+                        Company_id: authenticatedCompany,
+                    });
+                }
+            }
+
+            console.log('Enviando datos:', formData); // Para ver los datos antes de enviarlos
+            await axios.post(`${process.env.NEXT_PUBLIC_API_KEY}/candidates`, formData, { headers: getAuthHeaders() });
+>>>>>>> Stashed changes
             mutate();
             onClose();
         } catch (error) {

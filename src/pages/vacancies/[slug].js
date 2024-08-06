@@ -11,7 +11,20 @@ const VacanciesView = () => {
   useEffect(() => {
     if (!slug) return;
 
+<<<<<<< Updated upstream
     fetch('http://localhost:8000/vacanciesfront')
+=======
+    const normalizedSlug = slug.toLowerCase();
+    const validSlugs = ['tech-pech', 'unid', 'walmart'];
+    if (!validSlugs.includes(normalizedSlug)) {
+      setIsValidSlug(false);
+      return;
+    } else {
+      setIsValidSlug(true);
+    }
+
+    fetch(`${process.env.NEXT_PUBLIC_API_KEY}/vacanciesfront`)
+>>>>>>> Stashed changes
       .then(response => response.json())
       .then(data => {
         console.log('Fetched vacancies:', data);

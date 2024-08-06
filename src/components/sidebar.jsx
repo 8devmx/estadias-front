@@ -64,6 +64,31 @@ const SidebarToggle = styled.button`
 
 const Sidebar = ({ profilePicture }) => {
   const [isOpen, setIsOpen] = useState(false);
+<<<<<<< Updated upstream
+=======
+  const [candidateData, setCandidateData] = useState(null);
+  const router = useRouter();
+  const { id } = router.query;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}/candidatesfront/${id}`);
+        setCandidateData(response.data);
+      } catch (error) {
+        console.error('Error fetching candidate data:', error);
+      }
+    };
+
+    if (id) {
+      fetchData();
+    }
+  }, [id]);
+
+  if (!candidateData) {
+    return <div>Loading...</div>;
+  }
+>>>>>>> Stashed changes
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);

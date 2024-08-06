@@ -38,7 +38,7 @@ const PopupEdit = ({ onClose, mutate, vacancie }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:8000/vacancies/${vacancie.id}`, formData,  { headers: getAuthHeaders(),});
+            await axios.put(`${process.env.NEXT_PUBLIC_API_KEY}/vacancies/${vacancie.id}`, formData,  { headers: getAuthHeaders(),});
             mutate();
             onClose();
         } catch (error) {

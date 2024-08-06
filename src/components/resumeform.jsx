@@ -76,7 +76,11 @@ const UpdateCandidateForm = () => {
     const fetchData = async () => {
       if (id) {
         try {
+<<<<<<< Updated upstream
           const response = await axios.get(`http://localhost:8000/candidatesfrontfront/${id}`);
+=======
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}/candidatesfront/${id}`);
+>>>>>>> Stashed changes
           const data = response.data;
           setFormData({
             sobre_mi: data.sobre_mi || '',
@@ -104,7 +108,15 @@ const UpdateCandidateForm = () => {
     e.preventDefault();
 
     try {
+<<<<<<< Updated upstream
       const response = await axios.put(`http://localhost:8000/candidatesfront/${id}`, formData);
+=======
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_KEY}/candidatesfront/${id}`, formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+>>>>>>> Stashed changes
       if (response.status === 200) {
         alert('Candidato actualizado exitosamente');
         router.push(`/thanks?id=${id}`); // Redirigir a thanks.js con el ID en la URL

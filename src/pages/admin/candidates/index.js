@@ -37,7 +37,7 @@ const fetcher = async (url) => {
 // }
 
 const CandidateData = () => {
-  const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/candidates', fetcher);
+  const { data, error, isLoading, mutate } = useSWR(`${process.env.NEXT_PUBLIC_API_KEY}/candidates`, fetcher);
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [currentCandidate, setCurrentCandidate] = useState(null);

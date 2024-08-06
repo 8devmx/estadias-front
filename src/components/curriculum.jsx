@@ -118,7 +118,11 @@ const Curriculum = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+<<<<<<< Updated upstream
         const response = await axios.get(`http://localhost:8000/candidates/${id}`);
+=======
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}/candidatesfront/${id}`);
+>>>>>>> Stashed changes
         setCandidateData(response.data);
       } catch (error) {
         console.error(error);

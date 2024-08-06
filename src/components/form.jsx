@@ -59,7 +59,7 @@ const Form = () => {
                     company_id: "1"
                 }
 
-                fetch("http://localhost:8000/leads", {
+                fetch(`${process.env.NEXT_PUBLIC_API_KEY}/leads`, {
                     method: "POST",
                     body: JSON.stringify(payloadLead),
                     headers: {

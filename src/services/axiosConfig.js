@@ -1,6 +1,10 @@
 import axios from 'axios';
 
+<<<<<<< Updated upstream
 const API_URL = process.env.NEXT_PUBLIC_API_KEY; // Cambia esto a la URL de tu backend
+=======
+const API_URL = `${process.env.NEXT_PUBLIC_API_KEY}`; // Cambia esto a la URL de tu backend
+>>>>>>> Stashed changes
 
 const axiosInstance = axios.create({
   baseURL: API_URL,

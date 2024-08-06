@@ -41,7 +41,13 @@ const PopupEditC = ({ onClose, mutate, candidate }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+<<<<<<< Updated upstream
             await axios.put(`http://localhost:8000/candidates/${candidate.id}`, formData, { headers: getAuthHeaders(),});
+=======
+            await axios.put(`${process.env.NEXT_PUBLIC_API_KEY}/candidates/${candidate.id}`, formData, {
+                headers: getAuthHeaders(),
+            });
+>>>>>>> Stashed changes
             mutate();
             onClose();
         } catch (error) {
