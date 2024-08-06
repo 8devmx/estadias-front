@@ -1,5 +1,5 @@
 // pages/form.js
-import ResumeForm from '../components/ResumeForm';
+import ResumeForm from '../components/resumeform';
 
 const FormPage = () => {
   return <ResumeForm />;
