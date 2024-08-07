@@ -13,10 +13,44 @@ const PopupEdit = ({ onClose, mutate, vacancie }) => {
         salary: vacancie.salary,
     });
 
-    const getAuthHeaders = () => { //obtener el token y el header
+    const [states, setStates] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [types, setTypes] = useState([]);
+
+    const getAuthHeaders = () => {
         const token = localStorage.getItem('token');
         return token ? { Authorization: `Bearer ${token}` } : {};
-      };
+    };
+
+    useEffect(() => {
+        const fetchStates = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/states');
+                setStates(response.data);
+            } catch (error) {
+                console.error('Error fetching states:', error);
+            }
+        };
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/categories');
+                setCategories(response.data);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+        const fetchTypes = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/types');
+                setTypes(response.data);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+        fetchStates();
+        fetchCategories();
+        fetchTypes();
+    }, []);
 
     useEffect(() => {
         setFormData({
@@ -42,7 +76,7 @@ const PopupEdit = ({ onClose, mutate, vacancie }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:8000/vacancies/${vacancie.id}`, formData,  { headers: getAuthHeaders(),});
+            await axios.put(`http://localhost:8000/vacancies/${vacancie.id}`, formData, { headers: getAuthHeaders() });
             mutate();
             onClose();
         } catch (error) {
@@ -57,25 +91,37 @@ const PopupEdit = ({ onClose, mutate, vacancie }) => {
                 <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700">Estado</label>
-                        <input
-                            type="text"
+                        <select
                             name="state"
                             value={formData.state}
                             onChange={handleChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
                             required
-                        />
+                        >
+                            <option value="">Selecciona un estado</option>
+                            {states.map((state) => (
+                                <option key={state.id} value={state.state}>
+                                    {state.state}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700">Categoría</label>
-                        <input
-                            type="text"
+                        <select
                             name="category"
                             value={formData.category}
                             onChange={handleChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
                             required
-                        />
+                        >
+                            <option value=""disabled>Selecciona una categoría</option>
+                            {categories.map((category) => (
+                                <option key={category.id} value={category.category}>
+                                    {category.category}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700">Título</label>
@@ -111,14 +157,20 @@ const PopupEdit = ({ onClose, mutate, vacancie }) => {
                     </div>
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700">Tipo</label>
-                        <input
-                            type="text"
+                        <select
                             name="type"
                             value={formData.type}
                             onChange={handleChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
                             required
-                        />
+                        >
+                            <option value=""disabled>Selecciona un tipo</option>
+                            {types.map((type) => (
+                                <option key={type.id} value={type.type}>
+                                    {type.type}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700">Salario</label>
