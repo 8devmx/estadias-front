@@ -21,7 +21,7 @@ const VacanciesView = () => {
       setIsValidSlug(true);
     }
 
-    fetch('http://localhost:8000/vacanciesfront')
+    fetch(`${process.env.NEXT_PUBLIC_API_KEY}/vacanciesfront`)
       .then(response => response.json())
       .then(data => {
         console.log('Fetched vacancies:', data);
