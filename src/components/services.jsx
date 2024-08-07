@@ -1,27 +1,27 @@
 import React from 'react'
 import styles from '@/styles/Services.module.css'
 
-const Services = ({data}) => {
+const Services = ({ data }) => {
   const listServices = data.services
   return (
-    <div className={styles.services} data-theme="light">
-      <h2>Our service</h2>
+    <section
+      id="services"
+      className={styles.services}
+      data-theme="light"
+    >
+      <h2>Our Services</h2>
       <div className={styles.servicesContainer}>
-        {
-          listServices.map((ser, index) => {
-            return (
-              <div className={styles.service} key={index}>
-                <img src={`/${ser.image}`} alt={ser.image}/>
-                <div className={styles.serviceContent}>
-                  <h3>{ser.title}</h3>
-                  <p>{ser.paragraph}</p>
-                </div>
-              </div>
-            )
-          })
-        }
+        {listServices.map((ser, index) => (
+          <div className={styles.service} key={index}>
+            <img src={`/${ser.image}`} alt={ser.title} />
+            <div className={styles.serviceContent}>
+              <h3>{ser.title}</h3>
+              <p>{ser.paragraph}</p>
+            </div>
+          </div>
+        ))}
       </div>
-    </div>
+    </section>
   );
 }
 
