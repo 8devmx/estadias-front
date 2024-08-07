@@ -27,7 +27,7 @@ const PopupInsertL = ({ onClose, mutate }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:8000/landings', formData, { headers: getAuthHeaders(),});
+            await axios.post(`${process.env.NEXT_PUBLIC_API_KEY}/landings`, formData, { headers: getAuthHeaders(),});
             mutate();
             onClose();
         } catch (error) {

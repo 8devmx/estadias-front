@@ -37,7 +37,7 @@ const PopupEditC = ({ onClose, mutate, company }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:8000/company/${company.id}`, formData,  { headers: getAuthHeaders(),});
+            await axios.put(`${process.env.NEXT_PUBLIC_API_KEY}/company/${company.id}`, formData,  { headers: getAuthHeaders(),});
             mutate();
             onClose();
         } catch (error) {

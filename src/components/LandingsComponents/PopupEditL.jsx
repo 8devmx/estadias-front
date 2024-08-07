@@ -43,7 +43,7 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
 
     const fetchCompany = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/company', {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}/company`, {
                 headers: getAuthHeaders(),
             });
             setCompanies(response.data.company || []); 
@@ -119,7 +119,7 @@ const PopupEditL = ({ onClose, mutate, landing }) => {
         formDataToSend.append('company_id', formData.company_id);
 
         try {
-            const response = await axios.post(`http://localhost:8000/landings/${landing.id}`, formDataToSend, {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_KEY}/landings/${landing.id}`, formDataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     ...getAuthHeaders(), 

@@ -101,7 +101,7 @@ const ResumeForm = () => {
       if (id) {
         setLoading(true);
         try {
-          const response = await axios.get(`http://localhost:8000/candidatesfront/${id}`);
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}/candidatesfront/${id}`);
           const data = response.data;
           setFormData({
             sobre_mi: data.sobre_mi || '',
@@ -158,7 +158,7 @@ const ResumeForm = () => {
     }
 
     try {
-      const response = await axios.post(`http://localhost:8000/candidatesfront/${id}`, formDataToSend, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_KEY}/candidatesfront/${id}`, formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

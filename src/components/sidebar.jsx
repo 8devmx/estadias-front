@@ -73,7 +73,7 @@ const Sidebar = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/candidatesfront/${id}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}/candidatesfront/${id}`);
         setCandidateData(response.data);
       } catch (error) {
         console.error('Error fetching candidate data:', error);
