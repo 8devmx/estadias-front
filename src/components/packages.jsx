@@ -8,7 +8,11 @@ const Packages = ({ data }) => {
   };
 
   return (
-    <div style={backgroundStyle} className={styles.container}>
+    <section
+      id="packages"
+      style={backgroundStyle}
+      className={styles.container}
+    >
       <div className={styles.text}>
         <h1>{data.title}</h1>
         <p>{data.paragraph}</p>
@@ -22,7 +26,7 @@ const Packages = ({ data }) => {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
 
