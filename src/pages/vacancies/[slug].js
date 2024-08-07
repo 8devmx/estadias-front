@@ -125,7 +125,7 @@ const VacanciesView = () => {
       <div className="max-w-7xl mx-auto bg-white shadow-2xl rounded-lg p-6 bg-opacity-90 mt-16">
         <h2 className="text-2xl font-semibold mb-6 text-center text-gray-700">Estas son las vacantes disponibles</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {/* {Array.isArray(filteredVacancies) && filteredVacancies.length > 0 ? (
+          {Array.isArray(filteredVacancies) && filteredVacancies.length > 0 ? (
             filteredVacancies.map(vacancy => (
               <Link key={vacancy.id} href={`/job/${vacancy.id}`}>
                 <div className="relative bg-white shadow-md rounded-md p-4 h-32 flex items-center justify-center text-center cursor-pointer transition-colors duration-300 hover:text-blue-500 text-black">
@@ -140,20 +140,6 @@ const VacanciesView = () => {
                 </div>
               </Link>
             ))
-          ) : (
-            <p className="text-center text-gray-500">►Sin vacantes disponibles◄</p>
-          )} */}
-                    {vacancies.length > 0 ? (
-            <div className="relative bg-white shadow-md rounded-md p-4 h-32 flex items-center justify-center text-center cursor-pointer transition-colors duration-300 hover:text-blue-500 text-black">
-              <div className="vacancy-title">
-                <h2 className="font-bold text-lg">{vacancies[0].title}</h2>
-              </div>
-              <div className="vacancy-details absolute inset-0 bg-white p-4 opacity-0 hover:opacity-100 flex flex-col justify-center transition-opacity duration-300">
-                <p><strong>Ubicación:</strong> {vacancies[0].state}</p>
-                <p><strong>Tipo:</strong> {vacancies[0].type}</p>
-                <p><strong>Categoría:</strong> {vacancies[0].category}</p>
-              </div>
-            </div>
           ) : (
             <p className="text-center text-gray-500">►Sin vacantes disponibles◄</p>
           )}
