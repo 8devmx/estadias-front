@@ -15,6 +15,7 @@ const VacanciesView = () => {
     const normalizedSlug = slug.toLowerCase();
     console.log('Normalized Slug:', normalizedSlug);
     const validSlugs = ['tech-pech', 'unid', 'walmart', 'fresno', 'super-david'];
+
     if (!validSlugs.includes(normalizedSlug)) {
       setIsValidSlug(false);
       return;
