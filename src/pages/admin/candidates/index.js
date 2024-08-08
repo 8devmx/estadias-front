@@ -83,9 +83,13 @@ const CandidateData = () => {
             <tr key={index} className="hover">
               <th>{candidate.id}</th>
               <td>{candidate.name}</td>
-              <td>{candidate.phone}</td>
               <td>
-                <a href={`mailto:${candidate.email}`} target="_BLANK">
+              <a href={`tel:${candidate.phone}`} target="_self">
+                {candidate.phone}
+              </a>
+              </td>
+              <td>
+                <a href={`mailto:${candidate.email}`} target="_blank">
                   {candidate.email}
                 </a>
               </td>
