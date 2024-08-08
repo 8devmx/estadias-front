@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import LayoutAdmin from '@/components/LayoutAdmin';
 import { Vacancies } from '@/services/vacancies';
 import useSWR from 'swr';
@@ -7,6 +7,8 @@ import styles from '@/styles/Componenadm.module.css';
 import PopupInsert from '@/components/VacanciesComponents/PopupInsert';
 import PopupEdit from '@/components/VacanciesComponents/PopupUpdate';
 import RequireAuth from '@/components/UtilsComponents/RequireAuth';
+import {jwtDecode} from 'jwt-decode';
+
 
 
 // manejo del encabezado trae el encabezado y el token
@@ -36,10 +38,24 @@ const fetcher = async (url) => {
 // }
 
 const Vacanciedata = () => {
-  const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/vacancies', fetcher);
+  const { data, error, isLoading, mutate } = useSWR(`${process.env.NEXT_PUBLIC_API_KEY}/vacancies`, fetcher);
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [currentVacancie, setCurrentVacancie] = useState(null);
+  const [canEdit, setCanEdit] = useState(false);
+  const [companyID, setCompanyID] = useState(0);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      setCompanyID(decodedToken?.sub);
+      if (decodedToken.sub === 2) {
+        setCanEdit(true);
+      }
+    }
+  }, []);
+
 
   if (error) return <div><RequireAuth /></div>;
   if (isLoading) return <div>Cargando...</div>;
@@ -62,15 +78,7 @@ const Vacanciedata = () => {
     <LayoutAdmin>
       <h1 className="text-xl font-bold mb-6">Vacantes</h1>
       <div className="flex justify-between p-4">
-        <div className="w-1/2">
-          <input
-            type="text"
-            id={styles.input}
-            name="first-input"
-            placeholder="Buscar"
-            className="mt-1 block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-          />
-        </div>
+        <div className="w-1/2"></div>
         <div className="w-1/6 flex items-end">
           <button
             className="mt-1 block w-full rounded-md bg-black text-white py-2 px-4"
@@ -87,9 +95,11 @@ const Vacanciedata = () => {
             <th>Estado</th>
             <th>Categoría</th>
             <th>Título</th>
-            <th>Compañía</th>
+            {/* <th>Compañía</th> */}
             <th>Descripción</th>
             <th>Tipo</th>
+            <th>Requisitos</th>
+            <th>Salario</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -100,9 +110,11 @@ const Vacanciedata = () => {
               <td>{vacancie.state}</td>
               <td>{vacancie.category}</td>
               <td>{vacancie.title}</td>
-              <td>{vacancie.company_id}</td>
+              {/* <td>{vacancie.company_id}</td> */}
               <td>{vacancie.description}</td>
               <td>{vacancie.type}</td>
+              <td>{vacancie.requirements}</td>
+              <td>{vacancie.salary}</td>
               <td>
                 <ButtonTable id={vacancie.id} mutate={mutate} onEdit={() => handleEditClick(vacancie)} />
               </td>
@@ -110,8 +122,9 @@ const Vacanciedata = () => {
           ))}
         </tbody>
       </table>
-      {showForm && <PopupInsert onClose={handleCloseForm} mutate={mutate} />}
-      {showEditForm && <PopupEdit onClose={handleCloseForm} mutate={mutate} vacancie={currentVacancie} />}
+      {showForm && <PopupInsert onClose={handleCloseForm} mutate={mutate} canEdit={canEdit} companyID={companyID} />}
+      {showEditForm && <PopupEdit onClose={handleCloseForm} mutate={mutate} vacancie={currentVacancie} canEdit={canEdit} companyID={companyID} />}
+
     </LayoutAdmin>
   );
 }

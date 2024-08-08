@@ -59,24 +59,49 @@ const SubmitButton = styled.button`
   }
 `;
 
-const UpdateCandidateForm = () => {
+const FileInput = styled.input`
+  width: 100%;
+  padding: 10px 8px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 16px;
+  transition: border-color 0.3s;
+  &:focus {
+    border-color: #3b82f6;
+    outline: none;
+  }
+`;
+
+const FileName = styled.p`
+  margin-top: 8px;
+  font-size: 14px;
+  color: #4b5563;
+`;
+
+const ResumeForm = () => {
   const [formData, setFormData] = useState({
     sobre_mi: '',
     experiencia: '',
     educacion: '',
     habilidades: '',
     intereses: '',
-    premios: ''
+    premios: '',
+    foto_perfil: ''
   });
 
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  
   const router = useRouter();
   const { id } = router.query;
 
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
+        setLoading(true);
         try {
-          const response = await axios.get(`http://localhost:8000/candidatesfrontfront/${id}`);
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}/candidatesfront/${id}`);
           const data = response.data;
           setFormData({
             sobre_mi: data.sobre_mi || '',
@@ -84,10 +109,14 @@ const UpdateCandidateForm = () => {
             educacion: data.educacion || '',
             habilidades: data.habilidades || '',
             intereses: data.intereses || '',
-            premios: data.premios || ''
+            premios: data.premios || '',
+            foto_perfil: data.foto_perfil || ''
           });
         } catch (error) {
           console.error('Error fetching candidate data:', error);
+          setError('Error al cargar los datos del candidato.');
+        } finally {
+          setLoading(false);
         }
       }
     };
@@ -100,53 +129,123 @@ const UpdateCandidateForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prev => ({
+          ...prev,
+          foto_perfil: reader.result // base64 string
+        }));
+      };
+      reader.readAsDataURL(file);
+      setSelectedFile(file);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
-      const response = await axios.put(`http://localhost:8000/candidatesfront/${id}`, formData);
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_KEY}/candidatesfront/${id}`, formData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       if (response.status === 200) {
         alert('Candidato actualizado exitosamente');
-        router.push(`/thanks?id=${id}`); // Redirigir a thanks.js con el ID en la URL
+        router.push(`/thanks?id=${id}`);
+      } else {
+        setError('Error al actualizar los datos del candidato.');
       }
     } catch (error) {
       console.error('Error actualizando candidato:', error);
-      alert('Hubo un error al actualizar el candidato');
+      console.error('Response data:', error.response?.data);
+      setError('Hubo un error al actualizar el candidato.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <FormContainer>
       <FormTitle>Completa tu Curriculum</FormTitle>
-      <form onSubmit={handleSubmit}>
-        <FormField>
-          <Label htmlFor="sobre_mi">Sobre Mí:</Label>
-          <TextArea id="sobre_mi" name="sobre_mi" value={formData.sobre_mi} onChange={handleChange} />
-        </FormField>
-        <FormField>
-          <Label htmlFor="experiencia">Experiencia:</Label>
-          <TextArea id="experiencia" name="experiencia" value={formData.experiencia} onChange={handleChange} />
-        </FormField>
-        <FormField>
-          <Label htmlFor="educacion">Educación:</Label>
-          <TextArea id="educacion" name="educacion" value={formData.educacion} onChange={handleChange} />
-        </FormField>
-        <FormField>
-          <Label htmlFor="habilidades">Habilidades:</Label>
-          <TextArea id="habilidades" name="habilidades" value={formData.habilidades} onChange={handleChange} />
-        </FormField>
-        <FormField>
-          <Label htmlFor="intereses">Intereses:</Label>
-          <TextArea id="intereses" name="intereses" value={formData.intereses} onChange={handleChange} />
-        </FormField>
-        <FormField>
-          <Label htmlFor="premios">Premios:</Label>
-          <TextArea id="premios" name="premios" value={formData.premios} onChange={handleChange} />
-        </FormField>
-        <SubmitButton type="submit">Enviar</SubmitButton>
-      </form>
+      {loading ? (
+        <p>Cargando...</p>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <FormField>
+            <Label htmlFor="sobre_mi">Sobre Mí:</Label>
+            <TextArea
+              id="sobre_mi"
+              name="sobre_mi"
+              value={formData.sobre_mi}
+              onChange={handleChange}
+            />
+          </FormField>
+          <FormField>
+            <Label htmlFor="experiencia">Experiencia:</Label>
+            <TextArea
+              id="experiencia"
+              name="experiencia"
+              value={formData.experiencia}
+              onChange={handleChange}
+            />
+          </FormField>
+          <FormField>
+            <Label htmlFor="educacion">Educación:</Label>
+            <TextArea
+              id="educacion"
+              name="educacion"
+              value={formData.educacion}
+              onChange={handleChange}
+            />
+          </FormField>
+          <FormField>
+            <Label htmlFor="habilidades">Habilidades:</Label>
+            <TextArea
+              id="habilidades"
+              name="habilidades"
+              value={formData.habilidades}
+              onChange={handleChange}
+            />
+          </FormField>
+          <FormField>
+            <Label htmlFor="intereses">Intereses:</Label>
+            <TextArea
+              id="intereses"
+              name="intereses"
+              value={formData.intereses}
+              onChange={handleChange}
+            />
+          </FormField>
+          <FormField>
+            <Label htmlFor="premios">Premios:</Label>
+            <TextArea
+              id="premios"
+              name="premios"
+              value={formData.premios}
+              onChange={handleChange}
+            />
+          </FormField>
+          <FormField>
+            <Label htmlFor="foto_perfil">Foto de perfil:</Label>
+            <FileInput
+              type="file"
+              id="foto_perfil"
+              name="foto_perfil"
+              onChange={handleFileChange}
+            />
+            {formData.foto_perfil && <FileName></FileName>}
+          </FormField>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+          <SubmitButton type="submit" disabled={loading}>Enviar</SubmitButton>
+        </form>
+      )}
     </FormContainer>
   );
 };
 
-export default UpdateCandidateForm;
+export default ResumeForm;

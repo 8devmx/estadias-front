@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import Sidebar from '../components/Sidebar';
+import Sidebar from '../components/sidebar';
 import Head from 'next/head';
 
 const Container = styled.div`
@@ -118,10 +118,10 @@ const Curriculum = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/candidates/${id}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}/candidatesfront/${id}`);
         setCandidateData(response.data);
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching candidate data:', error);
       }
     };
 
@@ -191,3 +191,4 @@ const Curriculum = () => {
 };
 
 export default Curriculum;
+

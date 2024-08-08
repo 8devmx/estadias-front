@@ -6,7 +6,7 @@ export default function ThankYou() {
   const { id } = router.query;
 
   const handleViewCV = () => {
-    router.push(`/curriculum?id=${id}`);
+    router.push(`/CurriculumPage?id=${id}`);
   };
 
   return (

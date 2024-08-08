@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Historial from "./Historial";
-import Acciones from './Acciones';
 
 const ModalDetails = ({ leadId, onClose }) => {
   const [lead, setLead] = useState(null);
@@ -9,7 +8,7 @@ const ModalDetails = ({ leadId, onClose }) => {
 
   useEffect(() => {
     if (leadId) {
-      fetch(`http://localhost:8000/leads/${leadId}`, {
+      fetch(`${process.env.NEXT_PUBLIC_API_KEY}/leads/${leadId}`, {
         headers: getAuthHeaders(),
       })
         .then(response => response.json())
@@ -34,7 +33,7 @@ const ModalDetails = ({ leadId, onClose }) => {
         name_client: nameClient,
       };
 
-      fetch('http://localhost:8000/leads_historial', {
+      fetch(`${process.env.NEXT_PUBLIC_API_KEY}/leads_historial`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

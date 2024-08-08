@@ -19,7 +19,7 @@ const ButtonEdit = ({ leadId, onClose }) => {
   const [statuses, setStatuses] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/leads/${leadId}`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_KEY}/leads/${leadId}`, {
       headers: getAuthHeaders(),
     })
       .then(response => response.json())
@@ -28,7 +28,7 @@ const ButtonEdit = ({ leadId, onClose }) => {
       })
       .catch(error => console.error('Error fetching lead data:', error));
 
-    fetch('http://localhost:8000/status', {
+    fetch(`${process.env.NEXT_PUBLIC_API_KEY}/status`, {
       headers: getAuthHeaders(),
     })
       .then(response => response.json())
@@ -60,7 +60,7 @@ const ButtonEdit = ({ leadId, onClose }) => {
   };
 
   const handleUpdateLead = () => {
-    fetch(`http://localhost:8000/leads/${leadId}`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_KEY}/leads/${leadId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ const ButtonEdit = ({ leadId, onClose }) => {
       name_client: formData.name_client // Asegúrate de que este campo se incluya en los datos enviados
     };
 
-    fetch('http://localhost:8000/leads_historial', {
+    fetch(`${process.env.NEXT_PUBLIC_API_KEY}/leads_historial`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

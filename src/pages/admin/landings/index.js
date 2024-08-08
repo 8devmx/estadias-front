@@ -33,7 +33,7 @@ const fetcher = async (url) => {
 // }
 
 const LandingsData = () => {
-  const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/landings', fetcher);
+  const { data, error, isLoading, mutate } = useSWR(`${process.env.NEXT_PUBLIC_API_KEY}/landings`, fetcher);
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [currentLanding, setCurrentLanding] = useState(null);
@@ -67,13 +67,6 @@ const LandingsData = () => {
       <div className="flex justify-between p-4">
         <div className="w-1/2">
         </div>
-        <div className="w-1/6 flex items-end">
-          <button
-            className="mt-1 block w-full rounded-md bg-black text-white py-2 px-4" onClick={handleAddClick}
-          >
-            Agregar
-          </button>
-        </div>
       </div>
       <table className="table">
         <thead>
@@ -90,7 +83,7 @@ const LandingsData = () => {
             <tr key={index} className="hover">
               <th>{landing.id}</th>
               <td>
-                <a href={`http://localhost:3000/landings/${landing.slugs}`} target='_BLANK'>
+                <a href={`${process.env.NEXT_PUBLIC_API_KEY}/landings/${landing.slugs}`} target='_BLANK'>
                   <img src={`/${landing.logo}`} style={{'maxHeight': '25px', 'display': 'block', 'margin': 'auto'}} />
                 </a>
               </td>

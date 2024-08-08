@@ -2,10 +2,10 @@ import React from 'react';
 import styles from '@/styles/Hero.module.css';
 
 const Hero = ({ data }) => {
-
-  console.log(data)
+  console.log(data);
   return (
-    <div
+    <section
+      id="home"
       className={styles.hero}
       style={{ backgroundImage: `url(/${data.background})` }}
     >
@@ -14,7 +14,7 @@ const Hero = ({ data }) => {
       <a href={data.buttonLink} target="_blank" rel="noopener noreferrer">
         {data.buttonText}
       </a>
-    </div>
+    </section>
   );
 };
 

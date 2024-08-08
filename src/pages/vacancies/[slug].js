@@ -20,6 +20,7 @@ export async function getServerSideProps(context) {
       return { notFound: true };
     }
 
+    
     const companyId = data.company_id; // Obtener el company_id de la landing
     const vacanciesRes = await fetch(`http://localhost:8000/vacanciesfront?company_id=${companyId}`);
     const vacanciesData = await vacanciesRes.json();

@@ -6,7 +6,7 @@ const VacanciesView = () => {
   const [vacancies, setVacancies] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8000/vacancies')
+    fetch(`${process.env.NEXT_PUBLIC_API_KEY}/vacancies`)
       .then(response => response.json())
       .then(data => {
         console.log('Fetched vacancies:', data); // Verificar datos recuperados

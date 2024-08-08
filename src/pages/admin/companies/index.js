@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import LayoutAdmin from '@/components/LayoutAdmin';
-import { Company } from '@/services/company';
 import useSWR from 'swr';
 import ButtonTable from '@/components/CompanyComponents/ButtonTable';
 import PopupEditC from '@/components/CompanyComponents/PopupEditC';
@@ -28,7 +27,7 @@ const getAuthHeaders = () => {
   };
   
 const CompanyData = () => {
-  const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/company', fetcher)
+  const { data, error, isLoading, mutate } = useSWR(`${process.env.NEXT_PUBLIC_API_KEY}/company`, fetcher)
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [currentCompany, setCurrentCompany] = useState(null);
@@ -57,23 +56,6 @@ const CompanyData = () => {
       <h1 className="text-xl font-bold mb-6">Companies</h1>
       <div className="flex justify-between p-4">
         <div className="w-1/2">
-
-          <input
-            type="text"
-            id={styles.input}
-            name="first-input"
-            placeholder="Buscar"
-            className="mt-1 block w-full border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-          />
-
-
-        </div>
-        <div className="w-1/6 flex items-end">
-          <button
-            className="mt-1 block w-full rounded-md bg-black text-white py-2 px-4" onClick={handleAddClick}
-          >
-            Agregar
-          </button>
         </div>
       </div>
       <table className="table">

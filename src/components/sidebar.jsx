@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
 
 const SidebarContainer = styled.div`
   position: fixed;
@@ -62,8 +64,36 @@ const SidebarToggle = styled.button`
   }
 `;
 
-const Sidebar = ({ profilePicture }) => {
+const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [candidateData, setCandidateData] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
+  const router = useRouter();
+  const { id } = router.query;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}/candidatesfront/${id}`);
+        setCandidateData(response.data);
+        if (response.data.foto_perfil) {
+          // Remove any existing 'data:image/jpeg;base64,' prefix to avoid duplication
+          const base64Data = response.data.foto_perfil.replace(/^data:image\/[a-z]+;base64,/, '');
+          setProfileImage(`data:image/jpeg;base64,${base64Data}`);
+        }
+      } catch (error) {
+        console.error('Error fetching candidate data:', error);
+      }
+    };
+
+    if (id) {
+      fetchData();
+    }
+  }, [id]);
+
+  if (!candidateData) {
+    return <div>Loading...</div>;
+  }
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -73,11 +103,11 @@ const Sidebar = ({ profilePicture }) => {
     <>
       <SidebarContainer isOpen={isOpen}>
         <SidebarHeader>
-          <img 
-            src={profilePicture || "https://th.bing.com/th/id/OIP.28xVcXmTKYVBvd24rCwqNwHaJ0?rs=1&pid=ImgDetMaing"} 
-            alt="Perfil" 
-            style={{ borderRadius: '50%', width: '150px', margin: '20px auto' }} 
-          />
+          {profileImage ? (
+            <img src={profileImage} alt="Perfil" style={{ borderRadius: '50%', width: '150px', margin: '20px auto' }} />
+          ) : (
+            <div>No Profile Image</div>
+          )}
         </SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem><a href="#about" onClick={toggleSidebar}>ABOUT</a></SidebarMenuItem>
