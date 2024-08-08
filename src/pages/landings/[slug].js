@@ -6,7 +6,7 @@ import Form from '@/components/form';
 
 export async function getServerSideProps(context) {
   const { slug } = context.params;
-  const url = `http://localhost:8000/landingslg/slug/${slug}`;
+  const url = `${process.env.NEXT_PUBLIC_API_KEY}/landingslg/slug/${slug}`;
 
   try {
     const res = await fetch(url);

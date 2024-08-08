@@ -13,6 +13,7 @@ const VacanciesView = () => {
     if (!slug) return;
 
     const normalizedSlug = slug.toLowerCase();
+    console.log('Normalized Slug:', normalizedSlug);
     const validSlugs = ['tech-pech', 'unid', 'walmart'];
     if (!validSlugs.includes(normalizedSlug)) {
       setIsValidSlug(false);
@@ -21,7 +22,7 @@ const VacanciesView = () => {
       setIsValidSlug(true);
     }
 
-    fetch('http://localhost:8000/vacanciesfront')
+    fetch(`${process.env.NEXT_PUBLIC_API_KEY}/vacanciesfront`)
       .then(response => response.json())
       .then(data => {
         console.log('Fetched vacancies:', data);
@@ -35,9 +36,11 @@ const VacanciesView = () => {
           companyId = 3; 
         }
 
+        console.log('Company:', companyId);
+
         if (companyId) {
-          const filteredVacancies = data.vacancies.filter(vacancy => vacancy.company_id === companyId);
-          console.log(data.vacancies);
+          const filteredVacancies = data.vacancies.filter(vacancy => vacancy.company_id == companyId);
+          console.log('Filtered Vacancies:', filteredVacancies);
           setVacancies(filteredVacancies);
         } else {
           setVacancies([]);
@@ -127,7 +130,7 @@ const VacanciesView = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {Array.isArray(filteredVacancies) && filteredVacancies.length > 0 ? (
             filteredVacancies.map(vacancy => (
-              <Link key={vacancy.id} href={`http://localhost:3000/job/${vacancy.id}`}>
+              <Link key={vacancy.id} href={`/job/${vacancy.id}`}>
                 <div className="relative bg-white shadow-md rounded-md p-4 h-32 flex items-center justify-center text-center cursor-pointer transition-colors duration-300 hover:text-blue-500 text-black">
                   <div className="vacancy-title">
                     <h2 className="font-bold text-lg">{vacancy.title}</h2>
@@ -150,3 +153,5 @@ const VacanciesView = () => {
 };
 
 export default VacanciesView;
+
+

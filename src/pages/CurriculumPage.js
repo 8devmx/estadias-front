@@ -1,4 +1,4 @@
-import Curriculum from '../components/Curriculum';
+import Curriculum from '../components/curriculum';
 
 const CurriculumPage = () => {
   return <Curriculum />;

@@ -101,7 +101,7 @@ const ResumeForm = () => {
       if (id) {
         setLoading(true);
         try {
-          const response = await axios.get(`http://localhost:8000/candidatesfront/${id}`);
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}/candidatesfront/${id}`);
           const data = response.data;
           setFormData({
             sobre_mi: data.sobre_mi || '',
@@ -131,36 +131,27 @@ const ResumeForm = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setSelectedFile(file);
     if (file) {
-      setFormData(prev => ({
-        ...prev,
-        foto_perfil: file.name
-      }));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData(prev => ({
+          ...prev,
+          foto_perfil: reader.result // base64 string
+        }));
+      };
+      reader.readAsDataURL(file);
+      setSelectedFile(file);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const formDataToSend = new FormData();
-    
-    // Append text fields
-    Object.keys(formData).forEach(key => {
-      if (key !== 'foto_perfil') {
-        formDataToSend.append(key, formData[key]);
-      }
-    });
-    
-    // Append file if selected
-    if (selectedFile) {
-      formDataToSend.append('foto_perfil', selectedFile);
-    }
 
     try {
-      const response = await axios.post(`http://localhost:8000/candidatesfront/${id}`, formDataToSend, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_KEY}/candidatesfront/${id}`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'application/json'
         }
       });
       if (response.status === 200) {
@@ -171,6 +162,7 @@ const ResumeForm = () => {
       }
     } catch (error) {
       console.error('Error actualizando candidato:', error);
+      console.error('Response data:', error.response?.data);
       setError('Hubo un error al actualizar el candidato.');
     } finally {
       setLoading(false);
@@ -246,7 +238,7 @@ const ResumeForm = () => {
               name="foto_perfil"
               onChange={handleFileChange}
             />
-            {formData.foto_perfil && <FileName>Archivo seleccionado: {formData.foto_perfil}</FileName>}
+            {formData.foto_perfil && <FileName></FileName>}
           </FormField>
           {error && <p style={{ color: 'red' }}>{error}</p>}
           <SubmitButton type="submit" disabled={loading}>Enviar</SubmitButton>

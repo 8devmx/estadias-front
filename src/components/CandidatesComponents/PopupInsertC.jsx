@@ -45,7 +45,7 @@ const PopupInsertC = ({ onClose, mutate }) => {
             }
 
             console.log('Enviando datos:', formData); // Para ver los datos antes de enviarlos
-            await axios.post('http://localhost:8000/candidates', formData, { headers: getAuthHeaders() });
+            await axios.post(`${process.env.NEXT_PUBLIC_API_KEY}/candidates`, formData, { headers: getAuthHeaders() });
             mutate();
             onClose();
         } catch (error) {
