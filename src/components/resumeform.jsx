@@ -499,7 +499,7 @@ const ResumeForm = () => {
               name="foto_perfil"
               onChange={handleFileChange}
             />
-            {formData.foto_perfil && <FileName>Archivo seleccionado: </FileName>}
+            {formData.foto_perfil && <FileName></FileName>}
           </FormField>
           {error && <p style={{ color: 'red' }}>{error}</p>}
           <SubmitButton type="submit" disabled={loading}>Enviar</SubmitButton>
