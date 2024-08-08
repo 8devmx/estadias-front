@@ -14,7 +14,8 @@ const VacanciesView = () => {
 
     const normalizedSlug = slug.toLowerCase();
     console.log('Normalized Slug:', normalizedSlug);
-    const validSlugs = ['tech-pech', 'unid', 'walmart'];
+    const validSlugs = ['tech-pech', 'unid', 'walmart', 'fresno', 'super-david'];
+
     if (!validSlugs.includes(normalizedSlug)) {
       setIsValidSlug(false);
       return;
@@ -34,6 +35,10 @@ const VacanciesView = () => {
           companyId = 1;
         } else if (normalizedSlug === 'walmart') {
           companyId = 3; 
+        } else if (normalizedSlug === 'fresno') {
+          companyId = 4; 
+        } else if (normalizedSlug === 'super-david') {
+          companyId = 5; 
         }
 
         console.log('Company:', companyId);
@@ -61,8 +66,12 @@ const VacanciesView = () => {
         return 'UNID';
       case 'walmart':
         return 'WALMART';
+      case 'fresno':
+        return 'fresno';
+      case 'super-david':
+        return 'SUPER-DAVID';
       default:
-        return 'Vacantes';
+        return 'Vacantes';    
     }
   };
 
@@ -74,6 +83,10 @@ const VacanciesView = () => {
         return 'url(/unid-cancun.jpg)';
       case 'walmart':
         return 'url(/walma.jpg)';
+        case 'fresno':
+          return 'url(/fresno-background-hero.jpg)';
+      case 'super-david':
+        return 'url(/sd-bg.jpg)';
       default:
         return '';
     }
@@ -87,6 +100,10 @@ const VacanciesView = () => {
         return '/UNID.png';
       case 'walmart':
         return '/walm.png';
+        case 'fresno':
+          return '/fresno-logo.png';
+      case 'super-david':
+        return '/super.david.jpg';
       default:
         return '';
     }
@@ -153,3 +170,5 @@ const VacanciesView = () => {
 };
 
 export default VacanciesView;
+
+
