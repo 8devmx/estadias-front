@@ -78,7 +78,7 @@ const PopupEditC = ({ onClose, mutate, candidate }) => {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded shadow-lg w-1/3">
+            <div className="bg-white p-6 rounded shadow-lg w-1/2 max-h-screen overflow-auto">
                 <h2 className="text-xl mb-4">Editar Candidato</h2>
                 <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
                     <div className="col-span-2 mb-4">
@@ -161,7 +161,7 @@ const PopupEditC = ({ onClose, mutate, candidate }) => {
                             value={formData.intereses}
                             onChange={handleChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
-                        />  
+                        />
                     </div>
                     <div className="mb-4 col-span-2">
                         <label className="block text-sm font-medium text-gray-700">Habilidades</label>

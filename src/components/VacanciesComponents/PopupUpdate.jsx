@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const PopupEdit = ({ onClose, mutate, vacancie }) => {
+const PopupEdit = ({ onClose, mutate, vacancie, canEdit, companyID }) => {
     const [formData, setFormData] = useState({
         state: vacancie.state,
         category: vacancie.category,
@@ -15,6 +15,7 @@ const PopupEdit = ({ onClose, mutate, vacancie }) => {
 
     const [states, setStates] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [companies, setCompanies] = useState([]);
     const [types, setTypes] = useState([]);
 
     const getAuthHeaders = () => {
@@ -39,16 +40,25 @@ const PopupEdit = ({ onClose, mutate, vacancie }) => {
                 console.error('Error fetching categories:', error);
             }
         };
+        const fetchCompanies = async () => {
+            try {
+                const response = await axios.get('${process.env.NEXT_PUBLIC_API_KEY}/companyfront');
+                setCompanies(response.data);
+            } catch (error) {
+                console.error('Error fetching companies:', error);
+            }
+        };
         const fetchTypes = async () => {
             try {
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}/types`);
                 setTypes(response.data);
             } catch (error) {
-                console.error('Error fetching categories:', error);
+                console.error('Error fetching types:', error);
             }
         };
         fetchStates();
         fetchCategories();
+        fetchCompanies();
         fetchTypes();
     }, []);
 
@@ -115,7 +125,7 @@ const PopupEdit = ({ onClose, mutate, vacancie }) => {
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
                             required
                         >
-                            <option value=""disabled>Selecciona una categoría</option>
+                            <option value="" disabled>Selecciona una categoría</option>
                             {categories.map((category) => (
                                 <option key={category.id} value={category.category}>
                                     {category.category}
@@ -134,16 +144,22 @@ const PopupEdit = ({ onClose, mutate, vacancie }) => {
                             required
                         />
                     </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700">ID de la Compañía</label>
-                        <input
-                            type="text"
+                    <div className="mb-4" style={{pointerEvents: !canEdit ? 'none' : 'auto', opacity: !canEdit ? 0.5 : 1}}>
+                        <label className="block text-sm font-medium text-gray-700">Compañía</label>
+                        <select
                             name="company_id"
                             value={formData.company_id}
                             onChange={handleChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
                             required
-                        />
+                        >
+                            <option value="" disabled>Selecciona una Compañía</option>
+                            {companies.map((company) => (
+                                <option key={company.id} value={company.id}>
+                                    {company.name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <div className="mb-4 col-span-2">
                         <label className="block text-sm font-medium text-gray-700">Descripción</label>
@@ -164,7 +180,7 @@ const PopupEdit = ({ onClose, mutate, vacancie }) => {
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
                             required
                         >
-                            <option value=""disabled>Selecciona un tipo</option>
+                            <option value="" disabled>Selecciona un tipo</option>
                             {types.map((type) => (
                                 <option key={type.id} value={type.type}>
                                     {type.type}

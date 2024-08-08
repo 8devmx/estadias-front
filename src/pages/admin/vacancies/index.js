@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import LayoutAdmin from '@/components/LayoutAdmin';
 import { Vacancies } from '@/services/vacancies';
 import useSWR from 'swr';
@@ -7,6 +7,8 @@ import styles from '@/styles/Componenadm.module.css';
 import PopupInsert from '@/components/VacanciesComponents/PopupInsert';
 import PopupEdit from '@/components/VacanciesComponents/PopupUpdate';
 import RequireAuth from '@/components/UtilsComponents/RequireAuth';
+import {jwtDecode} from 'jwt-decode';
+
 
 
 // manejo del encabezado trae el encabezado y el token
@@ -40,6 +42,20 @@ const Vacanciedata = () => {
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [currentVacancie, setCurrentVacancie] = useState(null);
+  const [canEdit, setCanEdit] = useState(false);
+  const [companyID, setCompanyID] = useState(0);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      setCompanyID(decodedToken?.sub);
+      if (decodedToken.sub === 2) {
+        setCanEdit(true);
+      }
+    }
+  }, []);
+
 
   if (error) return <div><RequireAuth /></div>;
   if (isLoading) return <div>Cargando...</div>;
@@ -106,8 +122,9 @@ const Vacanciedata = () => {
           ))}
         </tbody>
       </table>
-      {showForm && <PopupInsert onClose={handleCloseForm} mutate={mutate} />}
-      {showEditForm && <PopupEdit onClose={handleCloseForm} mutate={mutate} vacancie={currentVacancie} />}
+      {showForm && <PopupInsert onClose={handleCloseForm} mutate={mutate} canEdit={canEdit} companyID={companyID} />}
+      {showEditForm && <PopupEdit onClose={handleCloseForm} mutate={mutate} vacancie={currentVacancie} canEdit={canEdit} companyID={companyID} />}
+
     </LayoutAdmin>
   );
 }
