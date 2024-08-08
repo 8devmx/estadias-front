@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const PopupInsert = ({ onClose, mutate }) => {
+const PopupInsert = ({ onClose, mutate, canEdit, companyID }) => {
     const [formData, setFormData] = useState({
         state: '',
         category: '',
         title: '',
-        company_id: '',
+        company_id: companyID,
         description: '',
         type: '',
         requirements: '',
@@ -15,6 +15,7 @@ const PopupInsert = ({ onClose, mutate }) => {
 
     const [states, setStates] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [companies, setCompany] = useState([]);
     const [types, setTypes] = useState([]);
 
 
@@ -35,6 +36,14 @@ const PopupInsert = ({ onClose, mutate }) => {
                 console.error('Error fetching categories:', error);
             }
         };
+        const fetchCompanies = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/companyfront');
+                setCompany(response.data);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
         const fetchTypes = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/types');
@@ -44,10 +53,11 @@ const PopupInsert = ({ onClose, mutate }) => {
             }
         };
         fetchStates();
+        fetchCompanies();
         fetchCategories();
         fetchTypes();
     }, []);
-
+    console.log(canEdit)
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -122,16 +132,22 @@ const PopupInsert = ({ onClose, mutate }) => {
                             required
                         />
                     </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700">ID de la Compañía</label>
-                        <input
-                            type="text"
+                    <div className="mb-4" style={{pointerEvents: !canEdit ? 'none' : 'auto', opacity: !canEdit ? 0.5 : 1}}>
+                        <label className="block text-sm font-medium text-gray-700">Compañía</label>
+                        <select
                             name="company_id"
                             value={formData.company_id}
                             onChange={handleChange}
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
                             required
-                        />
+                        >
+                            <option value=""disabled>Selecciona una Compañía</option>
+                            {companies.map((company) => (
+                                <option key={company.id} value={company.id}>
+                                    {company.name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <div className="mb-4 col-span-2">
                         <label className="block text-sm font-medium text-gray-700">Descripción</label>
