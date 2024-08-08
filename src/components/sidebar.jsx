@@ -198,7 +198,9 @@ const Sidebar = () => {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}/candidatesfront/${id}`);
         setCandidateData(response.data);
         if (response.data.foto_perfil) {
-          setProfileImage(`data:image/jpeg;base64,${response.data.foto_perfil}`);
+          // Remove any existing 'data:image/jpeg;base64,' prefix to avoid duplication
+          const base64Data = response.data.foto_perfil.replace(/^data:image\/[a-z]+;base64,/, '');
+          setProfileImage(`data:image/jpeg;base64,${base64Data}`);
         }
       } catch (error) {
         console.error('Error fetching candidate data:', error);
