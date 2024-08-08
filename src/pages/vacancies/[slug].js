@@ -27,9 +27,10 @@ const VacanciesView = () => {
         console.log('Fetched vacancies:', data);
 
         let companyId;
+        console.log('Company:', companyId)
         if (normalizedSlug === 'tech-pech') {
           companyId = 2;
-        } else if (normalizedSlug === 'Unid') {
+        } else if (normalizedSlug === 'unid') {
           companyId = 1;
         } else if (normalizedSlug === 'walmart') {
           companyId = 3; 
