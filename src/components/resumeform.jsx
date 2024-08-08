@@ -423,6 +423,7 @@ const ResumeForm = () => {
       }
     } catch (error) {
       console.error('Error actualizando candidato:', error);
+      console.error('Response data:', error.response?.data);
       setError('Hubo un error al actualizar el candidato.');
     } finally {
       setLoading(false);
@@ -498,7 +499,7 @@ const ResumeForm = () => {
               name="foto_perfil"
               onChange={handleFileChange}
             />
-            {formData.foto_perfil && <FileName>Archivo seleccionado: {formData.foto_perfil}</FileName>}
+            {formData.foto_perfil && <FileName>Archivo seleccionado: </FileName>}
           </FormField>
           {error && <p style={{ color: 'red' }}>{error}</p>}
           <SubmitButton type="submit" disabled={loading}>Enviar</SubmitButton>
