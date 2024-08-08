@@ -27,7 +27,7 @@ const getAuthHeaders = () => {
   };
   
 const CompanyData = () => {
-  const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/company', fetcher)
+  const { data, error, isLoading, mutate } = useSWR(`${process.env.NEXT_PUBLIC_API_KEY}/company`, fetcher)
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [currentCompany, setCurrentCompany] = useState(null);

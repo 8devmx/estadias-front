@@ -3,7 +3,7 @@ import Navbar from '@/components/navbarmain';
 
 export async function getServerSideProps(context) {
 
-const url = `http://localhost:8000/landingslg/slug/tech-pech`;
+const url = `${process.env.NEXT_PUBLIC_API_KEY}/landingslg/slug/tech-pech`;
 
   try {
     const res = await fetch(url);

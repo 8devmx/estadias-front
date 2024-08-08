@@ -11,7 +11,7 @@ const getAuthHeaders = () => {
 const DeleteVacancie = async (id, mutate) => {
     if (window.confirm("¿Confirma si quieres borrar esta vacante?")) {
         try { //tengo que poner la api si no no puedo enviar los encabezados 
-            const response = await fetch(`http://localhost:8000/vacancies/${id}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/vacancies/${id}`, {
                 method: 'DELETE',
                 headers: getAuthHeaders(),
               });

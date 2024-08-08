@@ -10,6 +10,7 @@ import RequireAuth from '@/components/UtilsComponents/RequireAuth';
 import {jwtDecode} from 'jwt-decode';
 
 
+
 // manejo del encabezado trae el encabezado y el token
 const getAuthHeaders = () => {
   const token = localStorage.getItem('token');
@@ -37,13 +38,12 @@ const fetcher = async (url) => {
 // }
 
 const Vacanciedata = () => {
-  const { data, error, isLoading, mutate } = useSWR('http://localhost:8000/vacancies', fetcher);
+  const { data, error, isLoading, mutate } = useSWR(`${process.env.NEXT_PUBLIC_API_KEY}/vacancies`, fetcher);
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [currentVacancie, setCurrentVacancie] = useState(null);
   const [canEdit, setCanEdit] = useState(false);
   const [companyID, setCompanyID] = useState(0);
-
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -55,7 +55,6 @@ const Vacanciedata = () => {
       }
     }
   }, []);
-
 
 
   if (error) return <div><RequireAuth /></div>;
@@ -125,6 +124,7 @@ const Vacanciedata = () => {
       </table>
       {showForm && <PopupInsert onClose={handleCloseForm} mutate={mutate} canEdit={canEdit} companyID={companyID} />}
       {showEditForm && <PopupEdit onClose={handleCloseForm} mutate={mutate} vacancie={currentVacancie} canEdit={canEdit} companyID={companyID} />}
+
     </LayoutAdmin>
   );
 }

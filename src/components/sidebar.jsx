@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 
 const SidebarContainer = styled.div`
   position: fixed;
@@ -67,16 +67,21 @@ const SidebarToggle = styled.button`
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [candidateData, setCandidateData] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
   const router = useRouter();
   const { id } = router.query;
- 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/candidatesfront/${id}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}/candidatesfront/${id}`);
         setCandidateData(response.data);
+        if (response.data.foto_perfil) {
+          // Remove any existing 'data:image/jpeg;base64,' prefix to avoid duplication
+          const base64Data = response.data.foto_perfil.replace(/^data:image\/[a-z]+;base64,/, '');
+          setProfileImage(`data:image/jpeg;base64,${base64Data}`);
+        }
       } catch (error) {
-        console.log (responde.data)
         console.error('Error fetching candidate data:', error);
       }
     };
@@ -98,10 +103,11 @@ const Sidebar = () => {
     <>
       <SidebarContainer isOpen={isOpen}>
         <SidebarHeader>
-          <img src={`../../${candidateData.foto_perfil}`}
-            alt="Perfil" 
-            style={{ borderRadius: '50%', width: '150px', margin: '20px auto' }} 
-          />
+          {profileImage ? (
+            <img src={profileImage} alt="Perfil" style={{ borderRadius: '50%', width: '150px', margin: '20px auto' }} />
+          ) : (
+            <div>No Profile Image</div>
+          )}
         </SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem><a href="#about" onClick={toggleSidebar}>ABOUT</a></SidebarMenuItem>

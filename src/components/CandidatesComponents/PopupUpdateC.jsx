@@ -66,7 +66,7 @@ const PopupEditC = ({ onClose, mutate, candidate }) => {
         e.preventDefault();
         console.log('Datos enviados:', formData); // Verifica los datos enviados
         try {
-            await axios.put(`http://localhost:8000/candidates/${candidate.id}`, formData, {
+            await axios.put(`${process.env.NEXT_PUBLIC_API_KEY}/candidates/${candidate.id}`, formData, {
                 headers: getAuthHeaders(),
             });
             mutate();

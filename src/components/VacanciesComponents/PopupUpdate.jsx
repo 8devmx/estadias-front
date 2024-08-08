@@ -26,7 +26,7 @@ const PopupEdit = ({ onClose, mutate, vacancie, canEdit, companyID }) => {
     useEffect(() => {
         const fetchStates = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/states');
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}/states`);
                 setStates(response.data);
             } catch (error) {
                 console.error('Error fetching states:', error);
@@ -34,7 +34,7 @@ const PopupEdit = ({ onClose, mutate, vacancie, canEdit, companyID }) => {
         };
         const fetchCategories = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/categories');
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}/categories`);
                 setCategories(response.data);
             } catch (error) {
                 console.error('Error fetching categories:', error);
@@ -50,7 +50,7 @@ const PopupEdit = ({ onClose, mutate, vacancie, canEdit, companyID }) => {
         };
         const fetchTypes = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/types');
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_KEY}/types`);
                 setTypes(response.data);
             } catch (error) {
                 console.error('Error fetching types:', error);
@@ -86,7 +86,7 @@ const PopupEdit = ({ onClose, mutate, vacancie, canEdit, companyID }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:8000/vacancies/${vacancie.id}`, formData, { headers: getAuthHeaders() });
+            await axios.put(`${process.env.NEXT_PUBLIC_API_KEY}/vacancies/${vacancie.id}`, formData,  { headers: getAuthHeaders(),});
             mutate();
             onClose();
         } catch (error) {
