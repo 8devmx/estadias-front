@@ -13,8 +13,12 @@ const VacanciesView = () => {
     if (!slug) return;
 
     const normalizedSlug = slug.toLowerCase();
+<<<<<<< Updated upstream
     console.log('Normalized Slug:', normalizedSlug);
     const validSlugs = ['tech-pech', 'unid', 'walmart'];
+=======
+    const validSlugs = ['tech-pech', 'unid', 'walmart', 'super-david'];
+>>>>>>> Stashed changes
     if (!validSlugs.includes(normalizedSlug)) {
       setIsValidSlug(false);
       return;
@@ -34,6 +38,8 @@ const VacanciesView = () => {
           companyId = 1;
         } else if (normalizedSlug === 'walmart') {
           companyId = 3; 
+        } else if (normalizedSlug === 'super-david') {
+          companyId = 4; 
         }
 
         console.log('Company:', companyId);
@@ -61,6 +67,8 @@ const VacanciesView = () => {
         return 'UNID';
       case 'walmart':
         return 'WALMART';
+      case 'super-david':
+        return 'SUPER-DAVID';
       default:
         return 'Vacantes';
     }
@@ -74,6 +82,8 @@ const VacanciesView = () => {
         return 'url(/unid-cancun.jpg)';
       case 'walmart':
         return 'url(/walma.jpg)';
+      case 'super-david':
+        return 'url(/sd-bg.jpg)';
       default:
         return '';
     }
@@ -87,6 +97,8 @@ const VacanciesView = () => {
         return '/UNID.png';
       case 'walmart':
         return '/walm.png';
+      case 'super-david':
+        return '/super.david.jpg';
       default:
         return '';
     }
