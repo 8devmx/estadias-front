@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Cambia esto a la URL de tu backend
-const API_URL = process.env.NEXT_PUBLIC_API_KEY; // Cambia esto a la URL de tu backend
+
+const API_URL = `${process.env.NEXT_PUBLIC_API_KEY}`; // Cambia esto a la URL de tu backend
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
@@ -23,3 +23,4 @@ axiosInstance.interceptors.request.use(
 );
 
 export default axiosInstance;
+

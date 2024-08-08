@@ -46,11 +46,7 @@ const JobOffer = () => {
     }
     try {
       console.log('Enviando datos del formulario:', form); // Debugging
-
-      // const response = await fetch('http://localhost:8000/candidatesfront', {
-
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/candidatesfront`, {
-
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
