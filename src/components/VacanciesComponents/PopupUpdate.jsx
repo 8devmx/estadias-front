@@ -42,7 +42,7 @@ const PopupEdit = ({ onClose, mutate, vacancie, canEdit, companyID }) => {
         };
         const fetchCompanies = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/companyfront');
+                const response = await axios.get('${process.env.NEXT_PUBLIC_API_KEY}/companyfront');
                 setCompanies(response.data);
             } catch (error) {
                 console.error('Error fetching companies:', error);
