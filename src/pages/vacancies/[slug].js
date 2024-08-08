@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export async function getServerSideProps(context) {
   const { slug } = context.params;
-  const url = `http://localhost:8000/landingslg/slug/${slug}`;
+  const url = `${process.env.NEXT_PUBLIC_API_KEY}/landingslg/slug/${slug}`;
   
   try {
     const res = await fetch(url);
@@ -22,7 +22,7 @@ export async function getServerSideProps(context) {
 
     
     const companyId = data.company_id; // Obtener el company_id de la landing
-    const vacanciesRes = await fetch(`http://localhost:8000/vacanciesfront?company_id=${companyId}`);
+    const vacanciesRes = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/vacanciesfront?company_id=${companyId}`);
     const vacanciesData = await vacanciesRes.json();
 
     return {
@@ -71,7 +71,7 @@ export default function Home({ landing, vacancies }) {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {Array.isArray(filteredVacancies) && filteredVacancies.length > 0 ? (
                   filteredVacancies.map(vacancy => (
-                    <Link key={vacancy.id} href={`http://localhost:3000/job/${vacancy.id}`}>
+                    <Link key={vacancy.id} href={`/job/${vacancy.id}`}>
                       <div className="relative bg-white shadow-md rounded-md p-4 h-32 flex items-center justify-center text-center cursor-pointer transition-colors duration-300 hover:text-blue-500 text-black">
                         <div className="vacancy-title">
                           <h2 className="font-bold text-lg">{vacancy.title}</h2>
