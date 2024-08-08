@@ -123,7 +123,7 @@ const Leads = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="12">No leads available XD</td>
+              <td colSpan="12">No leads available</td>
             </tr>
           )}
         </tbody>
