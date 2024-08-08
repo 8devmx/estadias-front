@@ -171,6 +171,7 @@ const VacanciesView = () => {
     if (!slug) return;
 
     const normalizedSlug = slug.toLowerCase();
+    console.log('Normalized Slug:', normalizedSlug);
     const validSlugs = ['tech-pech', 'unid', 'walmart'];
     if (!validSlugs.includes(normalizedSlug)) {
       setIsValidSlug(false);
@@ -185,6 +186,7 @@ const VacanciesView = () => {
         console.log('Fetched vacancies:', data);
 
         let companyId;
+        console.log('Company:', companyId)
         if (normalizedSlug === 'tech-pech') {
           companyId = 2;
         } else if (normalizedSlug === 'unid') {
