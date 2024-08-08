@@ -41,6 +41,7 @@ export default function Home({ landing, vacancies }) {
   const [filteredVacancies, setFilteredVacancies] = useState([]);
 
   useEffect(() => {
+    console.log('companyId = data.company_id; ')
     const filtered = vacancies.filter(vacancy =>
       vacancy.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
