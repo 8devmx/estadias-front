@@ -7,11 +7,9 @@
   background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  padding-top: 20%;
   align-items: center;
-  padding: 40px;
   position: relative;
-
   &::after {
     content: '';
     position: absolute;
@@ -26,7 +24,7 @@
 }
 
 .hero h1 {
-  font-size: 48px;
+  font-size: 65px;
   color: black;
   line-height: 1.3;
   font-weight: 800;
@@ -35,7 +33,8 @@
 }
 
 .hero p {
-  font-size: 18px;
+  padding-top: 1%;
+  font-size: 25px;
   color: #fff;
   line-height: 1.5;
   font-weight: 400;
@@ -47,7 +46,7 @@
   padding: 15px 30px;
   background: #00A651;
   color: #fff;
-  font-size: 22px;
+  font-size: 18px;
   border-radius: 10px;
   text-decoration: none;
   text-align: center;
@@ -87,7 +86,8 @@
 
 @media (max-width: 768px) {
   .hero {
-    height: auto;
+    width: 100%;
+    height: 400px;
     padding-top: 25%;
   }
 
