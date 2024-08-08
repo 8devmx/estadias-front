@@ -156,7 +156,6 @@
 
 
 
-// /pages/vacancies/[slug].js
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -187,6 +186,7 @@ const VacanciesView = () => {
         console.log('Fetched vacancies:', data);
 
         let companyId;
+        console.log('Company:', companyId);
         if (normalizedSlug === 'tech-pech') {
           companyId = 2;
         } else if (normalizedSlug === 'unid') {
