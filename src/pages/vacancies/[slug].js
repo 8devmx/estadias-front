@@ -82,8 +82,8 @@ const VacanciesView = () => {
         return 'url(/unid-cancun.jpg)';
       case 'walmart':
         return 'url(/walma.jpg)';
-      case 'fresno':
-        return 'url(/fresno-background-hero)';
+        case 'fresno':
+          return 'url(/fresno-background-hero.jpg)';
       case 'super-david':
         return 'url(/sd-bg.jpg)';
       default:
@@ -99,8 +99,8 @@ const VacanciesView = () => {
         return '/UNID.png';
       case 'walmart':
         return '/walm.png';
-      case 'fresno':
-        return '/fresno-logo';
+        case 'fresno':
+          return '/fresno-logo.png';
       case 'super-david':
         return '/super.david.jpg';
       default:
