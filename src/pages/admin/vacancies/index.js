@@ -95,7 +95,7 @@ const Vacanciedata = () => {
             <th>Estado</th>
             <th>Categoría</th>
             <th>Título</th>
-            <th>Compañía</th>
+            {/* <th>Compañía</th> */}
             <th>Descripción</th>
             <th>Tipo</th>
             <th>Requisitos</th>
@@ -110,7 +110,7 @@ const Vacanciedata = () => {
               <td>{vacancie.state}</td>
               <td>{vacancie.category}</td>
               <td>{vacancie.title}</td>
-              <td>{vacancie.company_id}</td>
+              {/* <td>{vacancie.company_id}</td> */}
               <td>{vacancie.description}</td>
               <td>{vacancie.type}</td>
               <td>{vacancie.requirements}</td>
