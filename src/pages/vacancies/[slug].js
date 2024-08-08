@@ -21,7 +21,7 @@ const VacanciesView = () => {
       setIsValidSlug(true);
     }
 
-    fetch(`${process.env.NEXT_PUBLIC_API_KEY_VACANCIES_FRONT}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_KEY}/vacanciesfront`)
       .then(response => response.json())
       .then(data => {
         console.log('Fetched vacancies:', data);
@@ -29,7 +29,7 @@ const VacanciesView = () => {
         let companyId;
         if (normalizedSlug === 'tech-pech') {
           companyId = 2;
-        } else if (normalizedSlug === 'unid') {
+        } else if (normalizedSlug === 'Unid') {
           companyId = 1;
         } else if (normalizedSlug === 'walmart') {
           companyId = 3; 
