@@ -12,7 +12,7 @@ const Form = () => {
     const [source, setSource] = useState("")
 
     return (
-        <div className={styles.Formulario} data-theme="light">
+        <div className={styles.Formulario} data-theme="light" id="form">
             <h2 className="text-center font-bold text-3xl">¿Deseas información? <br />¡Contáctanos!</h2>
             <form onSubmit={e => {
                 e.preventDefault()
