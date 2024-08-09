@@ -83,7 +83,7 @@ const LandingsData = () => {
             <tr key={index} className="hover">
               <th>{landing.id}</th>
               <td>
-                <a href={`${process.env.NEXT_PUBLIC_API_KEY}/landings/${landing.slugs}`} target='_BLANK'>
+                <a href={`https://techpech.zeabur.app//landings/${landing.slugs}`} target='_BLANK'>
                   <img src={`/${landing.logo}`} style={{'maxHeight': '25px', 'display': 'block', 'margin': 'auto'}} />
                 </a>
               </td>

@@ -14,7 +14,7 @@ const VacanciesView = () => {
 
     const normalizedSlug = slug.toLowerCase();
     console.log('Normalized Slug:', normalizedSlug);
-    const validSlugs = ['tech-pech', 'unid', 'walmart', 'fresno', 'super-david'];
+    const validSlugs = ['tech-pech', 'unid', 'walmart', 'fresno', 'super-david', 'breathless', 'cinepolis'];
     if (!validSlugs.includes(normalizedSlug)) {
       setIsValidSlug(false);
       return;
@@ -33,10 +33,14 @@ const VacanciesView = () => {
         } else if (normalizedSlug === 'unid') {
           companyId = 1;
         } else if (normalizedSlug === 'walmart') {
-          companyId = 3;
+          companyId = 13; 
         } else if (normalizedSlug === 'fresno') {
           companyId = 4; 
         } else if (normalizedSlug === 'super-david') {
+          companyId = 6; 
+        } else if (normalizedSlug === 'Breathless') {
+          companyId = 3; 
+        } else if (normalizedSlug === 'cinepolis') {
           companyId = 5; 
         }
 
@@ -65,10 +69,14 @@ const VacanciesView = () => {
         return 'UNID';
       case 'walmart':
         return 'WALMART';
-        case 'fresno':
-          return 'fresno';
-        case 'super-david':
-          return 'SUPER-DAVID';
+      case 'fresno':
+        return 'fresno';
+      case 'super-david':
+        return 'SUPER-DAVID';
+      case 'breathless':
+        return 'BREATHLESS';
+      case 'cinepolis':
+        return 'CINEPOLIS';
       default:
         return 'Vacantes';
     }
@@ -86,6 +94,10 @@ const VacanciesView = () => {
           return 'url(/fresno-background-hero.jpg)';
       case 'super-david':
         return 'url(/sd-bg.jpg)';
+      case 'breathless':
+        return 'url(/breathlessBG.jpg)';
+      case 'cinepolis':
+        return 'url(/cinebg.jpg)';
       default:
         return '';
     }
@@ -103,6 +115,10 @@ const VacanciesView = () => {
           return '/fresno-logo.png';
       case 'super-david':
         return '/super.david.jpg';
+      case 'breathless':
+        return '/breathlessLogo.png';
+      case 'cinepolis':
+        return '/cinelogo.png';
       default:
         return '';
     }
