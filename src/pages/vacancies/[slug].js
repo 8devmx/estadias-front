@@ -15,7 +15,6 @@ const VacanciesView = () => {
     const normalizedSlug = slug.toLowerCase();
     console.log('Normalized Slug:', normalizedSlug);
     const validSlugs = ['tech-pech', 'unid', 'walmart', 'fresno', 'super-david', 'breathless', 'cinepolis'];
-
     if (!validSlugs.includes(normalizedSlug)) {
       setIsValidSlug(false);
       return;
@@ -79,7 +78,7 @@ const VacanciesView = () => {
       case 'cinepolis':
         return 'CINEPOLIS';
       default:
-        return 'Vacantes';    
+        return 'Vacantes';
     }
   };
 
@@ -134,7 +133,6 @@ const VacanciesView = () => {
   );
 
   return (
-
     <div
       className="min-h-screen bg-cover bg-center p-6"
       style={{
@@ -187,5 +185,3 @@ const VacanciesView = () => {
 };
 
 export default VacanciesView;
-
-
