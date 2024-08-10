@@ -84,9 +84,9 @@ const CandidateData = () => {
               <th>{candidate.id}</th>
               <td>{candidate.name}</td>
               <td>
-              <a href={`tel:${candidate.phone}`} target="_self">
-                {candidate.phone}
-              </a>
+                <a href={`tel:${candidate.phone}`} target="_self">
+                  {candidate.phone}
+                </a>
               </td>
               <td>
                 <a href={`mailto:${candidate.email}`} target="_blank">
@@ -95,42 +95,47 @@ const CandidateData = () => {
               </td>
               <td>{candidate.address}</td>
               <td className="text-center">
-                {candidate.foto_perfil ? (
-                  candidate.foto_perfil.startsWith('data:image') ? (
-                    // Es una imagen en base64
-                    <img
-                      src={candidate.foto_perfil}
-                      alt="Foto de perfil"
-                      style={{
-                        maxHeight: "45px",
-                        display: "block",
-                        margin: "auto",
-                      }}
-                    />
+                <a
+                  href={`http://localhost:3000/CurriculumPage?id=${candidate.id}`}
+                  target="_BLANK"
+                >
+                  {candidate.foto_perfil ? (
+                    candidate.foto_perfil.startsWith("data:image") ? (
+                      // Es una imagen en base64
+                      <img
+                        src={candidate.foto_perfil}
+                        alt="Foto de perfil"
+                        style={{
+                          maxHeight: "45px",
+                          display: "block",
+                          margin: "auto",
+                        }}
+                      />
+                    ) : (
+                      // Es un nombre de archivo (EN EL FRONT)
+                      <img
+                        src={`../../${candidate.foto_perfil}`}
+                        alt="Foto de perfil"
+                        style={{
+                          maxHeight: "45px",
+                          display: "block",
+                          margin: "auto",
+                        }}
+                      />
+                    )
                   ) : (
-                    // Es un nombre de archivo (EN EL FRONT)
+                    // Es nulo o indefinido, mostrar imagen por defecto
                     <img
-                      src={`../../${candidate.foto_perfil}`}
-                      alt="Foto de perfil"
+                      src="/candidatos/PerfilUsuarioNull.avif"
+                      alt="Foto de perfil por defecto"
                       style={{
                         maxHeight: "45px",
                         display: "block",
                         margin: "auto",
                       }}
                     />
-                  )
-                ) : (
-                  // Es nulo o indefinido, mostrar imagen por defecto
-                  <img
-                    src="/candidatos/PerfilUsuarioNull.avif"
-                    alt="Foto de perfil por defecto"
-                    style={{
-                      maxHeight: "45px",
-                      display: "block",
-                      margin: "auto",
-                    }}
-                  />
-                )}
+                  )}
+                </a>
               </td>
               <td>
                 <ButtonTable
