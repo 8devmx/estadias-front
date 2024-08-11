@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const Chatbot = () => {
+const chatbot = () => {
   useEffect(() => {
     // Cargar el script para el chatbot
     const scriptInject = document.createElement('script');
@@ -24,4 +24,4 @@ const Chatbot = () => {
   return <div id="bp-webchat" />;
 };
 
-export default Chatbot;
+export default chatbot;
