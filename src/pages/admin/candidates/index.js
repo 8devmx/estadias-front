@@ -26,8 +26,35 @@ const fetcher = async (url) => {
   return data.candidates; //para devolver el array directamente
 };
 
+const fetchCompanies = async () => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/companyfront`, {
+    headers: getAuthHeaders(),
+  });
+  if (!response.ok) {
+    const errorDetails = await response.text();
+    throw new Error(errorDetails || 'Error fetching data');
+  }
+  const data = await response.json();
+  return data; // se asume que `data` es un array de compañías
+};
+
+const fetchVacancies = async () => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_KEY}/vacanciesfront`, {
+    headers: getAuthHeaders(),
+  });
+  if (!response.ok) {
+    const errorDetails = await response.text();
+    throw new Error(errorDetails || 'Error fetching data');
+  }
+  const data = await response.json();
+  console.log('Fetched vacancies:', data.vacancies); // Verifica que los datos lleguen correctamente
+  return data.vacancies; // Devuelve el array de vacantes
+};
+
 const CandidateData = () => {
   const { data, error, isLoading, mutate } = useSWR(`${process.env.NEXT_PUBLIC_API_KEY}/candidates`, fetcher);
+  const { data: companies = [] } = useSWR(`${process.env.NEXT_PUBLIC_API_KEY}/companyfront`, fetchCompanies);
+  const { data: vacancies = [] } = useSWR(`${process.env.NEXT_PUBLIC_API_KEY}/vacanciesfront`, fetchVacancies);
   const [showForm, setShowForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [currentCandidate, setCurrentCandidate] = useState(null);
@@ -35,7 +62,7 @@ const CandidateData = () => {
   if (error) return <div><RequireAuth /></div>;
   if (isLoading) return <div>Cargando...</div>;
 
-  const candidates = data || []; 
+  const candidates = data || [];
 
   const handleAddClick = () => {
     setShowForm(true);
@@ -73,74 +100,78 @@ const CandidateData = () => {
             <th>Nombre</th>
             <th>Teléfono</th>
             <th>Correo</th>
+            <th>Compañía</th>
+            <th>Aplico para</th>
             <th>Dirección</th>
             <th className='text-center'>Foto</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {candidates.map((candidate, index) => (
-            <tr key={index} className="hover">
-              <th>{candidate.id}</th>
-              <td>{candidate.name}</td>
-              <td>
-              <a href={`tel:${candidate.phone}`} target="_self">
-                {candidate.phone}
-              </a>
-              </td>
-              <td>
-                <a href={`mailto:${candidate.email}`} target="_blank">
-                  {candidate.email}
-                </a>
-              </td>
-              <td>{candidate.address}</td>
-              <td className="text-center">
-                {candidate.foto_perfil ? (
-                  candidate.foto_perfil.startsWith('data:image') ? (
-                    // Es una imagen en base64
-                    <img
-                      src={candidate.foto_perfil}
-                      alt="Foto de perfil"
-                      style={{
-                        maxHeight: "45px",
-                        display: "block",
-                        margin: "auto",
-                      }}
-                    />
+          {candidates.map((candidate, index) => {
+            const vacancy = vacancies.find(vacancy => vacancy.id === candidate.vacancy_id);
+            return (
+              <tr key={index} className="hover">
+                <th>{candidate.id}</th>
+                <td>{candidate.name}</td>
+                <td>
+                  <a href={`tel:${candidate.phone}`} target="_self">
+                    {candidate.phone}
+                  </a>
+                </td>
+                <td>
+                  <a href={`mailto:${candidate.email}`} target="_blank">
+                    {candidate.email}
+                  </a>
+                </td>
+                <td>{companies?.find(company => company.id === candidate.company_id)?.name || 'Desconocida'}</td>
+                <td>{vacancy?.title || 'Desconocida'}</td>
+                <td>{candidate.address}</td>
+                <td className="text-center">
+                  {candidate.foto_perfil ? (
+                    candidate.foto_perfil.startsWith('data:image') ? (
+                      <img
+                        src={candidate.foto_perfil}
+                        alt="Foto de perfil"
+                        style={{
+                          maxHeight: "45px",
+                          display: "block",
+                          margin: "auto",
+                        }}
+                      />
+                    ) : (
+                      <img
+                        src={`../../${candidate.foto_perfil}`}
+                        alt="Foto de perfil"
+                        style={{
+                          maxHeight: "45px",
+                          display: "block",
+                          margin: "auto",
+                        }}
+                      />
+                    )
                   ) : (
-                    // Es un nombre de archivo (EN EL FRONT)
                     <img
-                      src={`../../${candidate.foto_perfil}`}
-                      alt="Foto de perfil"
+                      src="/candidatos/PerfilUsuarioNull.avif"
+                      alt="Foto de perfil por defecto"
                       style={{
                         maxHeight: "45px",
                         display: "block",
                         margin: "auto",
                       }}
                     />
-                  )
-                ) : (
-                  // Es nulo o indefinido, mostrar imagen por defecto
-                  <img
-                    src="/candidatos/PerfilUsuarioNull.avif"
-                    alt="Foto de perfil por defecto"
-                    style={{
-                      maxHeight: "45px",
-                      display: "block",
-                      margin: "auto",
-                    }}
+                  )}
+                </td>
+                <td>
+                  <ButtonTable
+                    id={candidate.id}
+                    mutate={mutate}
+                    onEdit={() => handleEditClick(candidate)}
                   />
-                )}
-              </td>
-              <td>
-                <ButtonTable
-                  id={candidate.id}
-                  mutate={mutate}
-                  onEdit={() => handleEditClick(candidate)}
-                />
-              </td>
-            </tr>
-          ))}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       {showForm && <PopupInsertC onClose={handleCloseForm} mutate={mutate} />}

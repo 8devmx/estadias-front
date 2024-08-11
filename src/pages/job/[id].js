@@ -15,14 +15,19 @@ const JobOffer = () => {
     phone: '',
     email: '',
     address: '',
-    company_id: '2'
+    company_id: '2',
+    vacancy_id: id // Aquí se agrega el ID de la vacante
   });
 
   useEffect(() => {
     if (data) {
       setVacancies(data);
+      setForm(prevForm => ({
+        ...prevForm,
+        vacancy_id: id // Actualiza el ID de la vacante en el estado del formulario
+      }));
     }
-  }, [data]);
+  }, [data, id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

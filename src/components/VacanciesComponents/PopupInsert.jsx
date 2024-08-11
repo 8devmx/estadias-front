@@ -18,7 +18,6 @@ const PopupInsert = ({ onClose, mutate, canEdit, companyID }) => {
     const [companies, setCompany] = useState([]);
     const [types, setTypes] = useState([]);
 
-
     useEffect(() => {
         const fetchStates = async () => {
             try {
@@ -57,16 +56,35 @@ const PopupInsert = ({ onClose, mutate, canEdit, companyID }) => {
         fetchCategories();
         fetchTypes();
     }, []);
-    console.log(canEdit)
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+
+    const formatCurrency = (value) => {
+        const numberValue = value.replace(/[^0-9]/g, ''); // Remueve todo excepto números
+        const formattedValue = new Intl.NumberFormat('es-MX', {
+            style: 'currency',
+            currency: 'MXN',
+            minimumFractionDigits: 0
+        }).format(numberValue);
+        return formattedValue.replace(/\s/g, ''); // Elimina espacios adicionales en la cadena
     };
 
-    const getAuthHeaders = () => { // obtener el token y el header
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        if (name === 'salary') {
+            const formattedValue = formatCurrency(value);
+            setFormData({
+                ...formData,
+                [name]: formattedValue,
+            });
+        } else {
+            setFormData({
+                ...formData,
+                [name]: value,
+            });
+        }
+    };
+
+    const getAuthHeaders = () => {
         const token = localStorage.getItem('token');
         return token ? { Authorization: `Bearer ${token}` } : {};
     };
@@ -74,7 +92,7 @@ const PopupInsert = ({ onClose, mutate, canEdit, companyID }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(`${process.env.NEXT_PUBLIC_API_KEY}/vacancies`, formData, { headers: getAuthHeaders(),});
+            await axios.post(`${process.env.NEXT_PUBLIC_API_KEY}/vacancies`, formData, { headers: getAuthHeaders() });
             mutate();
             onClose();
         } catch (error) {
@@ -96,7 +114,7 @@ const PopupInsert = ({ onClose, mutate, canEdit, companyID }) => {
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
                             required
                         >
-                            <option value=""disabled>Selecciona un estado</option>
+                            <option value="" disabled>Selecciona un estado</option>
                             {states.map((state) => (
                                 <option key={state.id} value={state.state}>
                                     {state.state}
@@ -113,7 +131,7 @@ const PopupInsert = ({ onClose, mutate, canEdit, companyID }) => {
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
                             required
                         >
-                            <option value=""disabled>Selecciona una categoría</option>
+                            <option value="" disabled>Selecciona una categoría</option>
                             {categories.map((category) => (
                                 <option key={category.id} value={category.category}>
                                     {category.category}
@@ -132,7 +150,7 @@ const PopupInsert = ({ onClose, mutate, canEdit, companyID }) => {
                             required
                         />
                     </div>
-                    <div className="mb-4" style={{pointerEvents: !canEdit ? 'none' : 'auto', opacity: !canEdit ? 0.5 : 1}}>
+                    <div className="mb-4" style={{ pointerEvents: !canEdit ? 'none' : 'auto', opacity: !canEdit ? 0.5 : 1 }}>
                         <label className="block text-sm font-medium text-gray-700">Compañía</label>
                         <select
                             name="company_id"
@@ -141,7 +159,7 @@ const PopupInsert = ({ onClose, mutate, canEdit, companyID }) => {
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
                             required
                         >
-                            <option value=""disabled>Selecciona una Compañía</option>
+                            <option value="" disabled>Selecciona una Compañía</option>
                             {companies.map((company) => (
                                 <option key={company.id} value={company.id}>
                                     {company.name}
@@ -168,7 +186,7 @@ const PopupInsert = ({ onClose, mutate, canEdit, companyID }) => {
                             className="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-white"
                             required
                         >
-                            <option value=""disabled>Selecciona un tipo</option>
+                            <option value="" disabled>Selecciona un tipo</option>
                             {types.map((type) => (
                                 <option key={type.id} value={type.type}>
                                     {type.type}
