@@ -156,26 +156,37 @@ const ButtonEdit = ({ leadId, onClose }) => {
             </div>
             <br />
             <div>
-              <div className='flex gap-1'>
-                <label className="w-1/2 text-customBlak input input-bordered flex items-center gap-2">
-                  <input type="text" name="interest" className="grow" value={formData.interest} onChange={handleChange} placeholder="Interés" />
-                </label>
-                <label className="w-1/2 text-customBlak input input-bordered flex items-center gap-2">
-                  <select
-                    name="status_id"
-                    className="select-xs select-ghost w-full max-w-xs"
-                    value={formData.status_id}
-                    onChange={handleChange}
-                  >
-                    <option value="">Seleccione un estado</option>
-                    {Array.isArray(statuses) && statuses.map(status => (
-                      <option key={status.id} value={status.id}>
-                        {status.name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
+            <div className='flex gap-1'>
+            <label className="w-1/2 text-customBlak input input-bordered flex items-center gap-2">
+              <select
+                name="interest"
+                className="select-xs select-ghost w-full max-w-xs"
+                value={formData.interest}
+                onChange={handleChange} 
+              >
+                <option value="" disabled={!formData.interest}>Seleccione una opción</option>
+                <option value="Informes">Informes</option>
+                <option value="Vacantes">Vacantes</option>
+                <option value="Productos/Servicios">Productos/Servicios</option>
+                <option value="Quiero Postularme">Quiero Postularme</option>
+              </select>
+            </label>
+            <label className="w-1/2 text-customBlak input input-bordered flex items-center gap-2">
+              <select
+                name="status_id"
+                className="select-xs select-ghost w-full max-w-xs"
+                value={formData.status_id}
+                onChange={handleChange}
+              >
+                <option value="">Seleccione un estado</option>
+                {Array.isArray(statuses) && statuses.map(status => (
+                  <option key={status.id} value={status.id}>
+                    {status.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
             </div>
             <br />
             <div>

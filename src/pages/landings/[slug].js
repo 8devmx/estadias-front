@@ -21,15 +21,21 @@ export async function getServerSideProps(context) {
       return { notFound: true }; 
     }
 
+    // Extraer company_id del objeto data
+    const company_id = data.company_id || null;
+
     return {
-      props: { landing: data }, 
+      props: { landing: data, company_id }, // Pasar company_id a las props
     };
   } catch (error) {
     return { notFound: true }; 
   }
 }
 
-export default function Home({ landing }) {
+export default function Home({ landing, company_id }) {
+  console.log('Landing Data:', landing);
+  console.log('Company ID:', company_id);  // Ahora debería mostrar el ID correcto
+
   const hero = JSON.parse(landing.hero);
   const services = JSON.parse(landing.services);
   const packages = JSON.parse(landing.packages);
@@ -41,7 +47,7 @@ export default function Home({ landing }) {
       <Navbar logo={logo} />
       <Services data={services} />
       <Packages data={packages} />
-      <Form />
+      <Form company_id={company_id} />
     </>
   );
 }
