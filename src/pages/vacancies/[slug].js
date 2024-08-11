@@ -164,15 +164,15 @@ const VacanciesView = () => {
             placeholder="Buscar vacante ..."
             value={searchTerm}
             onChange={handleSearchChange}
-            className="p-2 border rounded-md bg-white text-black" // Estilo modificado aquí
+            className="p-2 border rounded-md bg-white text-black"
           />
-          <select value={selectedState} onChange={handleStateChange} className="p-2 border rounded-md bg-white text-black"> // Estilo modificado aquí
+          <select value={selectedState} onChange={handleStateChange} className="p-2 border rounded-md bg-white text-black"> 
             <option value="">Todos los estados</option>
             {states.map(state => (
               <option key={state} value={state}>{state}</option>
             ))}
           </select>
-          <select value={selectedType} onChange={handleTypeChange} className="p-2 border rounded-md bg-white text-black"> // Estilo modificado aquí
+          <select value={selectedType} onChange={handleTypeChange} className="p-2 border rounded-md bg-white text-black"> 
             <option value="">Todos los tipos</option>
             {types.map(type => (
               <option key={type} value={type}>{type}</option>
