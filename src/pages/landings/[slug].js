@@ -4,7 +4,7 @@ import Services from '@/components/services';
 import Packages from '@/components/packages';
 import Form from '@/components/form';
 import React from 'react';
-import Chatbot from '@/components/Chatbot';
+import Chatbot from '@/components/chatbot';
 
 export async function getServerSideProps(context) {
   const { slug } = context.params;
@@ -23,18 +23,18 @@ export async function getServerSideProps(context) {
       return { notFound: true }; 
     }
 
-    // Extraer company_id del objeto data
+    // Extraer company_id y pasar slug
     const company_id = data.company_id || null;
 
     return {
-      props: { landing: data, company_id }, // Pasar company_id a las props
+      props: { landing: data, company_id, slug },
     };
   } catch (error) {
     return { notFound: true }; 
   }
 }
 
-export default function Home({ landing, company_id }) {
+export default function Home({ landing, company_id, slug }) {
   console.log('Landing Data:', landing);
   console.log('Company ID:', company_id);  // Ahora debería mostrar el ID correcto
 
@@ -49,7 +49,10 @@ export default function Home({ landing, company_id }) {
       <Navbar logo={logo} />
       <Services data={services} />
       <Packages data={packages} />
-      <Chatbot data={Chatbot} />
+
+      {/* Mostrar Chatbot solo si el slug es igual a 'unid' */}
+      {slug === 'unid' && <Chatbot data={Chatbot} />}
+
       <Form company_id={company_id} />
     </>
   );
