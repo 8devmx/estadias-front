@@ -14,7 +14,7 @@ export default function ThankYou() {
                 <title>Thank You</title>
             </Head>
             <div className="relative flex items-center justify-center min-h-screen bg-gray-100">
-                <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('hero-main.png')" }}></div>
+                <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: "url('hero-main.jpg')" }}></div>
                  
                 <div className="relative text-center p-10 bg-white rounded-lg shadow-lg z-10">
                     <h1 className="text-4xl font-bold text-gray-800 mb-4">¡Gracias por tu registro!</h1>

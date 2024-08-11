@@ -6,6 +6,10 @@ const VacanciesView = () => {
   const [vacancies, setVacancies] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isValidSlug, setIsValidSlug] = useState(false);
+  const [states, setStates] = useState([]);
+  const [types, setTypes] = useState([]);
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedType, setSelectedType] = useState('');
   const router = useRouter();
   const { slug } = router.query;
 
@@ -13,7 +17,6 @@ const VacanciesView = () => {
     if (!slug) return;
 
     const normalizedSlug = slug.toLowerCase();
-    console.log('Normalized Slug:', normalizedSlug);
     const validSlugs = ['tech-pech', 'unid', 'walmart', 'fresno', 'super-david', 'breathless', 'cinepolis'];
     if (!validSlugs.includes(normalizedSlug)) {
       setIsValidSlug(false);
@@ -25,8 +28,6 @@ const VacanciesView = () => {
     fetch(`${process.env.NEXT_PUBLIC_API_KEY}/vacanciesfront`)
       .then(response => response.json())
       .then(data => {
-        console.log('Fetched vacancies:', data);
-
         let companyId;
         if (normalizedSlug === 'tech-pech') {
           companyId = 2;
@@ -38,21 +39,20 @@ const VacanciesView = () => {
           companyId = 4; 
         } else if (normalizedSlug === 'super-david') {
           companyId = 6; 
-        } else if (normalizedSlug === 'Breathless') {
+        } else if (normalizedSlug === 'breathless') {
           companyId = 3; 
         } else if (normalizedSlug === 'cinepolis') {
           companyId = 5; 
         }
 
-        console.log('Company:', companyId);
+        const filteredVacancies = data.vacancies.filter(vacancy => vacancy.company_id == companyId);
+        setVacancies(filteredVacancies);
 
-        if (companyId) {
-          const filteredVacancies = data.vacancies.filter(vacancy => vacancy.company_id == companyId);
-          console.log('Filtered Vacancies:', filteredVacancies);
-          setVacancies(filteredVacancies);
-        } else {
-          setVacancies([]);
-        }
+        // Extraer y establecer los estados y tipos únicos
+        const uniqueStates = [...new Set(filteredVacancies.map(vacancy => vacancy.state))];
+        const uniqueTypes = [...new Set(filteredVacancies.map(vacancy => vacancy.type))];
+        setStates(uniqueStates);
+        setTypes(uniqueTypes);
       })
       .catch(error => console.error('Error fetching vacancies:', error));
   }, [slug]);
@@ -90,8 +90,8 @@ const VacanciesView = () => {
         return 'url(/unid-cancun.jpg)';
       case 'walmart':
         return 'url(/walma.jpg)';
-        case 'fresno':
-          return 'url(/fresno-background-hero.jpg)';
+      case 'fresno':
+        return 'url(/fresno-background-hero.jpg)';
       case 'super-david':
         return 'url(/sd-bg.jpg)';
       case 'breathless':
@@ -111,8 +111,8 @@ const VacanciesView = () => {
         return '/UNID.png';
       case 'walmart':
         return '/walm.png';
-        case 'fresno':
-          return '/fresno-logo.png';
+      case 'fresno':
+        return '/fresno-logo.png';
       case 'super-david':
         return '/super.david.jpg';
       case 'breathless':
@@ -128,8 +128,18 @@ const VacanciesView = () => {
     setSearchTerm(e.target.value);
   };
 
+  const handleStateChange = (e) => {
+    setSelectedState(e.target.value);
+  };
+
+  const handleTypeChange = (e) => {
+    setSelectedType(e.target.value);
+  };
+
   const filteredVacancies = vacancies.filter(vacancy =>
-    vacancy.title.toLowerCase().includes(searchTerm.toLowerCase())
+    vacancy.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    (selectedState === '' || vacancy.state === selectedState) &&
+    (selectedType === '' || vacancy.type === selectedType)
   );
 
   return (
@@ -148,14 +158,27 @@ const VacanciesView = () => {
           <span className="text-xl font-bold text-black">{getTitle()}</span>
         </div>
         <h1 className="text-2xl font-bold text-black">Vacantes</h1>
-        <input
-          type="text"
-          placeholder="Buscar vacante ..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          className="p-2 border rounded-md"
-          style={{ position: 'relative', right: '15%' }}
-        />
+        <div className="flex space-x-4" style={{ position: 'relative', right: '15%' }}>
+          <input
+            type="text"
+            placeholder="Buscar vacante ..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="p-2 border rounded-md bg-white text-black"
+          />
+          <select value={selectedState} onChange={handleStateChange} className="p-2 border rounded-md bg-white text-black"> 
+            <option value="">Todos los estados</option>
+            {states.map(state => (
+              <option key={state} value={state}>{state}</option>
+            ))}
+          </select>
+          <select value={selectedType} onChange={handleTypeChange} className="p-2 border rounded-md bg-white text-black"> 
+            <option value="">Todos los tipos</option>
+            {types.map(type => (
+              <option key={type} value={type}>{type}</option>
+            ))}
+          </select>
+        </div>
       </div>
       <div className="max-w-7xl mx-auto bg-white shadow-2xl rounded-lg p-6 bg-opacity-90 mt-16">
         <h2 className="text-2xl font-semibold mb-6 text-center text-gray-700">Estas son las vacantes disponibles</h2>

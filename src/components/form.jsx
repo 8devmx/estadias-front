@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
-import styles from '@/styles/Forms.module.css'
+import styles from '@/styles/Forms.module.css';
+import SelectEstate from '@/components/UtilsComponents/SelectEstate';
 
-const Form = () => {
-    const [name, setName] = useState("")
-    const [phone, setPhone] = useState("")
-    const [email, setEmail] = useState("")
-    const [city, setCity] = useState("")
-    const [state, setState] = useState("")
-    const [interest, setInterest] = useState("")
-    const [message, setMessage] = useState("")
-    const [source, setSource] = useState("")
+const Form = ({ company_id }) => {
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [email, setEmail] = useState("");
+    const [city, setCity] = useState("");
+    const [state, setState] = useState(""); // Estado para manejar el estado seleccionado
+    const [interest, setInterest] = useState("");
+    const [message, setMessage] = useState("");
+    const [source, setSource] = useState("");
 
     return (
         <div className={styles.Formulario} data-theme="light">
             <h2 className="text-center font-bold text-3xl">¿Deseas información? <br />¡Contáctanos!</h2>
             <form onSubmit={e => {
-                e.preventDefault()
+                e.preventDefault();
                 const data = {
                     name,
                     email,
@@ -23,7 +24,7 @@ const Form = () => {
                     address: `Estado: ${state}, Ciudad: ${city}`,
                     message: `Los encontré por: ${source}, Estoy interesado en ${interest}, Información adicional: ${message}`,
                     subject: `Estoy interesado en ${interest}`
-                }
+                };
                 fetch("https://formspree.io/f/xkndlean", {
                     method: "POST",
                     body: JSON.stringify(data),
@@ -38,28 +39,28 @@ const Form = () => {
                             if (Object.hasOwn(data, 'errors')) {
                                 alert(data["errors"].map(error => error["message"]).join(", "))
                             } else {
-                                alert("Hubo un error al enviar el formulario")
+                                alert("Hubo un error al enviar el formulario");
                             }
-                        })
+                        });
                     }
                 }).catch(error => {
-                    alert("Error: Hubo un error al enviar el formulario")
+                    alert("Error: Hubo un error al enviar el formulario");
                 });
 
                 const payloadLead = {
                     name,
-                    thone: phone,
+                    phone: phone,
                     mail: email,
-                    state_id: state,
+                    state: state, // Usando el estado seleccionado aquí
                     city,
-                    sources_id: source,
-                    interest_id: interest,
+                    source: source,
+                    interest: interest,
                     message: message,
-                    status_id: "no_contacted",
-                    company_id: "1"
-                }
+                    status_id: "2",
+                    company_id: company_id
+                };
 
-                fetch(`${process.env.NEXT_PUBLIC_API_KEY}/leads`, {
+                fetch(`${process.env.NEXT_PUBLIC_API_KEY}/leadsfront`, {
                     method: "POST",
                     body: JSON.stringify(payloadLead),
                     headers: {
@@ -71,38 +72,36 @@ const Form = () => {
                         alert("Se ha registrado el lead correctamente");
                     }
                 }).catch(error => {
-                    alert("Error: Hubo un error al registrar el lead" + error)
+                    alert("Error: Hubo un error al registrar el lead" + error);
                 });
             }}>
                 <div>
                     <label htmlFor="">Nombre: </label>
                     <input type="text" value={name} onChange={
                         e => {
-                            setName(e.target.value)
+                            setName(e.target.value);
                         }
                     } />
                 </div>
                 <div className={styles.cont}>
                     <div className={styles.form1}>
                         <label htmlFor="">Teléfono: </label>
-                        <input type="text" name="name" value={phone} onChange={
+                        <input type="text" name="phone" value={phone} onChange={
                             e => {
-                                setPhone(e.target.value)
+                                setPhone(e.target.value);
                             }
                         } />
                         <label htmlFor="">Estado</label>
-                        <select value={state} onChange={
-                            e => {
-                                setState(e.target.value)
-                            }
-                        }>
-                            <option value="">Seleccione una opción</option>
-                            <option value="Quintana Roo">Quintana Roo</option>
-                        </select>
+                        <SelectEstate
+                            value={state}
+                            onChange={e => {
+                                setState(e.target.value);
+                            }}
+                        />
                         <label htmlFor="">¿De dónde nos conoces? *:</label>
                         <select id="source" name="source" required value={source} onChange={
                             e => {
-                                setSource(e.target.value)
+                                setSource(e.target.value);
                             }
                         }>
                             <option value="">Seleccione su opción</option>
@@ -119,19 +118,19 @@ const Form = () => {
                         <label htmlFor="">Correo Electrónico: </label>
                         <input type="text" value={email} onChange={
                             e => {
-                                setEmail(e.target.value)
+                                setEmail(e.target.value);
                             }
                         } />
                         <label htmlFor="">Ciudad: </label>
                         <input type="text" value={city} onChange={
                             e => {
-                                setCity(e.target.value)
+                                setCity(e.target.value);
                             }
                         } />
                         <label htmlFor="interest">Interés *: </label>
                         <select name="interest" value={interest} required onChange={
                             e => {
-                                setInterest(e.target.value)
+                                setInterest(e.target.value);
                             }
                         }>
                             <option value="">Seleccione su opción</option>
@@ -147,14 +146,14 @@ const Form = () => {
                     <label htmlFor="message">Comentarios</label>
                     <textarea name="message" value={message} onChange={
                         e => {
-                            setMessage(e.target.value)
+                            setMessage(e.target.value);
                         }
                     } />
                 </div>
                 <button type="submit">Enviar</button>
-            </form >
-        </div >
-    )
-}
+            </form>
+        </div>
+    );
+};
 
 export default Form;
