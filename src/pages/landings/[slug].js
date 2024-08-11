@@ -4,7 +4,7 @@ import Services from '@/components/services';
 import Packages from '@/components/packages';
 import Form from '@/components/form';
 import React from 'react';
-import Chatbot from '@/components/Chatbot';
+import chatbot from '@/components/chatbot';
 
 export async function getServerSideProps(context) {
   const { slug } = context.params;
@@ -49,7 +49,7 @@ export default function Home({ landing, company_id }) {
       <Navbar logo={logo} />
       <Services data={services} />
       <Packages data={packages} />
-      <Chatbot data={Chatbot} />
+      <chatbot data={chatbot} />
       <Form company_id={company_id} />
     </>
   );
