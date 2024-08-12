@@ -9,7 +9,7 @@ const Services = ({ data }) => {
       className={styles.services}
       data-theme="light"
     >
-      <h2>Our Services</h2>
+      <h2>Servicios</h2>
       <div className={styles.servicesContainer}>
         {listServices.map((ser, index) => (
           <div className={styles.service} key={index}>

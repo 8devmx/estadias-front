@@ -1,5 +1,4 @@
 .Formulario {
-    background-color: #46433a;
     padding: 50px 30px;
     margin-top: 20px;
     box-sizing: border-box;
@@ -56,10 +55,6 @@
 .Formulario button:hover {
     background-color: #005F15;
 }
-
-
-
-
 
 .container {
     display: flex;
